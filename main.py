@@ -1,0 +1,92 @@
+########################################################################################################################
+#
+#
+#  	Project     	: 	ImpactXS - ScoreMaster
+#
+#   File            :   main.py
+#
+#	By              :   George Leonard ( georgelza@gmail.com )
+#
+#   Created     	:   0.0.1 - 5 September 2022
+#
+#   Changelog       :   0.0.1 - 8 Jul 2022
+#
+#
+#   Notes       	:
+#                   :   Menu bar :          https://www.pythontutorial.net/tkinter/tkinter-menu/
+#                   :   Scott's Examples :  https://www.youtube.com/watch?v=cuIjKMPRn0k
+########################################################################################################################
+__author__      = "George Leonard"
+__email__       = "georgelza@gmail.com"
+__version__     = "0.0.1"
+
+import tkinter
+from tkinter import *
+from tkinter import ttk
+import uuid
+import json
+import datetime
+from PIL import Image, ImageTk
+
+global myevent_list
+global myshooter_list
+global currentRowIndex
+
+myevent_list    = []
+myshooter_list  = []
+
+
+class Window(Frame):
+    def __init__(self, master=None):
+        Frame.__init__(self, master)
+        self.master = master
+
+        menu = Menu(self.master)
+        self.master.config(menu=menu)
+
+        fileMenu = Menu(menu, tearoff=0)
+        fileMenu.add_command(label="New Events")
+        fileMenu.add_command(label="Load Events")
+        fileMenu.add_command(label="Shooters")
+        fileMenu.add_command(label="Scores")
+        fileMenu.add_separator()
+        fileMenu.add_command(label="Exit", command=self.exitProgram)
+        menu.add_cascade(label="File", menu=fileMenu)
+
+        helpMenu = Menu(menu, tearoff=0)
+        helpMenu.add_command(label="Welcome")
+        helpMenu.add_command(label="About...")
+        menu.add_cascade(label="Help", menu=helpMenu)
+
+    def exitProgram(self):
+        exit()
+
+root = Tk()
+
+app = Window(root)
+root.wm_title("ImpactXS - Score Master")
+
+canvas = tkinter.Canvas(root, width=300, height=200)
+canvas.grid(columnspan=5)
+
+# Logos
+logo1m      = Image.open('images/1mile.png')
+logo1m      = ImageTk.PhotoImage(logo1m)
+logo_label  = tkinter.Label(image = logo1m)
+logo_label.image = logo1m
+logo_label.grid(column=0, row = 0)
+
+logo2m      = Image.open('images/2mile.png')
+logo2m      = ImageTk.PhotoImage(logo2m)
+logo_label  = tkinter.Label(image = logo2m)
+logo_label.image = logo2m
+logo_label.grid(column=1, row = 0)
+
+logoimpact  = Image.open('images/impactxs.png')
+logoimpact  = ImageTk.PhotoImage(logoimpact)
+logo_label  = tkinter.Label(image = logoimpact)
+logo_label.image = logoimpact
+logo_label.grid(columnspan=3, column=0, row = 1)
+
+
+root.mainloop()
