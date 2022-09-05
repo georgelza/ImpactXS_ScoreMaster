@@ -2,6 +2,10 @@
 #
 #
 #  	Project     	: 	ImpactXS - ScoreMaster
+#   URL             :   http://www.impactxs.co.za
+#   For             :   For Bredan Fike
+#   eMail           :
+#
 #
 #   File            :   main.py
 #
@@ -36,92 +40,6 @@ global currentRowIndex
 myevent_list    = []
 myshooter_list  = []
 
-### Events
-'''
-[
-    {
-        "Name" : "",
-        "Location : "",
-        "Start_Date" : "",
-        "End_Date" : "",
-        "Distance" : "",
-        "Qualifying" : {
-            "Targets" : 3,
-            "Shots" : 4,
-            "Target" : [{
-                "Target_No": 0,
-                "Distance" : 600
-            }]
-        },
-        "Final" : {
-            "Targets" : 3,
-            "Shots" : 5,
-            "Target" : [{
-                "Target_No": 0,
-                "Distance" : 800
-            }]
-        }
-    }  
-]
-'''
-
-### Shooters
-'''
-[
-    {
-        "uuid" : "",
-        "FirstName" : "",
-        "LastName" : "",
-        "ID_Number" : "",
-        "Cell_Number" : "",
-        "eMail" : "",
-        "Rifle" :{
-            "Make" : "",
-            "Model" : "",
-            "Caliber" : "",
-            "Chassis" : "",
-            "Trigger" : "",
-            "Break" : "",
-            "Supressor" : ""
-        },
-        "Scope" :{
-            "Make" : "",
-            "Model" : "",
-            "Rings" : "",
-            "Picatinny_raise" : ""
-        },
-        "Cartridge" :{    
-            "Brass_Make" : "",
-            "Bullet_Make" : "",
-            "Bullet_Model" : "",
-            "Bullet_Weight" : "",
-            "Primer_Make" : "",
-            "Primer_Model" : ""
-        }
-        "Scores" :{
-            "Qualifying" :{
-                "Cold_bore" : True,
-                "Time" : "",
-                "Inspect" : False,
-                "Hit_Miss" : True,
-                "Targets" : [{
-                    "Target_Number" : "",
-                    "Time" : "",
-                    "Inspect" : False,
-                    "Hit_Miss" : True
-                }]
-            },
-            "Final" :[{
-                "Target_Number" : "",
-                "Time" : "",
-                "Inspect" : False,
-                "Hit_Miss" : ""
-            }]
-        }  
-    }    
-]
-'''
-
 root = Tk()
 root.title('ImpactXS - ScoreMaster')
 
@@ -137,8 +55,8 @@ menu = Menu(root)
 root.config(menu=menu)
 
 fileMenu = Menu(menu, tearoff=0)
-fileMenu.add_command(label="New Events")
-fileMenu.add_command(label="Load Events")
+fileMenu.add_command(label="New Event")
+fileMenu.add_command(label="Load Event")
 fileMenu.add_command(label="Shooters")
 fileMenu.add_command(label="Scores")
 fileMenu.add_separator()

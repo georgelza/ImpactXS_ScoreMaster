@@ -1,0 +1,54 @@
+[
+    {
+        "event_uuid" : "",
+        "uuid" : "",
+        "First_Name" : "",
+        "Last_Name" : "",
+        "ID_Number" : "",
+        "Cell_Number" : "",
+        "eMail" : "",
+        "Rifle" :{
+            "Make" : "",
+            "Model" : "",
+            "Caliber" : "",
+            "Chassis" : "",
+            "Trigger" : "",
+            "Break" : "",
+            "Supressor" : ""
+        },
+        "Scope" :{
+            "Make" : "",
+            "Model" : "",
+            "Rings" : "",
+            "Picatinny_raise" : ""
+        },
+        "Cartridge" :{
+            "Brass_Make" : "",
+            "Bullet_Make" : "",
+            "Bullet_Model" : "",
+            "Bullet_Weight" : "",
+            "Primer_Make" : "",
+            "Primer_Model" : ""
+        }
+        "Scores" :{
+            "Qualifying" :{
+                "Cold_bore" : True,
+                "Time" : "",
+                "Inspect" : False,
+                "Hit_Miss" : True,
+                "Targets" : [{
+                    "Target_Number" : "",
+                    "Time" : "",
+                    "Hit_Miss" : True,
+                    "Inspect" : False
+                }]
+            },
+            "Final" :[{
+                "Target_Number" : "",
+                "Time" : "",
+                "Hit_Miss" : "",
+                "Inspect" : False
+            }]
+        }
+    }
+]
