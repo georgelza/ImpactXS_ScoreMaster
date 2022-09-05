@@ -36,6 +36,91 @@ global currentRowIndex
 myevent_list    = []
 myshooter_list  = []
 
+### Events
+'''
+[
+    {
+        "Name" : "",
+        "Location : "",
+        "Start_Date" : "",
+        "End_Date" : "",
+        "Distance" : "",
+        "Qualifying" : {
+            "Targets" : 3,
+            "Shots" : 4,
+            "Target" : [{
+                "Target_No": 0,
+                "Distance" : 600
+            }]
+        },
+        "Final" : {
+            "Targets" : 3,
+            "Shots" : 5,
+            "Target" : [{
+                "Target_No": 0,
+                "Distance" : 800
+            }]
+        }
+    }  
+]
+'''
+
+### Shooters
+'''
+[
+    {
+        "uuid" : "",
+        "FirstName" : "",
+        "LastName" : "",
+        "ID_Number" : "",
+        "Cell_Number" : "",
+        "eMail" : "",
+        "Rifle" :{
+            "Make" : "",
+            "Model" : "",
+            "Caliber" : "",
+            "Chassis" : "",
+            "Trigger" : "",
+            "Break" : "",
+            "Supressor" : ""
+        },
+        "Scope" :{
+            "Make" : "",
+            "Model" : "",
+            "Rings" : "",
+            "Picatinny_raise" : ""
+        },
+        "Cartridge" :{    
+            "Brass_Make" : "",
+            "Bullet_Make" : "",
+            "Bullet_Model" : "",
+            "Bullet_Weight" : "",
+            "Primer_Make" : "",
+            "Primer_Model" : ""
+        }
+        "Scores" :{
+            "Qualifying" :{
+                "Cold_bore" : True,
+                "Time" : "",
+                "Inspect" : False,
+                "Hit_Miss" : True,
+                "Targets" : [{
+                    "Target_Number" : "",
+                    "Time" : "",
+                    "Inspect" : False,
+                    "Hit_Miss" : True
+                }]
+            },
+            "Final" :[{
+                "Target_Number" : "",
+                "Time" : "",
+                "Inspect" : False,
+                "Hit_Miss" : ""
+            }]
+        }  
+    }    
+]
+'''
 
 root = Tk()
 root.title('ImpactXS - ScoreMaster')
