@@ -28,7 +28,9 @@ __version__     = "0.0.1"
 
 from api.apputils import *
 import logging
+import os
 from tkinter import *
+from tkinter import filedialog as fd
 from PIL import Image, ImageTk
 import Shooters
 import Event
@@ -44,14 +46,12 @@ global currentRowIndex
 myevent_list    = []
 myshooter_list  = []
 
-
 # Read/Define Environment variables
 config_params   = getAppEnvVariables()
 DEBUGLEVEL      = config_params["debuglevel"]
 LOGLEVEL        = config_params["loglevel"]
 SPLASH_TIME     = config_params["splash_time"]
 App_Name        = "ImpactXS - ScoreMaster"
-
 
 # Logging Handler
 logging.root.handlers = []
@@ -176,14 +176,16 @@ def main():
 
     # Open file dialog allowing user to select event file
     fileMenu.add_command(label="Load Event", command=loadEvent)
+    #fileMenu.add_command(label="Load Event", command=loadEvent)
 
     # Load shooters as per the event file loaded => Treeview, if new event with no shooters open empty treeview,
     # with only Add button enabled
-    fileMenu.add_command(label="Shooters", command=loadShooters)
+    fileMenu.add_command(label="Shooters...", command=loadShooters)
 
-    # Load Shooters names and scores onto an auto updating screen, every time a user updates/saves a score refresh the
-    # scores screen
-    fileMenu.add_command(label="Scores")
+    # #1 Load the scores.
+    # #2 if auto update is ticked update every time a score is saved/updated by another user (aka "refresh screen from
+    # file opened as read only
+    fileMenu.add_command(label="Scores...")
 
     fileMenu.add_separator()
     fileMenu.add_command(label="Exit", command=exitProgram)
@@ -199,6 +201,51 @@ def main():
 
 # end main
 
+# Open/Select file dialog box
+def select_file(mode):
+
+    my_logger.info('{time}, select_file Starting '.format(
+        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+    ))
+
+    filetypes = (
+        ('json files', '*.json'),
+        ('All files', '*.*')
+    )
+
+    # Determine where we running, as template and events are by default subdirectories of the App directory.
+    directory = os.getcwd()
+    my_logger.info('{time}, Current App Directory {directory}'.format(
+        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+        directory=directory
+    ))
+
+    if mode == "new":
+        # We're creating a new event, so lets present a event template.
+        filename = fd.askopenfilename(
+            title='Open a file',
+            initialdir=directory + '/template',
+            filetypes=filetypes)
+    else:
+        #we're opening a previous defined event, so lets show saved events from ./events folder as default.
+        filename = fd.askopenfilename(
+            title='Open a file',
+            initialdir=directory + '/events',
+            filetypes=filetypes)
+
+    if filename:
+        my_logger.info('{time}, File Selected: {file}'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+            file=filename
+        ))
+        return filename
+    else:
+        my_logger.info('{time}, Aborted, No File Selected'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+# end select_file
+
 
 def newEvent():
     global my_logger
@@ -211,12 +258,11 @@ def newEvent():
     ))
 
     # Popup file open window, allowing user to select 1Mile or 2 Mile event.json template file
-
-    # On events screen, once opened and first time <SAVE> or <SAVE AS>, filename/format <start_date>_<distance>_event.json
-
-    myevent_list = Event.load_event_data("events/new_1m_event.json", my_logger, DEBUGLEVEL)
-    myevent_list["uuid"] = str(uuid.uuid4())
-    Event.open_event_screen(main_window, myevent_list, my_logger, DEBUGLEVEL)
+    filename = select_file("new")
+    if filename:
+        myevent_list = Event.load_event_data(filename, my_logger, DEBUGLEVEL)
+        myevent_list["uuid"] = str(uuid.uuid4())
+        Event.open_event_screen(main_window, myevent_list, my_logger, DEBUGLEVEL)
 
 # end newEvent
 
@@ -231,11 +277,17 @@ def loadEvent():
         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
     ))
 
-    myevent_list = Event.load_event_data("events/20220901_1m_event.json", my_logger, DEBUGLEVEL)
-    Event.open_event_screen(main_window, myevent_list, my_logger, DEBUGLEVEL)
+    filename = select_file("")
+    if filename:
+        myevent_list = Event.load_event_data(filename, my_logger, DEBUGLEVEL)
+        Event.open_event_screen(main_window, myevent_list, my_logger, DEBUGLEVEL)
 
 # end loadEvent
 
+## Redo LoadShooters, load as a Treeview... empty initially, to be filled via the Add/Edit/Delete Buttons.
+#Use Example1 as example,
+
+# We will add the scores via the File/scores menu.
 
 def loadShooters():
     global my_logger
