@@ -310,7 +310,11 @@ def load_all_shooters():
     ))
 
     def make_new_record():
-        blankTuple = ('', '', '', '', '', '', '', '')
+        rifleTuple = ('','','','','','','')
+        scopeTuple = ('','','','')
+        cartridgeTuple = ('','','','','','')
+        equipmentTuple = (rifleTuple, scopeTuple, cartridgeTuple)
+        blankTuple = ('', '', '', '', '', '', '', '', equipmentTuple)
         open_popup('add', blankTuple, main_window)
 
     btnNewRecord = Button(main_window, text="Add New", bg="#34d2eb",
