@@ -30,7 +30,7 @@ from datetime import datetime
 from api.apputils import *
 
 
-def load_shooters_data(my_logger, my_event_list, debuglevel):
+def load_shooters_data(my_event_list, my_logger, debuglevel):
 
     my_logger.info('{time}, load_shooters_data Entering '.format(
         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
@@ -50,7 +50,7 @@ def load_shooters_data(my_logger, my_event_list, debuglevel):
 
     return my_shooter_list
 
-def open_shooter_screen(root, myshooter_list, my_logger):
+def open_shooter_screen(root, myshooter_list, my_logger, debuglevel):
 
     my_logger.info('{time}, open_shooter_screen Entering '.format(
         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))

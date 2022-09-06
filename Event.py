@@ -29,7 +29,8 @@ from datetime import datetime
 from api.apputils import *
 
 
-def load_event_data(my_logger, file, debuglevel):
+def load_event_data(file, my_logger, debuglevel):
+
 
     my_logger.info('{time}, load_event_data Entering '.format(
         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
@@ -59,8 +60,7 @@ def load_event_data(my_logger, file, debuglevel):
 # end load_event_data
 
 
-
-def open_event_screen(root, myevent_list, my_logger):
+def open_event_screen(root, myevent_list, my_logger, debuglevel):
 
     my_logger.info('{time}, open_event_screen Entering '.format(
         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))

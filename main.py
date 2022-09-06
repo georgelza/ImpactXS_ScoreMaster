@@ -34,11 +34,11 @@ import Shooters
 import Event
 import uuid
 
-
+global my_logger
+global DEBUGLEVEL
 global myevent_list
 global myshooter_list
 global currentRowIndex
-global DEBUGLEVEL
 
 # Our lists.... Possible collapse into one list.
 myevent_list    = []
@@ -146,6 +146,7 @@ def exitProgram():
 
 
 def main():
+    global my_logger
     global main_window
 
     my_logger.info('{time}, Main Starting '.format(
@@ -198,11 +199,12 @@ def main():
 
 # end main
 
+
 def newEvent():
-    global myevent_list
-    global main_window
     global my_logger
     global DEBUGLEVEL
+    global myevent_list
+    global main_window
 
     my_logger.info('{time}, newEvent Starting '.format(
         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
@@ -212,44 +214,44 @@ def newEvent():
 
     # On events screen, once opened and first time <SAVE> or <SAVE AS>, filename/format <start_date>_<distance>_event.json
 
-    myevent_list = Event.load_event_data(my_logger, "events/new_1m_event.json", DEBUGLEVEL)
+    myevent_list = Event.load_event_data("events/new_1m_event.json", my_logger, DEBUGLEVEL)
     myevent_list["uuid"] = str(uuid.uuid4())
-    Event.open_event_screen(main_window, myevent_list, my_logger)
+    Event.open_event_screen(main_window, myevent_list, my_logger, DEBUGLEVEL)
 
 # end newEvent
 
+
 def loadEvent():
-    global myevent_list
-    global main_window
     global my_logger
     global DEBUGLEVEL
+    global myevent_list
+    global main_window
 
     my_logger.info('{time}, loadEvent Starting '.format(
         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
     ))
 
-    myevent_list = Event.load_event_data(my_logger, "events/20220901_event.json", DEBUGLEVEL)
-    Event.open_event_screen(main_window, myevent_list, my_logger)
+    myevent_list = Event.load_event_data("events/20220901_1m_event.json", my_logger, DEBUGLEVEL)
+    Event.open_event_screen(main_window, myevent_list, my_logger, DEBUGLEVEL)
 
 # end loadEvent
 
-def loadShooters():
 
+def loadShooters():
+    global my_logger
+    global DEBUGLEVEL
     global myevent_list
     global myshooter_list
     global main_window
-    global my_logger
-    global DEBUGLEVEL
 
     my_logger.info('{time}, loadShooters Starting '.format(
         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
     ))
 
-    myshooter_list = Shooters.load_shooters_data(my_logger, myevent_list, DEBUGLEVEL)
-    Shooters.open_shooter_screen(main_window, myshooter_list, my_logger)
+    myshooter_list = Shooters.load_shooters_data(myevent_list, my_logger, DEBUGLEVEL)
+    Shooters.open_shooter_screen(main_window, myshooter_list, my_logger, DEBUGLEVEL)
 
 # end loadShooters
-
 
 # Set the Splash screen Interval
 splash_root.after(SPLASH_TIME, main)
