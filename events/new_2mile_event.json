@@ -1,0 +1,54 @@
+ {
+      "uuid" : "",
+      "Name" : "",
+      "Location" : "",
+      "Start_Date" : "",
+      "End_Date" : "",
+      "Distance" : "2-Mile",
+      "Qualifying" :
+      {
+          "Targets" : 3,
+          "Shots" : 4,
+          "Time_Limit" : 900,
+          "Target" :
+          [
+              {
+                  "Target_No": 0,
+                  "Distance" : 1200
+              },
+              {
+                  "Target_No": 1,
+                  "Distance" : 1400
+              },
+              {
+                  "Target_No": 2,
+                  "Distance" : 1800
+              }
+          ]
+      },
+      "Final" :
+      {
+          "Targets" : 4,
+          "Shots" : 4,
+          "Time_Limit" : 900,
+          "Target" :
+          [
+              {
+                  "Target_No": 0,
+                  "Distance" : 1800
+              },
+              {
+                  "Target_No": 1,
+                  "Distance" : 2400
+              },
+              {
+                  "Target_No": 2,
+                  "Distance" : 3000
+              },
+              {
+                  "Target_No": 3,
+                  "Distance" : 3650
+              }
+          ]
+      }
+ }
