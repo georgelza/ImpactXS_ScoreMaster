@@ -1,0 +1,248 @@
+{
+    "uuid" : "07d12652-2d6a-11ed-a261-0242ac120002",
+    "Name" : "Hanover King of 1Mile/2Mile 2022",
+    "Location" : "Hanover",
+    "Start_Date" : "22/08/2022",
+    "End_Date" : "25/08/2022",
+    "Distance" : "1-Mile",
+    "Qualifying" :
+    {
+        "Targets" : 3,
+        "Shots" : 4,
+        "Time_Limit" : 900,
+        "Target" :
+        [
+            {
+                "target_no": 0,
+                "distance" : 600
+            },
+            {
+                "target_no": 1,
+                "distance" : 800
+            },
+            {
+                "target_no": 2,
+                "distance" : 1000
+            }
+        ]
+    },
+    "final" : {
+        "targets" : 4,
+        "shots" : 4,
+        "time_limit" : 900,
+        "target" :
+        [
+            {
+                "target_no": 0,
+                "distance" : 800
+            },
+            {
+                "target_no": 1,
+                "distance" : 1200
+            },
+            {
+                "target_no": 2,
+                "distance" : 1400
+            },
+            {
+                "target_no": 3,
+                "distance" : 1685
+            }
+        ]
+    },
+    "shooters":
+    [
+        {
+            "id" : "07d12652-2d6a-11ed-a038-0242ac120002",
+            "first_name" : "George",
+            "last_name" : "Leonard",
+            "id_number" : "7404105127085",
+            "cell_phone" : "0826552466",
+            "email" : "georgelza@gmail.com",
+            "spotter" : "Charl Gous",
+            "equipment":
+            {
+                "Rifle" :
+                {
+                    "Make" : "Howa",
+                    "Model" : "1500 - 24inch Varmint",
+                    "Caliber" : "300 PRC",
+                    "Chassis" : "Gun Warrior, Gen 6",
+                    "Trigger" : "Triggertech",
+                    "Break" : "Gun Warrior, 5 chamber",
+                    "Supressor" : ""
+                },
+                "Scope" :
+                {
+                    "Make" : "Vortex",
+                    "Model" : "Strike Eagle 5-25x56",
+                    "Rings" : "Vortex Match, 1.26",
+                    "Picatinny_raise" : "30 MOA"
+                },
+                "Cartridge" :
+                {
+                    "Brass_Make" : "ADG",
+                    "Bullet_Make" : "Hornady",
+                    "Bullet_Model" : "A-Tip",
+                    "Bullet_Weight" : "230gr",
+                    "Primer_Make" : "Federal",
+                    "Primer_Model" : "Magnum-Large Rifle"
+                }
+            },
+            "Scores" :
+            {
+                "Qualifying" :
+                {
+                    "Cold_bore" : "True",
+                    "Time" : 5,
+                    "Hit_Miss" : "True",
+                    "Inspect" : "False",
+                    "Targets" :
+                    [
+                        {
+                            "Target_Number" : 0,
+                            "Time" : 35,
+                            "Hit_Miss" : "True",
+                            "Inspect" : "False"
+                        },
+                       {
+                            "Target_Number" : 1,
+                            "Time" : 75,
+                            "Hit_Miss" : "False",
+                            "Inspect" : "True"
+                        },
+                       {
+                            "Target_Number" : 2,
+                            "Time" : 205,
+                            "Hit_Miss" : "True",
+                            "Inspect" : "False"
+                        }
+                    ]
+                },
+                "Final" :
+                [
+                    {
+                        "Target_Number" : 0,
+                        "Time" : 32,
+                        "Hit_Miss" : "True",
+                        "Inspect" : "False"
+                    },
+                    {
+                        "Target_Number" : 1,
+                        "Time" : 65,
+                        "Hit_Miss" : "True",
+                        "Inspect" : "True"
+                    },
+                    {
+                        "Target_Number" : 2,
+                        "Time" : 99,
+                        "Hit_Miss" : "True",
+                        "Inspect" : "False"
+                    },
+                    {
+                        "Target_Number" : 3,
+                        "Time" : 142,
+                        "Hit_Miss" : "False",
+                        "Inspect" : "True"
+                    }
+                ]
+            }
+        },
+       {
+            "id" : "07d12652-2d6a-11ed-a038-0242fc120002",
+            "first_name" : "Edgar",
+            "last_name" : "Doubell",
+            "id_number" : "7004105127085",
+            "cell_phone" : "0826552446",
+            "email" : "edgar@gmail.com",
+            "spotter" : "Pine Louw",
+            "equipment":
+            {
+                "rifle" :
+                {
+                    "make" : "Savage",
+                    "model" : "Elite Precision 110",
+                    "caliber" : "300 PRC",
+                    "chassis" : "MDT ACC",
+                    "trigger" : "Triggertech",
+                    "break" : "",
+                    "supressor" : "APW Warrior"
+                },
+                "scope" :
+                {
+                    "make" : "Kahles",
+                    "model" : "5-25x56",
+                    "rings" : "Spuhr 1.26",
+                    "picatinny_raise" : "20 MOA"
+                },
+                "cartridge" :
+                {
+                    "brass_make" : "ADG",
+                    "bullet_make" : "Hornady",
+                    "bullet_model" : "A-Tip",
+                    "bullet_weight" : "250gr",
+                    "primer_make" : "Federal",
+                    "primer_model" : "Magnum-Large Rifle"
+                }
+            },
+            "scores" :
+            {
+                "qualifying" :
+                {
+                    "cold_bore" : "True",
+                    "time" : 15,
+                    "inspect" : "True",
+                    "hit_miss" : "True",
+                    "targets" :
+                    [
+                        {
+                            "target_Number" : 0,
+                            "time" : 25,
+                            "hit_miss" : "True",
+                            "inspect" : "False"
+                        },
+                       {
+                            "target_number" : 1,
+                            "time" : 55,
+                            "hit_miss" : "False",
+                            "inspect" : "True"
+                        },
+                       {
+                            "target_number" : 2,
+                            "time" : 185,
+                            "hit_miss" : "True",
+                            "inspect" : "False"
+                        }
+                    ]
+                },
+                "final" :
+                [
+                    {
+                        "target_number" : 0,
+                        "time" : 24,
+                        "hit_miss" : "True",
+                        "inspect" : "False"
+                    },
+                   {
+                        "target_number" : 1,
+                        "time" : 44,
+                        "hit_miss" : "True",
+                        "inspect" : "False"
+                    },
+                   {
+                        "target_number" : 2,
+                        "time" : 86,
+                        "hit_miss" : "True",
+                        "inspect" : "False"
+                    },
+                   {
+                        "target_number" : 3,
+                        "time" : 129,
+                        "hit_miss" : "True",
+                        "inspect" : "True"
+                    }
+                ]
+            }
+        }
+    ]
+}

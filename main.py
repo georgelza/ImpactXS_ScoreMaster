@@ -206,6 +206,8 @@ def main():
 # Open/Select file dialog box
 def select_file(mode):
 
+    global myfile
+
     my_logger.info('{time}, select_file Starting '.format(
         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
     ))
@@ -240,6 +242,7 @@ def select_file(mode):
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
             file=filename
         ))
+        myfile = filename
         return filename
     else:
         my_logger.info('{time}, Aborted, No File Selected'.format(
@@ -292,6 +295,19 @@ def loadEvent():
 def load_all_shooters():
     global main_window
     global trv
+    global myevent_list
+
+
+    # Determine where we running, as template and events are by default subdirectories of the App directory.
+    directory = os.getcwd()
+    my_logger.info('{time}, Current App Directory {directory}'.format(
+        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+        directory=directory
+    ))
+
+    my_logger.info('{time}, load_all_shooters Entering '.format(
+        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+    ))
 
     def make_new_record():
         blankTuple = ('', '', '', '', '', '', '', '')
@@ -312,6 +328,8 @@ def load_all_shooters():
     trv.heading(6, text="Cell Phone", anchor="center")
     trv.heading(7, text="eMail", anchor="center")
     trv.heading(8, text="Spotter", anchor="center")
+    # Equipment
+    # ... How to display ?
 
     trv.column("#1", anchor="w", width=100, stretch=True)
     trv.column("#2", anchor="w", width=270, stretch=True)
@@ -321,11 +339,17 @@ def load_all_shooters():
     trv.column("#6", anchor="w", width=140, stretch=False)
     trv.column("#7", anchor="w", width=140, stretch=False)
     trv.column("#8", anchor="w", width=140, stretch=False)
+    # Equipment
+    # ... How ?
 
     def load_json_from_file():
         global my_data_list
-        with open("amigos.json", "r") as file_handler:
-            my_data_list = json.load(file_handler)
+        global myfile
+
+        with open(myfile, "r") as file_handler:
+            my_data = json.load(file_handler)
+            my_data_list = my_data["shooters"]
+            pp_json(my_data_list)
         file_handler.close
         print('file has been read and closed')
 
@@ -362,15 +386,15 @@ def load_all_shooters():
     def open_popup(_mode, _tuple, primary):
         global myname
 
-        child = Toplevel(primary);
-        child.geometry("768x500");
+        child = Toplevel(primary)
+        child.geometry("800x600")
         child.title('Child Window')
-        child.grab_set();  # allow it to receive events
+        child.grab_set()  # allow it to receive events
         # and prevent users from interacting
         # with the main window
 
-        child.configure(bg='LightBlue');
-        load_form = True;
+        child.configure(bg='LightBlue')
+        load_form = True
         input_frame = LabelFrame(child, text='Enter New Record',bg="lightgray",font=('Consolas', 14))
 
         input_frame.grid(row=0, rowspan=6, column=0)
@@ -383,13 +407,13 @@ def load_all_shooters():
         l6 = Label(input_frame, text="eMail", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
         l7 = Label(input_frame, text="Spotter", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
 
-        l1.grid(column=0, row=0, padx=1, pady=0);
-        l2.grid(column=0, row=1, padx=1, pady=0);
-        l3.grid(column=0, row=2, padx=1, pady=0);
-        l4.grid(column=0, row=3, padx=1, pady=0);
-        l5.grid(column=0, row=4, padx=1, pady=0);
-        l6.grid(column=0, row=5, padx=1, pady=0);
-        l7.grid(column=0, row=6, padx=1, pady=0);
+        l1.grid(column=0, row=0, padx=1, pady=0)
+        l2.grid(column=0, row=1, padx=1, pady=0)
+        l3.grid(column=0, row=2, padx=1, pady=0)
+        l4.grid(column=0, row=3, padx=1, pady=0)
+        l5.grid(column=0, row=4, padx=1, pady=0)
+        l6.grid(column=0, row=5, padx=1, pady=0)
+        l7.grid(column=0, row=6, padx=1, pady=0)
 
         id_value = StringVar()
         id_value.set(uuid.uuid4())
@@ -424,7 +448,7 @@ def load_all_shooters():
         btnCancel = Button(input_frame, text="Cancel", padx=5, pady=10, command=lambda: child_cancel())
         btnCancel.grid(row=7, column=4)
 
-        load_form = False;
+        load_form = False
 
         def delete_record():
             guid_value  = id_value.get()
@@ -541,8 +565,8 @@ def load_all_shooters():
                 if row >= 0:
                     del my_data_list[row]
 
-            save_json_to_file();
-            clear_all_fields();
+            save_json_to_file()
+            clear_all_fields()
 
         def find_row_in_my_data_list(guid_value):
             global my_data_list
@@ -574,14 +598,18 @@ def load_all_shooters():
 
         def save_json_to_file():
             global my_data_list
-            with open("amigos.json", "w") as file_handler:
-                json.dump(my_data_list, file_handler, indent=4)
+            global myevent_list
+            global myfile
+            with open(myfile, "w") as file_handler:
+                myevent_list["shooters"] = my_data_list
+                json.dump(myevent_list, file_handler, indent=4)
+
             file_handler.close
             print('file has been written to and closed')
 
         def load_json_from_file():
             global my_data_list
-            with open("amigos.json", "r") as file_handler:
+            with open("20220901_1m_event.json", "r") as file_handler:
                 my_data_list = json.load(file_handler)
             file_handler.close
             print('file has been read and closed')
