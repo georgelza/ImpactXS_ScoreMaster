@@ -310,11 +310,12 @@ def load_all_shooters():
     ))
 
     def make_new_record():
-        rifleTuple = ('','','','','','','')
-        scopeTuple = ('','','','')
-        cartridgeTuple = ('','','','','','')
-        equipmentTuple = (rifleTuple, scopeTuple, cartridgeTuple)
-        blankTuple = ('', '', '', '', '', '', '', '', equipmentTuple)
+        #rifleTuple = ('','','','','','','')
+        #scopeTuple = ('','','','')
+        #cartridgeTuple = ('','','','','','')
+        #equipmentTuple = (rifleTuple, scopeTuple, cartridgeTuple)
+        #blankTuple = ('', '', '', '', '', '', '', '', equipmentTuple)
+        blankTuple = ('', '', '', '', '', '', '', '')
         open_popup('add', blankTuple, main_window)
 
     btnNewRecord = Button(main_window, text="Add New", bg="#34d2eb",
@@ -354,6 +355,7 @@ def load_all_shooters():
             my_data = json.load(file_handler)
             my_data_list = my_data["shooters"]
             pp_json(my_data_list)
+
         file_handler.close
         print('file has been read and closed')
 
@@ -546,22 +548,22 @@ def load_all_shooters():
                 row = find_row_in_my_data_list(guid_value)
                 if row >= 0:
                     dict = {"id": guid_value,
-                            "first_name": first_name,
-                            "last_name": last_name,
-                            "id_number": id_number,
-                            "cell_phone": cell_phone,
-                            "email": email,
-                            "spotter": spotter}
+                            "first_name":   first_name,
+                            "last_name":    last_name,
+                            "id_number":    id_number,
+                            "cell_phone":   cell_phone,
+                            "email":        email,
+                            "spotter":      spotter}
                     my_data_list[row] = dict
 
             elif command_type == "_INSERT_":
                 dict = {"id": guid_value,
-                        "first_name": first_name,
-                        "last_name": last_name,
-                        "id_number": id_number,
-                        "cell_phone": cell_phone,
-                        "email": email,
-                        "spotter": spotter}
+                        "first_name":   first_name,
+                        "last_name":    last_name,
+                        "id_number":    id_number,
+                        "cell_phone":   cell_phone,
+                        "email":        email,
+                        "spotter":      spotter}
                 my_data_list.append(dict)
 
             elif command_type == "_DELETE_":
@@ -604,6 +606,7 @@ def load_all_shooters():
             global my_data_list
             global myevent_list
             global myfile
+
             with open(myfile, "w") as file_handler:
                 myevent_list["shooters"] = my_data_list
                 json.dump(myevent_list, file_handler, indent=4)
@@ -613,8 +616,13 @@ def load_all_shooters():
 
         def load_json_from_file():
             global my_data_list
-            with open("20220901_1m_event.json", "r") as file_handler:
-                my_data_list = json.load(file_handler)
+            global myevent_list
+            global myfile
+
+            with open(myfile, "r") as file_handler:
+                myevent_list = json.load(file_handler)
+                my_data_list = myevent_list["shooters"]
+
             file_handler.close
             print('file has been read and closed')
 
