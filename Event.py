@@ -60,6 +60,7 @@ def load_event_data(file, my_logger, debuglevel):
 # end load_event_data
 
 
+
 def open_event_screen(root, myevent_list, my_logger, debuglevel):
 
     my_logger.info('{time}, open_event_screen Entering '.format(
@@ -69,7 +70,6 @@ def open_event_screen(root, myevent_list, my_logger, debuglevel):
     child = Toplevel(root)
     child.geometry("768x500")
     child.title="Events"
-    #child.grap_set()
 
     id_value = StringVar()
     id_value.set(myevent_list["uuid"])

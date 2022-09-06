@@ -30,6 +30,7 @@ from api.apputils import *
 import logging
 import os
 from tkinter import *
+from tkinter import ttk
 from tkinter import filedialog as fd
 from PIL import Image, ImageTk
 import Shooters
@@ -41,10 +42,12 @@ global DEBUGLEVEL
 global myevent_list
 global myshooter_list
 global currentRowIndex
+global my_data_list
 
 # Our lists.... Possible collapse into one list.
 myevent_list    = []
 myshooter_list  = []
+my_data_list    = []
 
 # Read/Define Environment variables
 config_params   = getAppEnvVariables()
@@ -176,15 +179,14 @@ def main():
 
     # Open file dialog allowing user to select event file
     fileMenu.add_command(label="Load Event", command=loadEvent)
-    #fileMenu.add_command(label="Load Event", command=loadEvent)
 
-    # Load shooters as per the event file loaded => Treeview, if new event with no shooters open empty treeview,
-    # with only Add button enabled
-    fileMenu.add_command(label="Shooters...", command=loadShooters)
+    # Load all shooters as per the event file loaded into Treeview, if it is a new event with no shooters open
+    # empty treeview, with only Add button enabled
+    fileMenu.add_command(label="Shooters...", command=load_all_shooters)
 
-    # #1 Load the scores.
-    # #2 if auto update is ticked update every time a score is saved/updated by another user (aka "refresh screen from
-    # file opened as read only
+    # #1 Load the shooters and scores into treeview
+    # #2 if auto update is selected, disable edit mode, allow user to select Qualify or Final as the order, initiate
+    # auto refresh, for now every 10 seconds, change to refresh when shooter score is updated,
     fileMenu.add_command(label="Scores...")
 
     fileMenu.add_separator()
@@ -284,10 +286,323 @@ def loadEvent():
 
 # end loadEvent
 
-## Redo LoadShooters, load as a Treeview... empty initially, to be filled via the Add/Edit/Delete Buttons.
-#Use Example1 as example,
 
 # We will add the scores via the File/scores menu.
+# For now ust build Scott's Treeview and user editor, then replace with my data.
+def load_all_shooters():
+    global main_window
+    global trv
+
+    def make_new_record():
+        blankTuple = ('', '', '', '', '', '', '', '')
+        open_popup('add', blankTuple, main_window)
+
+    btnNewRecord = Button(main_window, text="Add New", bg="#34d2eb",
+                          padx=2, pady=3, command=lambda: make_new_record())
+    btnNewRecord.grid(row=0, column=0, sticky="w")
+
+    trv = ttk.Treeview(main_window, columns=(1, 2, 3, 4, 5, 6, 7, 8), show="headings", height="16")
+    trv.grid(row=1, column=0, rowspan=16, columnspan=8)
+
+    trv.heading(1, text="Action", anchor="w")
+    trv.heading(2, text="ID", anchor="center")
+    trv.heading(3, text="First Name", anchor="center")
+    trv.heading(4, text="Last Name", anchor="center")
+    trv.heading(5, text="ID Number", anchor="center")
+    trv.heading(6, text="Cell Phone", anchor="center")
+    trv.heading(7, text="eMail", anchor="center")
+    trv.heading(8, text="Spotter", anchor="center")
+
+    trv.column("#1", anchor="w", width=100, stretch=True)
+    trv.column("#2", anchor="w", width=270, stretch=True)
+    trv.column("#3", anchor="w", width=140, stretch=False)
+    trv.column("#4", anchor="w", width=140, stretch=False)
+    trv.column("#5", anchor="w", width=140, stretch=False)
+    trv.column("#6", anchor="w", width=140, stretch=False)
+    trv.column("#7", anchor="w", width=140, stretch=False)
+    trv.column("#8", anchor="w", width=140, stretch=False)
+
+    def load_json_from_file():
+        global my_data_list
+        with open("amigos.json", "r") as file_handler:
+            my_data_list = json.load(file_handler)
+        file_handler.close
+        print('file has been read and closed')
+
+    def remove_all_data_from_trv():
+        for item in trv.get_children():
+            trv.delete(item)
+
+    def load_trv_with_json():
+        global my_data_list
+
+        remove_all_data_from_trv()
+
+        rowIndex = 1
+
+        for key in my_data_list:
+            guid_value  = key["id"]
+            first_name  = key["first_name"]
+            last_name   = key["last_name"]
+            id_number   = key["id_number"]
+            cell_phone  = key["cell_phone"]
+            email       = key["email"]
+            spotter     = key["spotter"]
+
+            trv.insert('', index='end', iid=rowIndex, text="",
+                       values=('edit', guid_value, first_name, last_name, id_number, cell_phone, email, spotter))
+            rowIndex = rowIndex + 1
+
+    def MouseButtonUpCallBack(event):
+        global trv
+        currentRowIndex = trv.selection()[0]
+        lastTuple = (trv.item(currentRowIndex, 'values'))
+        open_popup('edit', lastTuple, main_window)
+
+    def open_popup(_mode, _tuple, primary):
+        global myname
+
+        child = Toplevel(primary);
+        child.geometry("768x500");
+        child.title('Child Window')
+        child.grab_set();  # allow it to receive events
+        # and prevent users from interacting
+        # with the main window
+
+        child.configure(bg='LightBlue');
+        load_form = True;
+        input_frame = LabelFrame(child, text='Enter New Record',bg="lightgray",font=('Consolas', 14))
+
+        input_frame.grid(row=0, rowspan=6, column=0)
+
+        l1 = Label(input_frame, text="ID", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        l2 = Label(input_frame, text="First Name", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        l3 = Label(input_frame, text="Last Name", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        l4 = Label(input_frame, text="ID Number", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        l5 = Label(input_frame, text="Cell Phone", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        l6 = Label(input_frame, text="eMail", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        l7 = Label(input_frame, text="Spotter", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+
+        l1.grid(column=0, row=0, padx=1, pady=0);
+        l2.grid(column=0, row=1, padx=1, pady=0);
+        l3.grid(column=0, row=2, padx=1, pady=0);
+        l4.grid(column=0, row=3, padx=1, pady=0);
+        l5.grid(column=0, row=4, padx=1, pady=0);
+        l6.grid(column=0, row=5, padx=1, pady=0);
+        l7.grid(column=0, row=6, padx=1, pady=0);
+
+        id_value = StringVar()
+        id_value.set(uuid.uuid4())
+
+        crm_id = Label(input_frame, anchor="w", height=1,relief="ridge", textvariable=id_value, font=('Consolas', 14))
+        crm_id.grid(row=0, column=1, padx=20)
+
+        crm_fn = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_fn.grid(row=1, column=1)
+
+        crm_ln = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_ln.grid(row=2, column=1)
+
+        crm_id_number = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_id_number.grid(row=3, column=1)
+
+        crm_cellphone = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_cellphone.grid(row=4, column=1)
+
+        crm_email = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_email.grid(row=5, column=1)
+
+        crm_spotter = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_spotter.grid(row=6, column=1)
+
+        btnAdd = Button(input_frame, text="Save", padx=5, pady=10, command=lambda: determineAction())
+        btnAdd.grid(row=7, column=0)
+
+        btnDelete = Button(input_frame, text="Delete", padx=5, pady=10, command=lambda: delete_record())
+        btnDelete.grid(row=7, column=3)
+
+        btnCancel = Button(input_frame, text="Cancel", padx=5, pady=10, command=lambda: child_cancel())
+        btnCancel.grid(row=7, column=4)
+
+        load_form = False;
+
+        def delete_record():
+            guid_value  = id_value.get()
+            first_name  = crm_fn.get()
+            last_name   = crm_ln.get()
+            id_number   = crm_id_number.get()
+            cell_phone  = crm_cellphone.get()
+            email       = crm_email.get()
+            spotter     = crm_spotter.get()
+
+            process_request('_DELETE_', guid_value, first_name, last_name, id_number, cell_phone, email, spotter)
+            reload_main_form()
+            child.grab_release()
+            child.destroy()
+            child.update()
+
+        def child_cancel():
+            child.grab_release()
+            child.destroy()
+            child.update()
+
+        def reload_main_form():
+            load_trv_with_json()
+
+        def change_background_color(new_color):
+            crm_fn.config(bg=new_color)
+            crm_ln.config(bg=new_color)
+            crm_id_number.config(bg=new_color)
+            crm_cellphone.config(bg=new_color)
+            crm_email.config(bg=new_color)
+            crm_spotter.config(bg=new_color)
+
+        def add_entry():
+            guid_value  = id_value.get()
+            first_name  = crm_fn.get()
+            last_name   = crm_ln.get()
+            id_number   = crm_id_number.get()
+            cell_phone  = crm_cellphone.get()
+            email       = crm_email.get()
+            spotter     = crm_spotter.get()
+
+            if len(first_name) == 0:
+                change_background_color("#FFB2AE")
+                return
+
+            process_request('_INSERT_', guid_value, first_name, last_name, id_number, cell_phone, email, spotter)
+
+        def update_entry():
+            guid_value  = id_value.get()
+            first_name  = crm_fn.get()
+            last_name   = crm_ln.get()
+            id_number   = crm_id_number.get()
+            cell_phone  = crm_cellphone.get()
+            email       = crm_email.get()
+            spotter     = crm_spotter.get()
+
+            if len(first_name) == 0:
+                change_background_color("#FFB2AE")
+                return
+
+            process_request('_UPDATE_', guid_value, first_name, last_name, id_number, cell_phone, email, spotter)
+
+        def load_edit_field_with_row_data(_tuple):
+            if len(_tuple) == 0:
+                return
+
+            id_value.set(_tuple[1])
+            crm_fn.delete(0, END)
+            crm_fn.insert(0, _tuple[2])
+            crm_ln.delete(0, END)
+            crm_ln.insert(0, _tuple[3])
+            crm_id_number.delete(0, END)
+            crm_id_number.insert(0, _tuple[4])
+            crm_cellphone.delete(0, END)
+            crm_cellphone.insert(0, _tuple[5])
+            crm_email.delete(0, END)
+            crm_email.insert(0, _tuple[6])
+            crm_spotter.delete(0, END)
+            crm_spotter.insert(0, _tuple[7])
+
+        if _mode == 'edit':
+            load_edit_field_with_row_data(_tuple)
+
+        def process_request(command_type, guid_value, first_name, last_name, id_number, cell_phone, email, spotter):
+            global my_data_list
+            global dirty
+
+            dirty = True
+
+            if command_type == "_UPDATE_":
+                row = find_row_in_my_data_list(guid_value)
+                if row >= 0:
+                    dict = {"id": guid_value,
+                            "first_name": first_name,
+                            "last_name": last_name,
+                            "id_number": id_number,
+                            "cell_phone": cell_phone,
+                            "email": email,
+                            "spotter": spotter}
+                    my_data_list[row] = dict
+
+            elif command_type == "_INSERT_":
+                dict = {"id": guid_value,
+                        "first_name": first_name,
+                        "last_name": last_name,
+                        "id_number": id_number,
+                        "cell_phone": cell_phone,
+                        "email": email,
+                        "spotter": spotter}
+                my_data_list.append(dict)
+
+            elif command_type == "_DELETE_":
+                row = find_row_in_my_data_list(guid_value)
+                if row >= 0:
+                    del my_data_list[row]
+
+            save_json_to_file();
+            clear_all_fields();
+
+        def find_row_in_my_data_list(guid_value):
+            global my_data_list
+            row = 0
+            found = False
+
+            for rec in my_data_list:
+                if rec["id"] == guid_value:
+                    found = True
+                    break
+                row = row + 1
+
+            if (found == True):
+                return (row)
+
+            return (-1)
+
+        def determineAction():
+            if load_form == False:
+                if _mode == "edit":
+                    update_entry()
+                else:
+                    add_entry()
+
+            reload_main_form()
+            child.grab_release()
+            child.destroy()
+            child.update()
+
+        def save_json_to_file():
+            global my_data_list
+            with open("amigos.json", "w") as file_handler:
+                json.dump(my_data_list, file_handler, indent=4)
+            file_handler.close
+            print('file has been written to and closed')
+
+        def load_json_from_file():
+            global my_data_list
+            with open("amigos.json", "r") as file_handler:
+                my_data_list = json.load(file_handler)
+            file_handler.close
+            print('file has been read and closed')
+
+        def clear_all_fields():
+            crm_fn.delete(0, END)
+            crm_ln.delete(0, END)
+            crm_id_number.delete(0, END)
+            crm_cellphone.delete(0, END)
+            crm_email.delete(0, END)
+            crm_spotter.delete(0, END)
+
+            crm_id.configure(text="")
+            crm_fn.focus_set()
+            id_value.set(uuid.uuid4())
+            change_background_color("#FFFFFF")
+
+    trv.bind("<ButtonRelease>", MouseButtonUpCallBack)
+    load_json_from_file()
+    load_trv_with_json()
+
 
 def loadShooters():
     global my_logger

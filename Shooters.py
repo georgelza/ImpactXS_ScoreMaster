@@ -50,6 +50,9 @@ def load_shooters_data(my_event_list, my_logger, debuglevel):
 
     return my_shooter_list
 
+
+
+
 def open_shooter_screen(root, myshooter_list, my_logger, debuglevel):
 
     my_logger.info('{time}, open_shooter_screen Entering '.format(
@@ -58,8 +61,7 @@ def open_shooter_screen(root, myshooter_list, my_logger, debuglevel):
 
     child = Toplevel(root)
     child.geometry("768x500")
-    child.title="Shooters"
-    #child.grap_set();
+    child.title="Maintain a individual Shooter"
 
     child.configure(bg='LightBlue')
     load_form = True
