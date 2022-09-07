@@ -297,6 +297,12 @@ def load_all_shooters():
     global trv
     global myevent_list
 
+    global my_logger
+    global DEBUGLEVEL
+
+    my_logger.info('{time}, load_all_shooters Starting '.format(
+        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+    ))
 
     # Determine where we running, as template and events are by default subdirectories of the App directory.
     directory = os.getcwd()
@@ -315,7 +321,7 @@ def load_all_shooters():
         #cartridgeTuple = ('','','','','','')
         #equipmentTuple = (rifleTuple, scopeTuple, cartridgeTuple)
         #blankTuple = ('', '', '', '', '', '', '', '', equipmentTuple)
-        blankTuple = ('', '', '', '', '', '', '', '')
+        blankTuple = ('', '', '', '', '', '', '', '','','')
         open_popup('add', blankTuple, main_window)
 
     btnNewRecord = Button(main_window, text="Add New", bg="#34d2eb",
@@ -347,6 +353,7 @@ def load_all_shooters():
     # Equipment
     # ... How ?
 
+    # Reload all shooters from myfile into my_data_list
     def load_json_from_file():
         global my_data_list
         global myfile
@@ -363,6 +370,7 @@ def load_all_shooters():
         for item in trv.get_children():
             trv.delete(item)
 
+    # Reload trv with all shooters data
     def load_trv_with_json():
         global my_data_list
 
@@ -393,8 +401,8 @@ def load_all_shooters():
         global myname
 
         child = Toplevel(primary)
-        child.geometry("800x600")
-        child.title('Child Window')
+        child.geometry("1200x800")
+        child.title('Shooter Maintenance')
         child.grab_set()  # allow it to receive events
         # and prevent users from interacting
         # with the main window
@@ -403,7 +411,7 @@ def load_all_shooters():
         load_form = True
         input_frame = LabelFrame(child, text='Enter New Record',bg="lightgray",font=('Consolas', 14))
 
-        input_frame.grid(row=0, rowspan=6, column=0)
+        input_frame.grid(row=0, rowspan=12, column=0)
 
         l1 = Label(input_frame, text="ID", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
         l2 = Label(input_frame, text="First Name", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
@@ -413,13 +421,13 @@ def load_all_shooters():
         l6 = Label(input_frame, text="eMail", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
         l7 = Label(input_frame, text="Spotter", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
 
-        l1.grid(column=0, row=0, padx=1, pady=0)
-        l2.grid(column=0, row=1, padx=1, pady=0)
-        l3.grid(column=0, row=2, padx=1, pady=0)
-        l4.grid(column=0, row=3, padx=1, pady=0)
-        l5.grid(column=0, row=4, padx=1, pady=0)
-        l6.grid(column=0, row=5, padx=1, pady=0)
-        l7.grid(column=0, row=6, padx=1, pady=0)
+        l1.grid(row=0, column=0, padx=1, pady=0)
+        l2.grid(row=1, column=0, padx=1, pady=0)
+        l3.grid(row=2, column=0, padx=1, pady=0)
+        l4.grid(row=3, column=0, padx=1, pady=0)
+        l5.grid(row=4, column=0, padx=1, pady=0)
+        l6.grid(row=5, column=0, padx=1, pady=0)
+        l7.grid(row=6, column=0, padx=1, pady=0)
 
         id_value = StringVar()
         id_value.set(uuid.uuid4())
@@ -446,13 +454,13 @@ def load_all_shooters():
         crm_spotter.grid(row=6, column=1)
 
         btnAdd = Button(input_frame, text="Save", padx=5, pady=10, command=lambda: determineAction())
-        btnAdd.grid(row=7, column=0)
+        btnAdd.grid(row=11, column=0)
 
         btnDelete = Button(input_frame, text="Delete", padx=5, pady=10, command=lambda: delete_record())
-        btnDelete.grid(row=7, column=3)
+        btnDelete.grid(row=11, column=3)
 
         btnCancel = Button(input_frame, text="Cancel", padx=5, pady=10, command=lambda: child_cancel())
-        btnCancel.grid(row=7, column=4)
+        btnCancel.grid(row=11, column=4)
 
         load_form = False
 
@@ -495,12 +503,46 @@ def load_all_shooters():
             cell_phone  = crm_cellphone.get()
             email       = crm_email.get()
             spotter     = crm_spotter.get()
+            # equipment
+            rifle = {
+                "make":     "",
+                "model":    "",
+                "caliber":  "",
+                "chassis":  "",
+                "trigger":  "",
+                "break":    "",
+                "supressor":""
+            }
+            scope = {
+                "make":             "",
+                "model":            "",
+                "rings":            "",
+                "picatinny_raise":  ""
+            }
+            cartridge = {
+                "brass_make":       "",
+                "bullet_make":      "",
+                "bullet_model":     "",
+                "bullet_weight":    "",
+                "primer_make":      "",
+                "primer_model":     ""
+            }
+            equipment = {
+                "rifle":        rifle,
+                "scope":        scope,
+                "cartridge":    cartridge
+            }
+            # scores
+            scores   = {
+                "qualify" : "",
+                "final" :   ""
+            }
 
             if len(first_name) == 0:
                 change_background_color("#FFB2AE")
                 return
 
-            process_request('_INSERT_', guid_value, first_name, last_name, id_number, cell_phone, email, spotter)
+            process_request('_INSERT_', guid_value, first_name, last_name, id_number, cell_phone, email, spotter, equipment, scores)
 
         def update_entry():
             guid_value  = id_value.get()
@@ -510,12 +552,46 @@ def load_all_shooters():
             cell_phone  = crm_cellphone.get()
             email       = crm_email.get()
             spotter     = crm_spotter.get()
+            # equipment
+            rifle = {
+                "make":         "",
+                "model":        "",
+                "caliber":      "",
+                "chassis":      "",
+                "trigger":      "",
+                "break":        "",
+                "supressor":    ""
+            }
+            scope = {
+                "make":             "",
+                "model":            "",
+                "rings":            "",
+                "picatinny_raise":  ""
+            }
+            cartridge = {
+                "brass_make":       "",
+                "bullet_make":      "",
+                "bullet_model":     "",
+                "bullet_weight":    "",
+                "primer_make":      "",
+                "primer_model":     ""
+            }
+            equipment = {
+                "rifle":        rifle,
+                "scope":        scope,
+                "cartridge":    cartridge
+            }
+            # scores
+            scores   = {
+                "qualify":  "",
+                "final":    ""
+            }
 
             if len(first_name) == 0:
                 change_background_color("#FFB2AE")
                 return
 
-            process_request('_UPDATE_', guid_value, first_name, last_name, id_number, cell_phone, email, spotter)
+            process_request('_UPDATE_', guid_value, first_name, last_name, id_number, cell_phone, email, spotter, equipment, scores)
 
         def load_edit_field_with_row_data(_tuple):
             if len(_tuple) == 0:
@@ -538,7 +614,7 @@ def load_all_shooters():
         if _mode == 'edit':
             load_edit_field_with_row_data(_tuple)
 
-        def process_request(command_type, guid_value, first_name, last_name, id_number, cell_phone, email, spotter):
+        def process_request(command_type, guid_value, first_name, last_name, id_number, cell_phone, email, spotter, equipment, scores):
             global my_data_list
             global dirty
 
@@ -547,23 +623,31 @@ def load_all_shooters():
             if command_type == "_UPDATE_":
                 row = find_row_in_my_data_list(guid_value)
                 if row >= 0:
-                    dict = {"id": guid_value,
+                    dict = {"id":           guid_value,
                             "first_name":   first_name,
                             "last_name":    last_name,
                             "id_number":    id_number,
                             "cell_phone":   cell_phone,
                             "email":        email,
-                            "spotter":      spotter}
+                            "spotter":      spotter,
+                            "equipment":    equipment,
+                            "scores":       scores
+                            }
+
                     my_data_list[row] = dict
 
             elif command_type == "_INSERT_":
-                dict = {"id": guid_value,
+                dict = {"id":           guid_value,
                         "first_name":   first_name,
                         "last_name":    last_name,
                         "id_number":    id_number,
                         "cell_phone":   cell_phone,
                         "email":        email,
-                        "spotter":      spotter}
+                        "spotter":      spotter,
+                        "equipment":    equipment,
+                        "scores":       scores
+                        }
+
                 my_data_list.append(dict)
 
             elif command_type == "_DELETE_":
@@ -633,6 +717,7 @@ def load_all_shooters():
             crm_cellphone.delete(0, END)
             crm_email.delete(0, END)
             crm_spotter.delete(0, END)
+            # Equipment
 
             crm_id.configure(text="")
             crm_fn.focus_set()
@@ -643,22 +728,7 @@ def load_all_shooters():
     load_json_from_file()
     load_trv_with_json()
 
-
-def loadShooters():
-    global my_logger
-    global DEBUGLEVEL
-    global myevent_list
-    global myshooter_list
-    global main_window
-
-    my_logger.info('{time}, loadShooters Starting '.format(
-        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-    ))
-
-    myshooter_list = Shooters.load_shooters_data(myevent_list, my_logger, DEBUGLEVEL)
-    Shooters.open_shooter_screen(main_window, myshooter_list, my_logger, DEBUGLEVEL)
-
-# end loadShooters
+# end load_all_shooters
 
 # Set the Splash screen Interval
 splash_root.after(SPLASH_TIME, main)

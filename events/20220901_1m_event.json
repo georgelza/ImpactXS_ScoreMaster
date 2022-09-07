@@ -55,16 +55,74 @@
             "id_number": "7404105127085",
             "cell_phone": "0826552466",
             "email": "georgelza@gmail.com",
-            "spotter": "Charl Gous"
+            "spotter": "Charl Gous",
+            "equipment": {
+                "rifle": {
+                    "make": "",
+                    "model": "",
+                    "caliber": "",
+                    "chassis": "",
+                    "trigger": "",
+                    "break": "",
+                    "supressor": ""
+                },
+                "scope": {
+                    "make": "",
+                    "model": "",
+                    "rings": "",
+                    "picatinny_raise": ""
+                },
+                "cartridge": {
+                    "brass_make": "",
+                    "bullet_make": "",
+                    "bullet_model": "",
+                    "bullet_weight": "",
+                    "primer_make": "",
+                    "primer_model": ""
+                }
+            },
+            "scores": {
+                "qualify": "",
+                "final": ""
+            }
         },
         {
-            "id": "07d12652-2d6a-11ed-a038-0242fc120002",
+            "id": "07d12652-3f68-11ed-a038-0242fc120002",
             "first_name": "Edgar",
             "last_name": "Doubell",
             "id_number": "7004105127085",
             "cell_phone": "0826552446",
             "email": "edgar@gmail.com",
-            "spotter": "Pine Louw2"
+            "spotter": "Pine Louw",
+            "equipment": {
+                "rifle": {
+                    "make": "",
+                    "model": "",
+                    "caliber": "",
+                    "chassis": "",
+                    "trigger": "",
+                    "break": "",
+                    "supressor": ""
+                },
+                "scope": {
+                    "make": "",
+                    "model": "",
+                    "rings": "",
+                    "picatinny_raise": ""
+                },
+                "cartridge": {
+                    "brass_make": "",
+                    "bullet_make": "",
+                    "bullet_model": "",
+                    "bullet_weight": "",
+                    "primer_make": "",
+                    "primer_model": ""
+                }
+            },
+            "scores": {
+                "qualify": "",
+                "final": ""
+            }
         }
     ]
 }

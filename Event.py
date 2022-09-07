@@ -78,7 +78,7 @@ def open_event_screen(root, myevent_list, my_logger, debuglevel):
     load_form = True
 
     input_frame = LabelFrame(child, text='Event Profile', bg="lightgray", font=('Consolas', 14))
-    input_frame.grid(row=0, rowspan=5, column=0)
+    input_frame.grid(row=0, rowspan=6, column=0)
 
     l1 = Label(input_frame, text="Event Name",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
     l2 = Label(input_frame, text="Location",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
@@ -92,11 +92,17 @@ def open_event_screen(root, myevent_list, my_logger, debuglevel):
     l4.grid(column=0, row=3, padx=1, pady=0)
     l5.grid(column=0, row=4, padx=1, pady=0)
 
-    crm_eventname   = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas',14))
-    crm_Location    = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas',14))
-    crm_Start_Date  = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas',14))
-    crm_End_Date    = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas',14))
-    crm_Distance    = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas',14))
+    crm_eventname   = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
+    crm_Location    = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
+    crm_Start_Date  = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
+    crm_End_Date    = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
+    crm_Distance    = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
+
+    btnSave = Button(input_frame, text="Save", padx=5, pady=10)
+    btnSave.grid(row=5, column=0)
+
+    btnCancel = Button(input_frame, text="Cancel", padx=5, pady=10)
+    btnCancel.grid(row=5, column=1)
 
     crm_eventname.grid(row=0, column=1)
     crm_Location.grid(row=1, column=1)
@@ -104,11 +110,30 @@ def open_event_screen(root, myevent_list, my_logger, debuglevel):
     crm_End_Date.grid(row=3, column=1)
     crm_Distance.grid(row=4, column=1)
 
+    crm_eventname.delete(0, END)
+    crm_eventname.insert(0, myevent_list["Name"])
+    crm_Location.delete(0, END)
+    crm_Location.insert(0, myevent_list["Location"])
+    crm_Start_Date.delete(0, END)
+    crm_Start_Date.insert(0, myevent_list["Start_Date"])
+    crm_End_Date.delete(0, END)
+    crm_End_Date.insert(0, myevent_list["End_Date"])
+    crm_Distance.delete(0, END)
+    crm_Distance.insert(0, myevent_list["Distance"])
     load_form = False
 
     # Add Treeview (and buttons Add/Edit/Delete) to define Qualifying and Final distances.
 
     # Add Buttons:
     # Save data to file or Cancel Updates and exit to main screen
+    def saveAction():
+        pass
+
+    #end saveAction
+
+    def cancelAction():
+        pass
+
+    #end cancelAction
 
 # end open_event_screen
