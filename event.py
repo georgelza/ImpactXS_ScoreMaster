@@ -24,7 +24,6 @@ __version__ = "0.0.1"
 from tkinter import *
 from tkinter import filedialog as fd
 from datetime import datetime
-from api.apputils import *
 
 import json
 import os
@@ -120,36 +119,125 @@ def open_event_screen(root):
     l4.grid(column=0, row=3, padx=1, pady=0)
     l5.grid(column=0, row=4, padx=1, pady=0)
 
-    def cancelAction():
+    def cancelEvent():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, open_event_screen.cancelAction Called '.format(
+            my_logger.info('{time}, open_event_screen.cancelEvent Called '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
         child.destroy()
 
-    #end cancelAction
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.cancelEvent Completed '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+    #end cancelEvent
 
     # Add Buttons:
     # Save data to file or Cancel Updates and exit to main screen
-    def saveAction():
+    def saveEvent():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, open_event_screen.saveAction Called '.format(
+            my_logger.info('{time}, open_event_screen.saveEvent Called '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
         # Save data to my_event_list
+        my_event = {
+            "name":         crm_eventname.get(),
+            "location":     crm_Location.get(),
+            "start_date":   crm_Start_Date.get(),
+            "end_date":     crm_End_Date.get(),
+            "distance":     crm_Distance.get()
+        }
 
+        # Qualifying
+        my_q_targets    = 3
+        my_q_shots      = 4
+        my_q_time_limit = 900
+        my_qualifying = {
+            "targets" :     my_q_targets,
+            "shots":        my_q_shots,
+            "time_limit":   my_q_time_limit,
+            "target":       [
+                {
+                    "target_no": 0, "distance": 600
+                },
+                {
+                    "target_no": 1, "distance": 800
+                },
+                {
+                    "target_no": 2, "distance": 1000
+                }
+            ]
+        }
+
+        # Final
+        my_f_targets    = 4
+        my_f_shots      = 4
+        my_f_time_limit = 900
+        my_final = {
+            "targets" :     my_f_targets,
+            "shots":        my_f_shots,
+            "time_limit":   my_f_time_limit,
+            "target": [
+                {
+                    "target_no": 0, "distance": 800
+                },
+                {
+                    "target_no": 1, "distance": 1200
+                },
+                {
+                    "target_no": 2, "distance": 1400
+                },
+                {
+                    "target_no": 3, "distance": 1685
+                }
+            ]
+        }
+        # Save
+        settings.my_event_list      = my_event
+        settings.my_qualifying_list = my_qualifying
+        settings.my_final_list      = my_final
+        settings.save_json_to_file(settings.filename)
+        # cleanup
         child.destroy()
 
         if debuglevel >= 2:
-            my_logger.info('{time}, open_event_screen.saveAction Completed '.format(
+            my_logger.info('{time}, open_event_screen.saveEvent Completed '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-    # end saveAction
+    # end saveEvent
+
+    def saveQualifying():
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.saveQualifying Called '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.saveQualifying Completed '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+    #end saveQualifying
+
+    def saveFinal():
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.saveFinal Called '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.saveFinal Completed '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+    # end saveFinal
 
     crm_eventname   = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
     crm_Location    = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
@@ -157,10 +245,10 @@ def open_event_screen(root):
     crm_End_Date    = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
     crm_Distance    = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
 
-    btnSave = Button(input_frame, text="Save", padx=5, pady=10, command=saveAction)
+    btnSave = Button(input_frame, text="Save", padx=5, pady=10, command=saveEvent)
     btnSave.grid(row=5, column=0)
 
-    btnCancel = Button(input_frame, text="Cancel", padx=5, pady=10, command=cancelAction)
+    btnCancel = Button(input_frame, text="Cancel", padx=5, pady=10, command=cancelEvent)
     btnCancel.grid(row=5, column=1)
 
     crm_eventname.grid(row=0, column=1)
@@ -170,15 +258,15 @@ def open_event_screen(root):
     crm_Distance.grid(row=4, column=1)
 
     crm_eventname.delete(0, END)
-    crm_eventname.insert(0, my_event_list["Name"])
+    crm_eventname.insert(0, my_event_list["name"])
     crm_Location.delete(0, END)
-    crm_Location.insert(0, my_event_list["Location"])
+    crm_Location.insert(0, my_event_list["location"])
     crm_Start_Date.delete(0, END)
-    crm_Start_Date.insert(0, my_event_list["Start_Date"])
+    crm_Start_Date.insert(0, my_event_list["start_date"])
     crm_End_Date.delete(0, END)
-    crm_End_Date.insert(0, my_event_list["End_Date"])
+    crm_End_Date.insert(0, my_event_list["end_date"])
     crm_Distance.delete(0, END)
-    crm_Distance.insert(0, my_event_list["Distance"])
+    crm_Distance.insert(0, my_event_list["distance"])
     load_form = False
 
     # Add Treeview (and buttons Add/Edit/Delete) to define Qualifying and Final distances.
@@ -191,33 +279,37 @@ def open_event_screen(root):
 # end open_event_screen
 
 
-def load_event_data(file):
+def load_event_json_from_file(file):
 
     if debuglevel >= 1:
-        my_logger.info('{time}, load_event_data Called '.format(
+        my_logger.info('{time}, load_event_json_from_file Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-        my_logger.info('{time}, load_event_data.Loading file: {file}'.format(
+        my_logger.info('{time}, load_event_json_from_file.Loading file: {file}'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
             file=file
         ))
 
     with open(file, "r") as fh:
-        my_event_list = json.load(fh)
+        my_event_list       = json.load(fh)
+        my_qualifying_list  = my_event_list["qualifying"]
+        my_final_list       = my_event_list["final"]
+        my_shooter_list     = my_event_list["shooter"]
+
     fh.close
 
     if debuglevel >= 2:
-        my_logger.info('{time}, load_event_data.Printing my_event_list'.format(
+        my_logger.info('{time}, load_event_json_from_file.Printing my_event_list'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
-        pp_json(my_event_list)
+        settings.pp_json(my_event_list)
 
     if debuglevel >= 1:
-        my_logger.info('{time}, load_event_data Completed '.format(
+        my_logger.info('{time}, load_event_json_from_file Completed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
     return my_event_list
 
-# end load_event_data
+# end load_event_json_from_file

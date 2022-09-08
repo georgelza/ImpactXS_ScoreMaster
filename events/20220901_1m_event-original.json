@@ -1,16 +1,16 @@
 {
     "uuid" : "07d12652-2d6a-11ed-a261-0242ac120002",
-    "Name" : "Hanover King of 1Mile/2Mile 2022",
-    "Location" : "Hanover",
-    "Start_Date" : "22/08/2022",
-    "End_Date" : "25/08/2022",
-    "Distance" : "1-Mile",
-    "Qualifying" :
+    "name" : "Hanover King of 1Mile/2Mile 2022",
+    "location" : "Hanover",
+    "start_date" : "22/08/2022",
+    "end_date" : "25/08/2022",
+    "distance" : "1-Mile",
+    "qualifying" :
     {
-        "Targets" : 3,
-        "Shots" : 4,
-        "Time_Limit" : 900,
-        "Target" :
+        "targets" : 3,
+        "shots" : 4,
+        "time_limit" : 900,
+        "target" :
         [
             {
                 "target_no": 0,
@@ -72,78 +72,78 @@
                     "Break" : "Gun Warrior, 5 chamber",
                     "Supressor" : ""
                 },
-                "Scope" :
+                "scope" :
                 {
-                    "Make" : "Vortex",
-                    "Model" : "Strike Eagle 5-25x56",
-                    "Rings" : "Vortex Match, 1.26",
-                    "Picatinny_raise" : "30 MOA"
+                    "make" : "Vortex",
+                    "model" : "Strike Eagle 5-25x56",
+                    "rings" : "Vortex Match, 1.26",
+                    "picatinny_raise" : "30 MOA"
                 },
-                "Cartridge" :
+                "cartridge" :
                 {
-                    "Brass_Make" : "ADG",
-                    "Bullet_Make" : "Hornady",
-                    "Bullet_Model" : "A-Tip",
-                    "Bullet_Weight" : "230gr",
-                    "Primer_Make" : "Federal",
-                    "Primer_Model" : "Magnum-Large Rifle"
+                    "brass_make" : "ADG",
+                    "bullet_make" : "Hornady",
+                    "bullet_model" : "A-Tip",
+                    "bullet_weight" : "230gr",
+                    "primer_make" : "Federal",
+                    "primer_model" : "Magnum-Large Rifle"
                 }
             },
-            "Scores" :
+            "scores" :
             {
-                "Qualifying" :
+                "qualifying" :
                 {
-                    "Cold_bore" : "True",
-                    "Time" : 5,
-                    "Hit_Miss" : "True",
-                    "Inspect" : "False",
-                    "Targets" :
+                    "cold_bore" : "True",
+                    "time" : 5,
+                    "hit_miss" : "True",
+                    "inspect" : "False",
+                    "targets" :
                     [
                         {
-                            "Target_Number" : 0,
-                            "Time" : 35,
-                            "Hit_Miss" : "True",
-                            "Inspect" : "False"
+                            "target_number" : 0,
+                            "time" : 35,
+                            "hit_miss" : "True",
+                            "inspect" : "False"
                         },
                        {
-                            "Target_Number" : 1,
-                            "Time" : 75,
-                            "Hit_Miss" : "False",
-                            "Inspect" : "True"
+                            "target_number" : 1,
+                            "time" : 75,
+                            "hit_miss" : "False",
+                            "inspect" : "True"
                         },
                        {
-                            "Target_Number" : 2,
-                            "Time" : 205,
-                            "Hit_Miss" : "True",
-                            "Inspect" : "False"
+                            "target_number" : 2,
+                            "time" : 205,
+                            "hit_miss" : "True",
+                            "inspect" : "False"
                         }
                     ]
                 },
-                "Final" :
+                "final" :
                 [
                     {
-                        "Target_Number" : 0,
-                        "Time" : 32,
-                        "Hit_Miss" : "True",
-                        "Inspect" : "False"
+                        "target_number" : 0,
+                        "time" : 32,
+                        "hit_miss" : "True",
+                        "inspect" : "False"
                     },
                     {
-                        "Target_Number" : 1,
-                        "Time" : 65,
-                        "Hit_Miss" : "True",
-                        "Inspect" : "True"
+                        "target_number" : 1,
+                        "time" : 65,
+                        "hit_miss" : "True",
+                        "inspect" : "True"
                     },
                     {
-                        "Target_Number" : 2,
-                        "Time" : 99,
-                        "Hit_Miss" : "True",
-                        "Inspect" : "False"
+                        "target_number" : 2,
+                        "time" : 99,
+                        "hit_miss" : "True",
+                        "inspect" : "False"
                     },
                     {
-                        "Target_Number" : 3,
-                        "Time" : 142,
-                        "Hit_Miss" : "False",
-                        "Inspect" : "True"
+                        "target_number" : 3,
+                        "time" : 142,
+                        "hit_miss" : "False",
+                        "inspect" : "True"
                     }
                 ]
             }

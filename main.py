@@ -42,9 +42,10 @@ import shooters
 global main_window
 
 my_logger       = settings.my_logger
-appname         = settings.appname
+loglevel        = settings.loglevel
 splashtime      = settings.splashtime
 debuglevel      = settings.debuglevel
+appname         = settings.appname
 
 ############## LETS Start ##############
 my_logger.info('{time}, --------------------------------------------------'.format(
@@ -118,7 +119,7 @@ def newEvent():
     # Popup file open window, allowing user to select 1Mile or 2 Mile event.json template file
     settings.filename = event.select_file("New")
     if settings.filename:
-        settings.my_event_list = event.load_event_data(settings.filename)
+        settings.my_event_list = event.load_event_json_from_file(settings.filename)
         settings.my_event_list["uuid"] = str(uuid.uuid4())
         event.open_event_screen(main_window, settings.my_event_list)
 
@@ -140,7 +141,7 @@ def loadEvent():
 
     settings.filename = event.select_file("Load")
     if settings.filename:
-        settings.my_event_list = event.load_event_data(settings.filename)
+        settings.my_event_list = event.load_event_json_from_file(settings.filename)
         event.open_event_screen(main_window)
 
     if debuglevel >= 1:

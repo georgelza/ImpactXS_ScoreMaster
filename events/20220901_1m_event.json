@@ -1,127 +1,247 @@
 {
-    "uuid": "07d12652-2d6a-11ed-a261-0242ac120002",
-    "Name": "Hanover King of 1Mile/2Mile 2022",
-    "Location": "Hanover",
-    "Start_Date": "22/08/2022",
-    "End_Date": "25/08/2022",
-    "Distance": "1-Mile",
-    "Qualifying": {
-        "Targets": 3,
-        "Shots": 4,
-        "Time_Limit": 900,
-        "Target": [
+    "uuid" : "07d12652-2d6a-11ed-a261-0242ac120002",
+    "name" : "Hanover King of 1Mile/2Mile 2022",
+    "location" : "Hanover",
+    "start_date" : "22/08/2022",
+    "end_date" : "25/08/2022",
+    "distance" : "1-Mile",
+    "qualifying" :
+    {
+        "targets" : 3,
+        "shots" : 4,
+        "time_limit" : 900,
+        "target" :
+        [
             {
                 "target_no": 0,
-                "distance": 600
+                "distance" : 600
             },
             {
                 "target_no": 1,
-                "distance": 800
+                "distance" : 800
             },
             {
                 "target_no": 2,
-                "distance": 1000
+                "distance" : 1000
             }
         ]
     },
-    "final": {
-        "targets": 4,
-        "shots": 4,
-        "time_limit": 900,
-        "target": [
+    "final" : {
+        "targets" : 4,
+        "shots" : 4,
+        "time_limit" : 900,
+        "target" :
+        [
             {
                 "target_no": 0,
-                "distance": 800
+                "distance" : 800
             },
             {
                 "target_no": 1,
-                "distance": 1200
+                "distance" : 1200
             },
             {
                 "target_no": 2,
-                "distance": 1400
+                "distance" : 1400
             },
             {
                 "target_no": 3,
-                "distance": 1685
+                "distance" : 1685
             }
         ]
     },
-    "shooters": [
+    "shooters":
+    [
         {
-            "id": "07d12652-2d6a-11ed-a038-0242ac120002",
-            "first_name": "George",
-            "last_name": "Leonard",
-            "id_number": "7404105127085",
-            "cell_phone": "0826552466",
-            "email": "georgelza@gmail.com",
-            "spotter": "Charl Gous",
-            "equipment": {
-                "rifle": {
-                    "make": "",
-                    "model": "",
-                    "caliber": "",
-                    "chassis": "",
-                    "trigger": "",
-                    "break": "",
-                    "supressor": ""
+            "id" : "07d12652-2d6a-11ed-a038-0242ac120002",
+            "first_name" : "George",
+            "last_name" : "Leonard",
+            "id_number" : "7404105127085",
+            "cell_phone" : "0826552466",
+            "email" : "georgelza@gmail.com",
+            "spotter" : "Charl Gous",
+            "equipment":
+            {
+                "Rifle" :
+                {
+                    "Make" : "Howa",
+                    "Model" : "1500 - 24inch Varmint",
+                    "Caliber" : "300 PRC",
+                    "Chassis" : "Gun Warrior, Gen 6",
+                    "Trigger" : "Triggertech",
+                    "Break" : "Gun Warrior, 5 chamber",
+                    "Supressor" : ""
                 },
-                "scope": {
-                    "make": "",
-                    "model": "",
-                    "rings": "",
-                    "picatinny_raise": ""
+                "scope" :
+                {
+                    "make" : "Vortex",
+                    "model" : "Strike Eagle 5-25x56",
+                    "rings" : "Vortex Match, 1.26",
+                    "picatinny_raise" : "30 MOA"
                 },
-                "cartridge": {
-                    "brass_make": "",
-                    "bullet_make": "",
-                    "bullet_model": "",
-                    "bullet_weight": "",
-                    "primer_make": "",
-                    "primer_model": ""
+                "cartridge" :
+                {
+                    "brass_make" : "ADG",
+                    "bullet_make" : "Hornady",
+                    "bullet_model" : "A-Tip",
+                    "bullet_weight" : "230gr",
+                    "primer_make" : "Federal",
+                    "primer_model" : "Magnum-Large Rifle"
                 }
             },
-            "scores": {
-                "qualify": "",
-                "final": ""
+            "scores" :
+            {
+                "qualifying" :
+                {
+                    "cold_bore" : "True",
+                    "time" : 5,
+                    "hit_miss" : "True",
+                    "inspect" : "False",
+                    "targets" :
+                    [
+                        {
+                            "target_number" : 0,
+                            "time" : 35,
+                            "hit_miss" : "True",
+                            "inspect" : "False"
+                        },
+                       {
+                            "target_number" : 1,
+                            "time" : 75,
+                            "hit_miss" : "False",
+                            "inspect" : "True"
+                        },
+                       {
+                            "target_number" : 2,
+                            "time" : 205,
+                            "hit_miss" : "True",
+                            "inspect" : "False"
+                        }
+                    ]
+                },
+                "final" :
+                [
+                    {
+                        "target_number" : 0,
+                        "time" : 32,
+                        "hit_miss" : "True",
+                        "inspect" : "False"
+                    },
+                    {
+                        "target_number" : 1,
+                        "time" : 65,
+                        "hit_miss" : "True",
+                        "inspect" : "True"
+                    },
+                    {
+                        "target_number" : 2,
+                        "time" : 99,
+                        "hit_miss" : "True",
+                        "inspect" : "False"
+                    },
+                    {
+                        "target_number" : 3,
+                        "time" : 142,
+                        "hit_miss" : "False",
+                        "inspect" : "True"
+                    }
+                ]
             }
         },
-        {
-            "id": "07d12652-2d6a-11ed-a038-0242fc120002",
-            "first_name": "Edgar",
-            "last_name": "Doubell",
-            "id_number": "7004105127085",
-            "cell_phone": "0826552446",
-            "email": "edgar@gmail.com",
-            "spotter": "Pine Louw",
-            "equipment": {
-                "rifle": {
-                    "make": "",
-                    "model": "",
-                    "caliber": "",
-                    "chassis": "",
-                    "trigger": "",
-                    "break": "",
-                    "supressor": ""
+       {
+            "id" : "07d12652-2d6a-11ed-a038-0242fc120002",
+            "first_name" : "Edgar",
+            "last_name" : "Doubell",
+            "id_number" : "7004105127085",
+            "cell_phone" : "0826552446",
+            "email" : "edgar@gmail.com",
+            "spotter" : "Pine Louw",
+            "equipment":
+            {
+                "rifle" :
+                {
+                    "make" : "Savage",
+                    "model" : "Elite Precision 110",
+                    "caliber" : "300 PRC",
+                    "chassis" : "MDT ACC",
+                    "trigger" : "Triggertech",
+                    "break" : "",
+                    "supressor" : "APW Warrior"
                 },
-                "scope": {
-                    "make": "",
-                    "model": "",
-                    "rings": "",
-                    "picatinny_raise": ""
+                "scope" :
+                {
+                    "make" : "Kahles",
+                    "model" : "5-25x56",
+                    "rings" : "Spuhr 1.26",
+                    "picatinny_raise" : "20 MOA"
                 },
-                "cartridge": {
-                    "brass_make": "",
-                    "bullet_make": "",
-                    "bullet_model": "",
-                    "bullet_weight": "",
-                    "primer_make": "",
-                    "primer_model": ""
+                "cartridge" :
+                {
+                    "brass_make" : "ADG",
+                    "bullet_make" : "Hornady",
+                    "bullet_model" : "A-Tip",
+                    "bullet_weight" : "250gr",
+                    "primer_make" : "Federal",
+                    "primer_model" : "Magnum-Large Rifle"
                 }
             },
-            "scores": {
-                "qualify": "",
-                "final": ""
+            "scores" :
+            {
+                "qualifying" :
+                {
+                    "cold_bore" : "True",
+                    "time" : 15,
+                    "inspect" : "True",
+                    "hit_miss" : "True",
+                    "targets" :
+                    [
+                        {
+                            "target_Number" : 0,
+                            "time" : 25,
+                            "hit_miss" : "True",
+                            "inspect" : "False"
+                        },
+                       {
+                            "target_number" : 1,
+                            "time" : 55,
+                            "hit_miss" : "False",
+                            "inspect" : "True"
+                        },
+                       {
+                            "target_number" : 2,
+                            "time" : 185,
+                            "hit_miss" : "True",
+                            "inspect" : "False"
+                        }
+                    ]
+                },
+                "final" :
+                [
+                    {
+                        "target_number" : 0,
+                        "time" : 24,
+                        "hit_miss" : "True",
+                        "inspect" : "False"
+                    },
+                   {
+                        "target_number" : 1,
+                        "time" : 44,
+                        "hit_miss" : "True",
+                        "inspect" : "False"
+                    },
+                   {
+                        "target_number" : 2,
+                        "time" : 86,
+                        "hit_miss" : "True",
+                        "inspect" : "False"
+                    },
+                   {
+                        "target_number" : 3,
+                        "time" : 129,
+                        "hit_miss" : "True",
+                        "inspect" : "True"
+                    }
+                ]
             }
         }
     ]

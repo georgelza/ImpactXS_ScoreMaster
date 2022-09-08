@@ -1,53 +1,53 @@
  {
       "uuid" : "",
-      "Name" : "",
-      "Location" : "",
-      "Start_Date" : "",
-      "End_Date" : "",
-      "Distance" : "1-Mile",
-      "Qualifying" :
+      "name" : "",
+      "location" : "",
+      "start_date" : "",
+      "end_date" : "",
+      "distance" : "1-Mile",
+      "qualifying" :
       {
-          "Targets" : 3,
-          "Shots" : 4,
-          "Time_Limit" : 900,
-          "Target" :
+          "targets" : 3,
+          "shots" : 4,
+          "time_limit" : 900,
+          "target" :
           [
               {
-                  "Target_No": 0,
-                  "Distance" : 600
+                  "target_no": 0,
+                  "distance" : 600
               },
               {
-                  "Target_No": 1,
-                  "Distance" : 800
+                  "target_no": 1,
+                  "distance" : 800
               },
               {
-                  "Target_No": 2,
-                  "Distance" : 1000
+                  "target_no": 2,
+                  "distance" : 1000
               }
           ]
       },
-      "Final" :
+      "final" :
       {
-          "Targets" : 4,
-          "Shots" : 4,
-          "Time_Limit" : 900,
-          "Target" :
+          "targets" : 4,
+          "shots" : 4,
+          "time_limit" : 900,
+          "target" :
           [
               {
-                  "Target_No": 0,
-                  "Distance" : 800
+                  "target_no": 0,
+                  "distance" : 800
               },
               {
-                  "Target_No": 1,
-                  "Distance" : 1200
+                  "target_no": 1,
+                  "distance" : 1200
               },
               {
-                  "Target_No": 2,
-                  "Distance" : 1400
+                  "target_no": 2,
+                  "distance" : 1400
               },
               {
-                  "Target_No": 3,
-                  "Distance" : 1685
+                  "target_no": 3,
+                  "distance" : 1685
               }
           ]
       }

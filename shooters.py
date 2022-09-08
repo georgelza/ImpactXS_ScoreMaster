@@ -24,10 +24,11 @@ __version__ = "0.0.1"
 from tkinter import *
 from tkinter import ttk
 from datetime import datetime
-from api.apputils import *
+#from api.apputils import *
 
 import uuid
 import json
+import os
 
 import settings
 
@@ -35,10 +36,10 @@ my_logger       = settings.my_logger
 debuglevel      = settings.debuglevel
 
 
-def load_json_from_file(myfile):
+def load_shooter_json_from_file(myfile):
 
     if debuglevel >= 1:
-        my_logger.info('{time}, load_json_from_file Called '.format(
+        my_logger.info('{time}, load_shooter_json_from_file Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -49,11 +50,11 @@ def load_json_from_file(myfile):
     file_handler.close
 
     if debuglevel >= 1:
-        my_logger.info('{time}, load_json_from_file.file has been read and closed '.format(
+        my_logger.info('{time}, load_shooter_json_from_file.file has been read and closed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-# end load_json_from_file
+# end load_shooter_json_from_file
 
 
 # We will add the scores via the File/scores menu.
@@ -560,7 +561,7 @@ def load_shooters(main_window):
                         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                     ))
 
-            save_json_to_file(settings.filename)
+            settings.save_json_to_file(settings.filename)
             clear_all_fields()
 
             if debuglevel >= 2:
@@ -618,25 +619,6 @@ def load_shooters(main_window):
 
         #end determineAction
 
-        def save_json_to_file(myfile):
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.save_json_to_file Called'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-            with open(myfile, "w") as file_handler:
-                settings.my_event_list["shooters"] = settings.my_shooter_list
-                json.dump(settings.my_event_list, file_handler, indent=4)
-
-            file_handler.close
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.save_json_to_file.file has been written to and closed '.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-        #end save_json_to_file
 
         def clear_all_fields():
 
@@ -673,7 +655,7 @@ def load_shooters(main_window):
     #end open_popup
 
     trv.bind("<ButtonRelease>", MouseButtonUpCallBack)
-    load_json_from_file(settings.filename)
+    load_shooter_json_from_file(settings.filename)
     load_trv_with_json()
 
     if debuglevel >= 1:
