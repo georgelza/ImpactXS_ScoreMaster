@@ -159,15 +159,17 @@ def main():
     # destroy splash window
     splash_root.destroy()
 
+    # As we're destroying the above TK object we happy to create a new one, otherwise we'de use TopLevel()
     # Execute tkinter
     root = Tk()
     root.state("zoomed")
 
     # Adjust size
-    root.geometry("1200x800")
+    root.geometry("600x400")
 
     # Set Title
     root.title(App_Name)
+    root.iconbitmap("images/impactxs_ico.jpg")
 
     # Lets Build the Menu Structure
     menu = Menu(root)
@@ -300,6 +302,10 @@ def load_all_shooters():
     global my_logger
     global DEBUGLEVEL
 
+    child = Toplevel(main_window)
+    child.geometry("1200x700")
+    child.title = "Events"
+
     my_logger.info('{time}, load_all_shooters Starting '.format(
         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
     ))
@@ -322,13 +328,13 @@ def load_all_shooters():
         #equipmentTuple = (rifleTuple, scopeTuple, cartridgeTuple)
         #blankTuple = ('', '', '', '', '', '', '', '', equipmentTuple)
         blankTuple = ('', '', '', '', '', '', '', '','','')
-        open_popup('add', blankTuple, main_window)
+        open_popup('add', blankTuple, child)
 
-    btnNewRecord = Button(main_window, text="Add New", bg="#34d2eb",
+    btnNewRecord = Button(child, text="Add New", bg="#34d2eb",
                           padx=2, pady=3, command=lambda: make_new_record())
     btnNewRecord.grid(row=0, column=0, sticky="w")
 
-    trv = ttk.Treeview(main_window, columns=(1, 2, 3, 4, 5, 6, 7, 8), show="headings", height="16")
+    trv = ttk.Treeview(child, columns=(1, 2, 3, 4, 5, 6, 7, 8), show="headings", height="16")
     trv.grid(row=1, column=0, rowspan=16, columnspan=8)
 
     trv.heading(1, text="Action", anchor="w")
@@ -395,7 +401,7 @@ def load_all_shooters():
         global trv
         currentRowIndex = trv.selection()[0]
         lastTuple = (trv.item(currentRowIndex, 'values'))
-        open_popup('edit', lastTuple, main_window)
+        open_popup('edit', lastTuple, child)
 
     def open_popup(_mode, _tuple, primary):
         global myname

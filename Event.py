@@ -69,7 +69,7 @@ def open_event_screen(root, myevent_list, my_logger, debuglevel):
 
     child = Toplevel(root)
     child.geometry("768x500")
-    child.title="Events"
+    child.title = "Events"
 
     id_value = StringVar()
     id_value.set(myevent_list["uuid"])
@@ -92,16 +92,30 @@ def open_event_screen(root, myevent_list, my_logger, debuglevel):
     l4.grid(column=0, row=3, padx=1, pady=0)
     l5.grid(column=0, row=4, padx=1, pady=0)
 
+    def cancelAction():
+        child.destroy()
+
+    #end cancelAction
+
+    # Add Buttons:
+    # Save data to file or Cancel Updates and exit to main screen
+    def saveAction():
+        my_logger.info('{time}, open_event_screen.saveAction Entering '.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+    # end saveAction
+
     crm_eventname   = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
     crm_Location    = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
     crm_Start_Date  = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
     crm_End_Date    = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
     crm_Distance    = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
 
-    btnSave = Button(input_frame, text="Save", padx=5, pady=10)
+    btnSave = Button(input_frame, text="Save", padx=5, pady=10, command=saveAction)
     btnSave.grid(row=5, column=0)
 
-    btnCancel = Button(input_frame, text="Cancel", padx=5, pady=10)
+    btnCancel = Button(input_frame, text="Cancel", padx=5, pady=10, command=cancelAction)
     btnCancel.grid(row=5, column=1)
 
     crm_eventname.grid(row=0, column=1)
@@ -124,16 +138,5 @@ def open_event_screen(root, myevent_list, my_logger, debuglevel):
 
     # Add Treeview (and buttons Add/Edit/Delete) to define Qualifying and Final distances.
 
-    # Add Buttons:
-    # Save data to file or Cancel Updates and exit to main screen
-    def saveAction():
-        pass
-
-    #end saveAction
-
-    def cancelAction():
-        pass
-
-    #end cancelAction
 
 # end open_event_screen
