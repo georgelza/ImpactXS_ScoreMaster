@@ -7,7 +7,7 @@
 #                   :   Bredan Fike
 #   eMail           :   brendan@impactxs.co.za
 #
-#   File            :   Shooters.py
+#   File            :   shooters.py
 #
 #	By              :   George Leonard ( georgelza@gmail.com )
 #

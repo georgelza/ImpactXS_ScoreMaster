@@ -32,7 +32,7 @@ def getAppEnvVariables():
 
     Params['debuglevel']                = int(os.environ.get("DEBUGLEVEL"))
     Params['loglevel']                  = os.environ.get("LOGLEVEL")
-    Params['splash_time']                = int(os.environ.get("SPLASH_TIME"))
+    Params['splashtime']                = int(os.environ.get("SPLASHTIME"))
 
     return Params
 
@@ -102,6 +102,7 @@ def print_config(config_params, my_logger):
         my_logger.info('**')
         my_logger.info('**    DEBUGLEVEL            : ' + str(config_params['debuglevel']))
         my_logger.info('**    LOGLEVEL              : ' + str(config_params['loglevel']))
+        my_logger.info('**    SPLASHTIME            : ' + str(config_params['splashtime']))
         my_logger.info('**')
         my_logger.info('*******************************************')
 
