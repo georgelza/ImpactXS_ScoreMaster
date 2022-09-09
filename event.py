@@ -90,7 +90,10 @@ def select_file(mode):
 
 def open_event_screen(root):
 
-    my_event_list = settings.my_event_list
+    my_event        = settings.my_event_list
+    my_qualify      = settings.my_event_list["qualifying"]
+    my_finals       = settings.my_event_list["final"]
+    my_shooters     = settings.my_event_list["shooters"]
 
     if debuglevel >= 1:
         my_logger.info('{time}, open_event_screen Called '.format(
@@ -157,19 +160,23 @@ def open_event_screen(root):
         my_q_targets    = 3
         my_q_shots      = 4
         my_q_time_limit = 900
+
         my_qualifying = {
             "targets" :     my_q_targets,
             "shots":        my_q_shots,
             "time_limit":   my_q_time_limit,
             "target":       [
                 {
-                    "target_no": 0, "distance": 600
+                    "target_no": 0, "distance": 800
                 },
                 {
-                    "target_no": 1, "distance": 800
+                    "target_no": 1, "distance": 1000
                 },
                 {
-                    "target_no": 2, "distance": 1000
+                    "target_no": 2, "distance": 1300
+                },
+                {
+                    "target_no": 3, "distance": 1600
                 }
             ]
         }
@@ -178,30 +185,34 @@ def open_event_screen(root):
         my_f_targets    = 4
         my_f_shots      = 4
         my_f_time_limit = 900
+
         my_final = {
             "targets" :     my_f_targets,
             "shots":        my_f_shots,
             "time_limit":   my_f_time_limit,
             "target": [
                 {
-                    "target_no": 0, "distance": 800
+                    "target_no": 0, "distance": 1800
                 },
                 {
-                    "target_no": 1, "distance": 1200
+                    "target_no": 1, "distance": 2500
                 },
                 {
-                    "target_no": 2, "distance": 1400
+                    "target_no": 2, "distance": 3000
                 },
                 {
-                    "target_no": 3, "distance": 1685
+                    "target_no": 3, "distance": 3500
                 }
             ]
         }
+
         # Save
         settings.my_event_list      = my_event
         settings.my_qualifying_list = my_qualifying
         settings.my_final_list      = my_final
+        settings.my_shooter_list    = my_shooters
         settings.save_json_to_file(settings.filename)
+
         # cleanup
         child.destroy()
 
@@ -218,6 +229,8 @@ def open_event_screen(root):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
+        settings.save_json_to_file(settings.filename)
+
 
         if debuglevel >= 2:
             my_logger.info('{time}, open_event_screen.saveQualifying Completed '.format(
@@ -231,6 +244,8 @@ def open_event_screen(root):
             my_logger.info('{time}, open_event_screen.saveFinal Called '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
+
+        settings.save_json_to_file(settings.filename)
 
         if debuglevel >= 2:
             my_logger.info('{time}, open_event_screen.saveFinal Completed '.format(
@@ -258,15 +273,15 @@ def open_event_screen(root):
     crm_Distance.grid(row=4, column=1)
 
     crm_eventname.delete(0, END)
-    crm_eventname.insert(0, my_event_list["name"])
+    crm_eventname.insert(0, my_event["name"])
     crm_Location.delete(0, END)
-    crm_Location.insert(0, my_event_list["location"])
+    crm_Location.insert(0, my_event["location"])
     crm_Start_Date.delete(0, END)
-    crm_Start_Date.insert(0, my_event_list["start_date"])
+    crm_Start_Date.insert(0, my_event["start_date"])
     crm_End_Date.delete(0, END)
-    crm_End_Date.insert(0, my_event_list["end_date"])
+    crm_End_Date.insert(0, my_event["end_date"])
     crm_Distance.delete(0, END)
-    crm_Distance.insert(0, my_event_list["distance"])
+    crm_Distance.insert(0, my_event["distance"])
     load_form = False
 
     # Add Treeview (and buttons Add/Edit/Delete) to define Qualifying and Final distances.
@@ -295,7 +310,7 @@ def load_event_json_from_file(file):
         my_event_list       = json.load(fh)
         my_qualifying_list  = my_event_list["qualifying"]
         my_final_list       = my_event_list["final"]
-        my_shooter_list     = my_event_list["shooter"]
+        my_shooter_list     = my_event_list["shooters"]
 
     fh.close
 
@@ -303,7 +318,19 @@ def load_event_json_from_file(file):
         my_logger.info('{time}, load_event_json_from_file.Printing my_event_list'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
+        print("------ my_event_list ------")
         settings.pp_json(my_event_list)
+
+        print("------ my_qualifying_list ------")
+        settings.pp_json(my_qualifying_list)
+
+        print("------ my_final_list ------")
+        settings.pp_json(my_final_list)
+
+        print("------ my_shooter_list ------")
+        settings.pp_json(my_shooter_list)
+
+        print("--------------------------------")
 
     if debuglevel >= 1:
         my_logger.info('{time}, load_event_json_from_file Completed '.format(

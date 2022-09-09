@@ -7,46 +7,50 @@
     "distance" : "1-Mile",
     "qualifying" :
     {
-        "targets" : 3,
-        "shots" : 4,
-        "time_limit" : 900,
+        "targets" : 4,
+        "shots" : 3,
+        "time_limit" : 600,
         "target" :
         [
             {
                 "target_no": 0,
-                "distance" : 600
-            },
-            {
-                "target_no": 1,
                 "distance" : 800
             },
             {
-                "target_no": 2,
+                "target_no": 1,
                 "distance" : 1000
+            },
+            {
+                "target_no": 2,
+                "distance" : 1300
+            },
+            {
+                "target_no": 3,
+                "distance" : 1600
             }
         ]
     },
     "final" : {
         "targets" : 4,
-        "shots" : 4,
+        "shots" : 5,
         "time_limit" : 900,
         "target" :
         [
             {
                 "target_no": 0,
-                "distance" : 800
+                "distance" : 1800
             },
             {
                 "target_no": 1,
-                "distance" : 1200
+                "distance" : 2500
             },
             {
                 "target_no": 2,
-                "distance" : 1400
+                "distance" : 3000
             },
             {
                 "target_no": 3,
-                "distance" : 1685
+                "distance" : 3500
             }
         ]
     },
@@ -59,18 +63,22 @@
             "id_number" : "7404105127085",
             "cell_phone" : "0826552466",
             "email" : "georgelza@gmail.com",
+            "team": "phew phew",
             "spotter" : "Charl Gous",
             "equipment":
             {
                 "Rifle" :
                 {
-                    "Make" : "Howa",
-                    "Model" : "1500 - 24inch Varmint",
-                    "Caliber" : "300 PRC",
-                    "Chassis" : "Gun Warrior, Gen 6",
-                    "Trigger" : "Triggertech",
-                    "Break" : "Gun Warrior, 5 chamber",
-                    "Supressor" : ""
+                    "make" : "Howa",
+                    "model" : "1500 - 24inch Varmint",
+                    "caliber" : "300 PRC",
+                    "chassis" : "Gun Warrior, Gen 6",
+                    "trigger" : "Triggertech",
+                    "break" : "Gun Warrior, 5 chamber",
+                    "supressor" : "",
+                    "weight lbs": "16",
+                    "bipod": "Tier-One ELR",
+                    "software": "Hornady 4Dof"
                 },
                 "scope" :
                 {
@@ -116,6 +124,12 @@
                             "time" : 205,
                             "hit_miss" : "True",
                             "inspect" : "False"
+                        },
+                        {
+                            "target_number" : 3,
+                            "time" : 245,
+                            "hit_miss" : "True",
+                            "inspect" : "False"
                         }
                     ]
                 },
@@ -155,6 +169,7 @@
             "id_number" : "7004105127085",
             "cell_phone" : "0826552446",
             "email" : "edgar@gmail.com",
+            "team": "lovestock",
             "spotter" : "Pine Louw",
             "equipment":
             {
@@ -166,7 +181,10 @@
                     "chassis" : "MDT ACC",
                     "trigger" : "Triggertech",
                     "break" : "",
-                    "supressor" : "APW Warrior"
+                    "supressor" : "APW Warrior",
+                    "weight lbs": "18",
+                    "bipod": "Accu-Tac",
+                    "software": "Applied Balistics"
                 },
                 "scope" :
                 {
@@ -210,6 +228,12 @@
                        {
                             "target_number" : 2,
                             "time" : 185,
+                            "hit_miss" : "True",
+                            "inspect" : "False"
+                        },
+                        {
+                            "target_number" : 3,
+                            "time" : 225,
                             "hit_miss" : "True",
                             "inspect" : "False"
                         }

@@ -7,47 +7,50 @@
       "distance" : "1-Mile",
       "qualifying" :
       {
-          "targets" : 3,
-          "shots" : 4,
+          "targets" : 4,
+          "shots" : 5,
           "time_limit" : 900,
           "target" :
           [
               {
                   "target_no": 0,
-                  "distance" : 600
-              },
-              {
-                  "target_no": 1,
                   "distance" : 800
               },
               {
-                  "target_no": 2,
+                  "target_no": 1,
                   "distance" : 1000
-              }
-          ]
+              },
+              {
+                  "target_no": 2,
+                  "distance" : 1300
+              },
+              {
+                  "target_no": 3,
+                  "distance" : 1600
+              }          ]
       },
       "final" :
       {
           "targets" : 4,
-          "shots" : 4,
+          "shots" : 5,
           "time_limit" : 900,
           "target" :
           [
               {
                   "target_no": 0,
-                  "distance" : 800
+                  "distance" : 1800
               },
               {
                   "target_no": 1,
-                  "distance" : 1200
+                  "distance" : 2500
               },
               {
                   "target_no": 2,
-                  "distance" : 1400
+                  "distance" : 3000
               },
               {
                   "target_no": 3,
-                  "distance" : 1685
+                  "distance" : 3500
               }
           ]
       }

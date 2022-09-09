@@ -49,6 +49,8 @@ def load_shooter_json_from_file(myfile):
 
     file_handler.close
 
+    settings.pp_json(settings.my_shooter_list)
+
     if debuglevel >= 1:
         my_logger.info('{time}, load_shooter_json_from_file.file has been read and closed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
@@ -88,11 +90,6 @@ def load_shooters(main_window):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-        #rifleTuple = ('','','','','','','')
-        #scopeTuple = ('','','','')
-        #cartridgeTuple = ('','','','','','')
-        #equipmentTuple = (rifleTuple, scopeTuple, cartridgeTuple)
-        #blankTuple = ('', '', '', '', '', '', '', '', equipmentTuple)
         blankTuple = ('', '', '', '', '', '', '', '','','')
         open_popup('add', blankTuple, child)
 
@@ -102,7 +99,7 @@ def load_shooters(main_window):
                           padx=2, pady=3, command=lambda: make_new_record())
     btnNewRecord.grid(row=0, column=0, sticky="w")
 
-    trv = ttk.Treeview(child, columns=(1, 2, 3, 4, 5, 6, 7, 8), show="headings", height="16")
+    trv = ttk.Treeview(child, columns=(1, 2, 3, 4, 5, 6, 7, 8, 9), show="headings", height="16")
     trv.grid(row=1, column=0, rowspan=16, columnspan=8)
 
     trv.heading(1, text="Action", anchor="w")
@@ -112,7 +109,8 @@ def load_shooters(main_window):
     trv.heading(5, text="ID Number", anchor="center")
     trv.heading(6, text="Cell Phone", anchor="center")
     trv.heading(7, text="eMail", anchor="center")
-    trv.heading(8, text="Spotter", anchor="center")
+    trv.heading(8, text="Team", anchor="center")
+    trv.heading(9, text="Spotter", anchor="center")
     # Equipment
     # ... How to display ?
 
@@ -124,6 +122,7 @@ def load_shooters(main_window):
     trv.column("#6", anchor="w", width=140, stretch=False)
     trv.column("#7", anchor="w", width=140, stretch=False)
     trv.column("#8", anchor="w", width=140, stretch=False)
+    trv.column("#9", anchor="w", width=140, stretch=False)
     # Equipment
     # ... How ?
 
@@ -163,10 +162,11 @@ def load_shooters(main_window):
             id_number   = key["id_number"]
             cell_phone  = key["cell_phone"]
             email       = key["email"]
+            team        = key["team"]
             spotter     = key["spotter"]
 
             trv.insert('', index='end', iid=rowIndex, text="",
-                       values=('edit', guid_value, first_name, last_name, id_number, cell_phone, email, spotter))
+                       values=('edit', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter))
             rowIndex = rowIndex + 1
 
         if debuglevel >= 2:
@@ -221,7 +221,8 @@ def load_shooters(main_window):
         l4 = Label(input_frame, text="ID Number", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
         l5 = Label(input_frame, text="Cell Phone", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
         l6 = Label(input_frame, text="eMail", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        l7 = Label(input_frame, text="Spotter", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        l7 = Label(input_frame, text="Team", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        l8 = Label(input_frame, text="Spotter", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
 
         l1.grid(row=0, column=0, padx=1, pady=0)
         l2.grid(row=1, column=0, padx=1, pady=0)
@@ -230,6 +231,7 @@ def load_shooters(main_window):
         l5.grid(row=4, column=0, padx=1, pady=0)
         l6.grid(row=5, column=0, padx=1, pady=0)
         l7.grid(row=6, column=0, padx=1, pady=0)
+        l8.grid(row=7, column=0, padx=1, pady=0)
 
         id_value = StringVar()
         id_value.set(uuid.uuid4())
@@ -252,8 +254,11 @@ def load_shooters(main_window):
         crm_email = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
         crm_email.grid(row=5, column=1)
 
+        crm_team = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_team.grid(row=6, column=1)
+
         crm_spotter = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_spotter.grid(row=6, column=1)
+        crm_spotter.grid(row=7, column=1)
 
         btnAdd = Button(input_frame, text="Save", padx=5, pady=10, command=lambda: determineAction())
         btnAdd.grid(row=11, column=0)
@@ -279,9 +284,10 @@ def load_shooters(main_window):
             id_number   = crm_id_number.get()
             cell_phone  = crm_cellphone.get()
             email       = crm_email.get()
+            team        = crm_team.get()
             spotter     = crm_spotter.get()
 
-            process_request('_DELETE_', guid_value, first_name, last_name, id_number, cell_phone, email, spotter)
+            process_request('_DELETE_', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter)
             reload_main_form()
             child.grab_release()
             child.destroy()
@@ -337,6 +343,7 @@ def load_shooters(main_window):
             crm_id_number.config(bg=new_color)
             crm_cellphone.config(bg=new_color)
             crm_email.config(bg=new_color)
+            crm_team.config(bg=new_color)
             crm_spotter.config(bg=new_color)
 
             if debuglevel >= 2:
@@ -359,68 +366,7 @@ def load_shooters(main_window):
             id_number   = crm_id_number.get()
             cell_phone  = crm_cellphone.get()
             email       = crm_email.get()
-            spotter     = crm_spotter.get()
-            # equipment
-            rifle = {
-                "make":     "",
-                "model":    "",
-                "caliber":  "",
-                "chassis":  "",
-                "trigger":  "",
-                "break":    "",
-                "supressor":""
-            }
-            scope = {
-                "make":             "",
-                "model":            "",
-                "rings":            "",
-                "picatinny_raise":  ""
-            }
-            cartridge = {
-                "brass_make":       "",
-                "bullet_make":      "",
-                "bullet_model":     "",
-                "bullet_weight":    "",
-                "primer_make":      "",
-                "primer_model":     ""
-            }
-            equipment = {
-                "rifle":        rifle,
-                "scope":        scope,
-                "cartridge":    cartridge
-            }
-            # scores
-            scores   = {
-                "qualify" : "",
-                "final" :   ""
-            }
-
-            if len(first_name) == 0:
-                change_background_color("#FFB2AE")
-                return
-
-            process_request('_INSERT_', guid_value, first_name, last_name, id_number, cell_phone, email, spotter, equipment, scores)
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.add_entry Completed'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-        #end add_entry
-
-        def update_entry():
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.update_entry Called'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-            guid_value  = id_value.get()
-            first_name  = crm_fn.get()
-            last_name   = crm_ln.get()
-            id_number   = crm_id_number.get()
-            cell_phone  = crm_cellphone.get()
-            email       = crm_email.get()
+            team        = crm_team.get()
             spotter     = crm_spotter.get()
             # equipment
             rifle = {
@@ -430,7 +376,10 @@ def load_shooters(main_window):
                 "chassis":      "",
                 "trigger":      "",
                 "break":        "",
-                "supressor":    ""
+                "supressor":    "",
+                "weight lbs":   "",
+                "bipod":        "",
+                "software":     ""
             }
             scope = {
                 "make":             "",
@@ -461,7 +410,73 @@ def load_shooters(main_window):
                 change_background_color("#FFB2AE")
                 return
 
-            process_request('_UPDATE_', guid_value, first_name, last_name, id_number, cell_phone, email, spotter, equipment, scores)
+            process_request('_INSERT_', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter, equipment, scores)
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, load_shooters.add_entry Completed'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+
+        #end add_entry
+
+        def update_entry():
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, load_shooters.update_entry Called'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+
+            guid_value  = id_value.get()
+            first_name  = crm_fn.get()
+            last_name   = crm_ln.get()
+            id_number   = crm_id_number.get()
+            cell_phone  = crm_cellphone.get()
+            email       = crm_email.get()
+            team        = crm_team.get()
+            spotter     = crm_spotter.get()
+            # equipment
+            rifle = {
+                "make":         "",
+                "model":        "",
+                "caliber":      "",
+                "chassis":      "",
+                "trigger":      "",
+                "break":        "",
+                "supressor":    "",
+                "weight lbs":   "",
+                "bipod":        "",
+                "software":     ""
+            }
+            scope = {
+                "make":             "",
+                "model":            "",
+                "rings":            "",
+                "picatinny_raise":  ""
+            }
+            cartridge = {
+                "brass_make":       "",
+                "bullet_make":      "",
+                "bullet_model":     "",
+                "bullet_weight":    "",
+                "primer_make":      "",
+                "primer_model":     ""
+            }
+            equipment = {
+                "rifle":        rifle,
+                "scope":        scope,
+                "cartridge":    cartridge
+            }
+            # scores
+            scores   = {
+                "qualify":  "",
+                "final":    ""
+            }
+
+            if len(first_name) == 0:
+                change_background_color("#FFB2AE")
+                return
+
+            process_request('_UPDATE_', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter, equipment, scores)
 
             if debuglevel >= 2:
                 my_logger.info('{time}, load_shooters.update_entry Completed'.format(
@@ -491,8 +506,10 @@ def load_shooters(main_window):
             crm_cellphone.insert(0, _tuple[5])
             crm_email.delete(0, END)
             crm_email.insert(0, _tuple[6])
+            crm_team.delete(0, END)
+            crm_team.insert(0, _tuple[7])
             crm_spotter.delete(0, END)
-            crm_spotter.insert(0, _tuple[7])
+            crm_spotter.insert(0, _tuple[8])
 
             if debuglevel >= 2:
                 my_logger.info('{time}, load_shooters.load_edit_field_with_row_data Completed'.format(
@@ -502,7 +519,7 @@ def load_shooters(main_window):
         if _mode == 'edit':
             load_edit_field_with_row_data(_tuple)
 
-        def process_request(command_type, guid_value, first_name, last_name, id_number, cell_phone, email, spotter, equipment, scores):
+        def process_request(command_type, guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter, equipment, scores):
             global dirty
             dirty = True
 
@@ -520,6 +537,7 @@ def load_shooters(main_window):
                             "id_number":    id_number,
                             "cell_phone":   cell_phone,
                             "email":        email,
+                            "team":         team,
                             "spotter":      spotter,
                             "equipment":    equipment,
                             "scores":       scores
@@ -539,6 +557,7 @@ def load_shooters(main_window):
                         "id_number":    id_number,
                         "cell_phone":   cell_phone,
                         "email":        email,
+                        "team":         team,
                         "spotter":      spotter,
                         "equipment":    equipment,
                         "scores":       scores
@@ -632,6 +651,7 @@ def load_shooters(main_window):
             crm_id_number.delete(0, END)
             crm_cellphone.delete(0, END)
             crm_email.delete(0, END)
+            crm_team.delete(0, END)
             crm_spotter.delete(0, END)
             # Equipment
 
