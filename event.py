@@ -107,6 +107,7 @@ def open_event_screen(root):
     child.configure(bg='LightBlue')
     load_form = True
 
+    # Main Event
     input_frame = LabelFrame(child, text='Event Profile', bg="lightgray", font=('Consolas', 14))
     input_frame.grid(row=0, rowspan=6, column=0)
 
@@ -121,6 +122,35 @@ def open_event_screen(root):
     l3.grid(column=0, row=2, padx=1, pady=0)
     l4.grid(column=0, row=3, padx=1, pady=0)
     l5.grid(column=0, row=4, padx=1, pady=0)
+
+    # Qualifying Event
+    qual_frame = LabelFrame(child, text='Qualifying Profile', bg="lightgray", font=('Consolas', 14))
+    qual_frame.grid(row=0, rowspan=6, column=0)
+
+    l11 = Label(input_frame, text="Targets",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    l12 = Label(input_frame, text="Shots",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    l13 = Label(input_frame, text="Time Limit",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+
+    l11.grid(column=0, row=0, padx=1, pady=0)
+    l12.grid(column=0, row=1, padx=1, pady=0)
+    l13.grid(column=0, row=2, padx=1, pady=0)
+    # Qualifying table here
+
+    # Final Event
+    final_frame = LabelFrame(child, text='Qualifying Profile', bg="lightgray", font=('Consolas', 14))
+    final_frame.grid(row=0, rowspan=6, column=0)
+
+    l21 = Label(input_frame, text="Targets",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    l22 = Label(input_frame, text="Shots",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    l23 = Label(input_frame, text="Time Limit",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+
+    l21.grid(column=0, row=0, padx=1, pady=0)
+    l22.grid(column=0, row=1, padx=1, pady=0)
+    l23.grid(column=0, row=2, padx=1, pady=0)
+    # Final table here
+
+
+
 
     def cancelEvent():
 
