@@ -4,10 +4,11 @@
     "start_date": "22/08/2022",
     "end_date": "25/08/2022",
     "distance": "1-Mile",
-    "qualifying": {
+    "qualifying":
+    {
         "targets": "3",
-        "shots": "4",
-        "time_limit": "900",
+        "shots": "3",
+        "time_limit": "600",
         "target": [
             {
                 "target_no": 0,
@@ -29,8 +30,8 @@
     },
     "final": {
         "targets": "4",
-        "shots": "4",
-        "time_limit": "900",
+        "shots": "5",
+        "time_limit": "600",
         "target": [
             {
                 "target_no": 0,
@@ -59,33 +60,33 @@
             "cell_phone": "0826552466",
             "email": "georgelza@gmail.com",
             "team": "phew phew",
-            "spotter": "Charl Gous1",
+            "spotter": "Charl Gous",
             "equipment": {
                 "rifle": {
-                    "make": "",
-                    "model": "",
-                    "caliber": "",
-                    "chassis": "",
-                    "trigger": "",
-                    "break": "",
+                    "make": "Howa",
+                    "model": "1500 - 24inch Varmint",
+                    "caliber": "300 PRC",
+                    "chassis": "Gun Warrior, Gen 6",
+                    "trigger": "Triggertech",
+                    "break": "Gun Warrior, 5 chamber",
                     "supressor": "",
-                    "weight lbs": "",
-                    "bipod": "",
-                    "software": ""
+                    "weight": "16",
+                    "bipod": "Tier-One ELR",
+                    "software": "Hornady 4Dof"
                 },
                 "scope": {
-                    "make": "",
-                    "model": "",
-                    "rings": "",
-                    "picatinny_raise": ""
+                    "make": "Vortex",
+                    "model": "Strike Eagle 5-25x56",
+                    "rings": "Vortex Match, 1.26",
+                    "moa_rise": "30 MOA"
                 },
                 "cartridge": {
-                    "brass_make": "",
-                    "bullet_make": "",
-                    "bullet_model": "",
-                    "bullet_weight": "",
-                    "primer_make": "",
-                    "primer_model": ""
+                    "brass_make": "ADG",
+                    "bullet_make": "Hornady",
+                    "bullet_model": "A-Tip",
+                    "bullet_weight": "230gr",
+                    "primer_make": "Federal",
+                    "primer_model": "Magnum-Large Rifle"
                 }
             },
             "scores": {
@@ -101,38 +102,94 @@
             "cell_phone": "0826552446",
             "email": "edgar@gmail.com",
             "team": "lovestock",
-            "spotter": "Pine Louw1",
+            "spotter": "Pine Louw",
             "equipment": {
                 "rifle": {
-                    "make": "",
-                    "model": "",
-                    "caliber": "",
-                    "chassis": "",
-                    "trigger": "",
+                    "make": "Savage",
+                    "model": "Elite Precision 110",
+                    "caliber": "300 PRC",
+                    "chassis": "MDT ACC",
+                    "trigger": "Triggertech",
                     "break": "",
-                    "supressor": "",
-                    "weight lbs": "",
-                    "bipod": "",
-                    "software": ""
+                    "supressor": "APW Warrior",
+                    "weight": "18",
+                    "bipod": "Accu-Tac",
+                    "software": "Applied Balistics"
                 },
                 "scope": {
-                    "make": "",
-                    "model": "",
-                    "rings": "",
-                    "picatinny_raise": ""
+                    "make": "Kahles",
+                    "model": "5-25x56",
+                    "rings": "Spuhr 1.26",
+                    "moa_rise": "20 MOA"
                 },
                 "cartridge": {
-                    "brass_make": "",
-                    "bullet_make": "",
-                    "bullet_model": "",
-                    "bullet_weight": "",
-                    "primer_make": "",
-                    "primer_model": ""
+                    "brass_make": "ADG",
+                    "bullet_make": "Hornady",
+                    "bullet_model": "A-Tip",
+                    "bullet_weight": "250gr",
+                    "primer_make": "Federal",
+                    "primer_model": "Magnum-Large Rifle"
                 }
             },
             "scores": {
-                "qualify": "",
-                "final": ""
+                "qualifying": {
+                    "cold_bore": "True",
+                    "time": 15,
+                    "inspect": "True",
+                    "hit_miss": "True",
+                    "targets": [
+                        {
+                            "target_Number": 0,
+                            "time": 25,
+                            "hit_miss": "True",
+                            "inspect": "False"
+                        },
+                        {
+                            "target_number": 1,
+                            "time": 55,
+                            "hit_miss": "False",
+                            "inspect": "True"
+                        },
+                        {
+                            "target_number": 2,
+                            "time": 185,
+                            "hit_miss": "True",
+                            "inspect": "False"
+                        },
+                        {
+                            "target_number": 3,
+                            "time": 225,
+                            "hit_miss": "True",
+                            "inspect": "False"
+                        }
+                    ]
+                },
+                "final": [
+                    {
+                        "target_number": 0,
+                        "time": 24,
+                        "hit_miss": "True",
+                        "inspect": "False"
+                    },
+                    {
+                        "target_number": 1,
+                        "time": 44,
+                        "hit_miss": "True",
+                        "inspect": "False"
+                    },
+                    {
+                        "target_number": 2,
+                        "time": 86,
+                        "hit_miss": "True",
+                        "inspect": "False"
+                    },
+                    {
+                        "target_number": 3,
+                        "time": 129,
+                        "hit_miss": "True",
+                        "inspect": "True"
+                    }
+                ]
             }
         }
     ]

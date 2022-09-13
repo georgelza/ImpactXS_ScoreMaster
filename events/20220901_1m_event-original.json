@@ -67,7 +67,7 @@
             "spotter" : "Charl Gous",
             "equipment":
             {
-                "Rifle" :
+                "rifle" :
                 {
                     "make" : "Howa",
                     "model" : "1500 - 24inch Varmint",
@@ -76,7 +76,7 @@
                     "trigger" : "Triggertech",
                     "break" : "Gun Warrior, 5 chamber",
                     "supressor" : "",
-                    "weight lbs": "16",
+                    "weight": "16",
                     "bipod": "Tier-One ELR",
                     "software": "Hornady 4Dof"
                 },
@@ -85,7 +85,7 @@
                     "make" : "Vortex",
                     "model" : "Strike Eagle 5-25x56",
                     "rings" : "Vortex Match, 1.26",
-                    "picatinny_raise" : "30 MOA"
+                    "moa_rise" : "30 MOA"
                 },
                 "cartridge" :
                 {
@@ -182,7 +182,7 @@
                     "trigger" : "Triggertech",
                     "break" : "",
                     "supressor" : "APW Warrior",
-                    "weight lbs": "18",
+                    "weight": "18",
                     "bipod": "Accu-Tac",
                     "software": "Applied Balistics"
                 },
@@ -191,7 +191,7 @@
                     "make" : "Kahles",
                     "model" : "5-25x56",
                     "rings" : "Spuhr 1.26",
-                    "picatinny_raise" : "20 MOA"
+                    "moa_rise" : "20 MOA"
                 },
                 "cartridge" :
                 {

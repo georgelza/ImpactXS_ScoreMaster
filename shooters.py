@@ -58,6 +58,27 @@ def load_shooter_json_from_file(myfile):
 
 # end load_shooter_json_from_file
 
+def find_rec_in_my_shooter_list(guid_value):
+
+    if debuglevel >= 2:
+        my_logger.info('{time}, find_rec_in_my_shooter_list Called'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+    row = 0
+    found = False
+
+    for rec in settings.my_shooter_list:
+        if rec["id"] == guid_value:
+            found = True
+            break
+
+    if (found == True):
+        return (rec)
+
+    return (-1)
+
+#end find_rec_in_my_shooter_list
 
 # We will add the scores via the File/scores menu.
 # For now ust build Scott's Treeview and user editor, then replace with my data.
@@ -74,7 +95,9 @@ def load_shooters(main_window):
     child.geometry("1200x700")
     child.title = "Events"
 
-    # Determine where we running, as template and events are by default subdirectories of the App directory.
+    tree_frame = Frame(child)
+
+    # Determine where we're running, as template and events are by default subdirectories of the App directory.
     directory = os.getcwd()
 
     if debuglevel >= 1:
@@ -90,16 +113,15 @@ def load_shooters(main_window):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-        blankTuple = ('', '', '', '', '', '', '', '','','')
-        open_popup('add', blankTuple, child)
+        blankTuple = dict()
+        open_popup('add', blankTuple, tree_frame)
 
     #end make_new_record
 
-    btnNewRecord = Button(child, text="Add New", bg="#34d2eb",
-                          padx=2, pady=3, command=lambda: make_new_record())
+    btnNewRecord = Button(tree_frame, text="Add New", bg="#34d2eb", padx=2, pady=3, command=lambda: make_new_record())
     btnNewRecord.grid(row=0, column=0, sticky="w")
 
-    trv = ttk.Treeview(child, columns=(1, 2, 3, 4, 5, 6, 7, 8, 9), show="headings", height="16")
+    trv = ttk.Treeview(tree_frame, columns=(1, 2, 3, 4, 5, 6, 7, 8, 9), show="headings", height="16")
     trv.grid(row=1, column=0, rowspan=16, columnspan=8)
 
     trv.heading(1, text="Action", anchor="w")
@@ -111,8 +133,6 @@ def load_shooters(main_window):
     trv.heading(7, text="eMail", anchor="center")
     trv.heading(8, text="Team", anchor="center")
     trv.heading(9, text="Spotter", anchor="center")
-    # Equipment
-    # ... How to display ?
 
     trv.column("#1", anchor="w", width=100, stretch=True)
     trv.column("#2", anchor="w", width=270, stretch=True)
@@ -123,9 +143,8 @@ def load_shooters(main_window):
     trv.column("#7", anchor="w", width=140, stretch=False)
     trv.column("#8", anchor="w", width=140, stretch=False)
     trv.column("#9", anchor="w", width=140, stretch=False)
-    # Equipment
-    # ... How ?
 
+    tree_frame.grid(row=0, column=0)
 
     def remove_all_data_from_trv():
 
@@ -185,8 +204,16 @@ def load_shooters(main_window):
             ))
 
         currentRowIndex = trv.selection()[0]
+
+        my_logger.info('{time}, load_shooters.MouseButtonUpCallBack Called Cur Row Index: {currentRowIndex}'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+            currentRowIndex=currentRowIndex
+        ))
+
         lastTuple = (trv.item(currentRowIndex, 'values'))
-        open_popup('edit', lastTuple, child)
+        # Get from my_shooter_list dictionary the record matching the lastTuple[1], this is the id column
+        my_jsonrec = find_rec_in_my_shooter_list(lastTuple[1])
+        open_popup('edit', my_jsonrec, tree_frame)
 
         if debuglevel >= 2:
             my_logger.info('{time}, load_shooters.MouseButtonUpCallBack Completed'.format(
@@ -195,7 +222,7 @@ def load_shooters(main_window):
 
     #end MouseButtonUpCallBack
 
-    def open_popup(_mode, _tuple, primary):
+    def open_popup(_mode, json_record, primary):
 
         if debuglevel >= 2:
             my_logger.info('{time}, load_shooters.open_popup Called'.format(
@@ -209,65 +236,195 @@ def load_shooters(main_window):
         # and prevent users from interacting
         # with the main window
 
+        shooter_frame   = Frame(child)
+        rifle_frame     = Frame(child)
+        scope_frame     = Frame(child)
+        cartridge_frame = Frame(child)
+        button_frame    = Frame(child)
+
         child.configure(bg='LightBlue')
         load_form = True
-        input_frame = LabelFrame(child, text='Enter New Record',bg="lightgray",font=('Consolas', 14))
 
-        input_frame.grid(row=0, rowspan=12, column=0)
+        # Shooter
+        lb_shooter_frame = LabelFrame(shooter_frame, text='Enter New Shooter',bg="lightgray",font=('Consolas', 14))
+        lb_shooter1 = Label(shooter_frame, text="ID", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_shooter2 = Label(shooter_frame, text="First Name", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_shooter3 = Label(shooter_frame, text="Last Name", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_shooter4 = Label(shooter_frame, text="ID Number", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_shooter5 = Label(shooter_frame, text="Cell Phone", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_shooter6 = Label(shooter_frame, text="eMail", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_shooter7 = Label(shooter_frame, text="Team", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_shooter8 = Label(shooter_frame, text="Spotter", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
 
-        l1 = Label(input_frame, text="ID", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
-        l2 = Label(input_frame, text="First Name", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        l3 = Label(input_frame, text="Last Name", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
-        l4 = Label(input_frame, text="ID Number", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        l5 = Label(input_frame, text="Cell Phone", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        l6 = Label(input_frame, text="eMail", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        l7 = Label(input_frame, text="Team", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        l8 = Label(input_frame, text="Spotter", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-
-        l1.grid(row=0, column=0, padx=1, pady=0)
-        l2.grid(row=1, column=0, padx=1, pady=0)
-        l3.grid(row=2, column=0, padx=1, pady=0)
-        l4.grid(row=3, column=0, padx=1, pady=0)
-        l5.grid(row=4, column=0, padx=1, pady=0)
-        l6.grid(row=5, column=0, padx=1, pady=0)
-        l7.grid(row=6, column=0, padx=1, pady=0)
-        l8.grid(row=7, column=0, padx=1, pady=0)
+        lb_shooter1.grid(row=0, column=0, padx=1, pady=0)
+        lb_shooter2.grid(row=1, column=0, padx=1, pady=0)
+        lb_shooter3.grid(row=2, column=0, padx=1, pady=0)
+        lb_shooter4.grid(row=3, column=0, padx=1, pady=0)
+        lb_shooter5.grid(row=4, column=0, padx=1, pady=0)
+        lb_shooter6.grid(row=5, column=0, padx=1, pady=0)
+        lb_shooter7.grid(row=6, column=0, padx=1, pady=0)
+        lb_shooter8.grid(row=7, column=0, padx=1, pady=0)
 
         id_value = StringVar()
         id_value.set(uuid.uuid4())
 
-        crm_id = Label(input_frame, anchor="w", height=1,relief="ridge", textvariable=id_value, font=('Consolas', 14))
-        crm_id.grid(row=0, column=1, padx=20)
+        # Shooter
+        crm_shooter_id = Label(shooter_frame, anchor="w", height=1,relief="ridge", textvariable=id_value, font=('Consolas', 14))
+        crm_shooter_id.grid(row=0, column=1, padx=20)
 
-        crm_fn = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_fn.grid(row=1, column=1)
+        crm_shooter_fn = Entry(shooter_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_shooter_fn.grid(row=1, column=1)
 
-        crm_ln = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_ln.grid(row=2, column=1)
+        crm_shooter_ln = Entry(shooter_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_shooter_ln.grid(row=2, column=1)
 
-        crm_id_number = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_id_number.grid(row=3, column=1)
+        crm_shooter_id_number = Entry(shooter_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_shooter_id_number.grid(row=3, column=1)
 
-        crm_cellphone = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_cellphone.grid(row=4, column=1)
+        crm_shooter_cellphone = Entry(shooter_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_shooter_cellphone.grid(row=4, column=1)
 
-        crm_email = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_email.grid(row=5, column=1)
+        crm_shooter_email = Entry(shooter_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_shooter_email.grid(row=5, column=1)
 
-        crm_team = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_team.grid(row=6, column=1)
+        crm_shooter_team = Entry(shooter_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_shooter_team.grid(row=6, column=1)
 
-        crm_spotter = Entry(input_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_spotter.grid(row=7, column=1)
+        crm_shooter_spotter = Entry(shooter_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_shooter_spotter.grid(row=7, column=1)
 
-        btnAdd = Button(input_frame, text="Save", padx=5, pady=10, command=lambda: determineAction())
-        btnAdd.grid(row=11, column=0)
 
-        btnDelete = Button(input_frame, text="Delete", padx=5, pady=10, command=lambda: delete_record())
-        btnDelete.grid(row=11, column=3)
+        # Rifle
+        lb_rifle_frame = LabelFrame(rifle_frame, text='Enter New Rifle',bg="lightgray",font=('Consolas', 14))
+        lb_rifle1 = Label(rifle_frame, text="Make", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_rifle2 = Label(rifle_frame, text="Model", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_rifle3 = Label(rifle_frame, text="Caliber", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_rifle4 = Label(rifle_frame, text="Chassis", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_rifle5 = Label(rifle_frame, text="Trigger", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_rifle6 = Label(rifle_frame, text="Break", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_rifle7 = Label(rifle_frame, text="Supressor", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_rifle8 = Label(rifle_frame, text="Weight (lb)", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_rifle9 = Label(rifle_frame, text="Bipod", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_rifle10 = Label(rifle_frame, text="Balistic Software", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
 
-        btnCancel = Button(input_frame, text="Cancel", padx=5, pady=10, command=lambda: child_cancel())
-        btnCancel.grid(row=11, column=4)
+        lb_rifle1.grid(row=0, column=0, padx=1, pady=0)
+        lb_rifle2.grid(row=1, column=0, padx=1, pady=0)
+        lb_rifle3.grid(row=2, column=0, padx=1, pady=0)
+        lb_rifle4.grid(row=3, column=0, padx=1, pady=0)
+        lb_rifle5.grid(row=4, column=0, padx=1, pady=0)
+        lb_rifle6.grid(row=5, column=0, padx=1, pady=0)
+        lb_rifle7.grid(row=6, column=0, padx=1, pady=0)
+        lb_rifle8.grid(row=7, column=0, padx=1, pady=0)
+        lb_rifle9.grid(row=8, column=0, padx=1, pady=0)
+        lb_rifle10.grid(row=9, column=0, padx=1, pady=0)
+
+        crm_rifle_make = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_rifle_make.grid(row=0, column=1, padx=20)
+
+        crm_rifle_model = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_rifle_model.grid(row=1, column=1)
+
+        crm_rifle_cal = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_rifle_cal.grid(row=2, column=1)
+
+        crm_rifle_chassis = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_rifle_chassis.grid(row=3, column=1)
+
+        crm_rifle_trigger = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_rifle_trigger.grid(row=4, column=1)
+
+        crm_rifle_break = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_rifle_break.grid(row=5, column=1)
+
+        crm_rifle_supressor = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_rifle_supressor.grid(row=6, column=1)
+
+        crm_rifle_weight = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_rifle_weight.grid(row=7, column=1)
+
+        crm_rifle_bipod = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_rifle_bipod.grid(row=8, column=1)
+
+        crm_rifle_software = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_rifle_software.grid(row=9, column=1)
+
+
+        # Scope
+        lb_scope_frame = LabelFrame(scope_frame, text='Enter New Scope - Rifle',bg="lightgray",font=('Consolas', 14))
+        lb_scope1 = Label(scope_frame, text="Make", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_scope2 = Label(scope_frame, text="Model", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_scope3 = Label(scope_frame, text="Rings", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_scope4 = Label(scope_frame, text="MOA Rise", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+
+        lb_scope1.grid(row=0, column=0, padx=1, pady=0)
+        lb_scope2.grid(row=1, column=0, padx=1, pady=0)
+        lb_scope3.grid(row=2, column=0, padx=1, pady=0)
+        lb_scope4.grid(row=3, column=0, padx=1, pady=0)
+
+        crm_scope_make = Entry(scope_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_scope_make.grid(row=0, column=1, padx=20)
+
+        crm_scope_model = Entry(scope_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_scope_model.grid(row=1, column=1)
+
+        crm_scope_rings = Entry(scope_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_scope_rings.grid(row=2, column=1)
+
+        crm_scope_moa_rise = Entry(scope_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_scope_moa_rise.grid(row=3, column=1)
+
+
+        # Cartridge
+        lb_cartridge_frame = LabelFrame(cartridge_frame, text='Enter New Scope - Rifle', bg="lightgray", font=('Consolas', 14))
+        lb_scope1 = Label(cartridge_frame, text="Brass", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_scope2 = Label(cartridge_frame, text="Bullet Make", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_scope3 = Label(cartridge_frame, text="Bullet Model", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_scope4 = Label(cartridge_frame, text="Bullet Weight", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_scope5 = Label(cartridge_frame, text="Primer Make", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_scope6 = Label(cartridge_frame, text="Primer Model", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+
+        lb_scope1.grid(row=0, column=0, padx=1, pady=0)
+        lb_scope2.grid(row=1, column=0, padx=1, pady=0)
+        lb_scope3.grid(row=2, column=0, padx=1, pady=0)
+        lb_scope4.grid(row=3, column=0, padx=1, pady=0)
+        lb_scope5.grid(row=4, column=0, padx=1, pady=0)
+        lb_scope6.grid(row=5, column=0, padx=1, pady=0)
+
+        crm_cartridge_brass_make = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_cartridge_brass_make.grid(row=0, column=1, padx=20)
+
+        crm_cartridge_bullet_make = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_cartridge_bullet_make.grid(row=1, column=1)
+
+        crm_cartridge_bullet_model = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_cartridge_bullet_model.grid(row=2, column=1)
+
+        crm_cartridge_bullet_weight = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_cartridge_bullet_weight.grid(row=3, column=1)
+
+        crm_cartridge_primer_make = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_cartridge_primer_make.grid(row=4, column=1)
+
+        crm_cartridge_primer_model = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
+        crm_cartridge_primer_model.grid(row=5, column=1)
+
+
+        # button
+        btnAdd = Button(button_frame, text="Save", padx=5, pady=10, command=lambda: determineAction())
+        btnAdd.grid(row=0, column=0)
+
+        btnDelete = Button(button_frame, text="Delete", padx=5, pady=10, command=lambda: delete_record())
+        btnDelete.grid(row=0, column=2)
+
+        btnCancel = Button(button_frame, text="Cancel", padx=5, pady=10, command=lambda: child_cancel())
+        btnCancel.grid(row=0, column=3)
+
+        # Lets place them all
+        shooter_frame.grid(row=0, column=0)
+        scope_frame.grid(row=0, column=1)
+        rifle_frame.grid(row=1, column=0)
+        cartridge_frame.grid(row=1, column=1)
+        button_frame.grid(row=2, columnspan=2)
 
         load_form = False
 
@@ -279,15 +436,18 @@ def load_shooters(main_window):
                 ))
 
             guid_value  = id_value.get()
-            first_name  = crm_fn.get()
-            last_name   = crm_ln.get()
-            id_number   = crm_id_number.get()
-            cell_phone  = crm_cellphone.get()
-            email       = crm_email.get()
-            team        = crm_team.get()
-            spotter     = crm_spotter.get()
+            first_name  = crm_shooter_fn.get()
+            last_name   = crm_shooter_ln.get()
+            id_number   = crm_shooter_id_number.get()
+            cell_phone  = crm_shooter_cellphone.get()
+            email       = crm_shooter_email.get()
+            team        = crm_shooter_team.get()
+            spotter     = crm_shooter_spotter.get()
 
-            process_request('_DELETE_', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter)
+            equipment   = ""
+            scores      = ""
+
+            process_request('_DELETE_', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter, equipment, scores)
             reload_main_form()
             child.grab_release()
             child.destroy()
@@ -338,13 +498,41 @@ def load_shooters(main_window):
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
-            crm_fn.config(bg=new_color)
-            crm_ln.config(bg=new_color)
-            crm_id_number.config(bg=new_color)
-            crm_cellphone.config(bg=new_color)
-            crm_email.config(bg=new_color)
-            crm_team.config(bg=new_color)
-            crm_spotter.config(bg=new_color)
+            # Shooter
+            crm_shooter_fn.config(bg=new_color)
+            crm_shooter_ln.config(bg=new_color)
+            crm_shooter_id_number.config(bg=new_color)
+            crm_shooter_cellphone.config(bg=new_color)
+            crm_shooter_email.config(bg=new_color)
+            crm_shooter_team.config(bg=new_color)
+            crm_shooter_spotter.config(bg=new_color)
+
+            # Equipment
+            # Rifle
+            crm_rifle_make.config(bg=new_color)
+            crm_rifle_model.config(bg=new_color)
+            crm_rifle_cal.config(bg=new_color)
+            crm_rifle_chassis.config(bg=new_color)
+            crm_rifle_trigger.config(bg=new_color)
+            crm_rifle_break.config(bg=new_color)
+            crm_rifle_supressor.config(bg=new_color)
+            crm_rifle_weight.config(bg=new_color)
+            crm_rifle_bipod.config(bg=new_color)
+            crm_rifle_software.config(bg=new_color)
+
+            # Scope
+            crm_scope_make.config(bg=new_color)
+            crm_scope_model.config(bg=new_color)
+            crm_scope_rings.config(bg=new_color)
+            crm_scope_moa_rise.config(bg=new_color)
+
+            # Cartridge
+            crm_cartridge_brass_make.config(bg=new_color)
+            crm_cartridge_bullet_make.config(bg=new_color)
+            crm_cartridge_bullet_model.config(bg=new_color)
+            crm_cartridge_bullet_weight.config(bg=new_color)
+            crm_cartridge_primer_make.config(bg=new_color)
+            crm_cartridge_primer_model.config(bg=new_color)
 
             if debuglevel >= 2:
                 my_logger.info('{time}, load_shooters.change_background_color Completed'.format(
@@ -360,51 +548,57 @@ def load_shooters(main_window):
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
+            # shooter
             guid_value  = id_value.get()
-            first_name  = crm_fn.get()
-            last_name   = crm_ln.get()
-            id_number   = crm_id_number.get()
-            cell_phone  = crm_cellphone.get()
-            email       = crm_email.get()
-            team        = crm_team.get()
-            spotter     = crm_spotter.get()
+            first_name  = crm_shooter_fn.get()
+            last_name   = crm_shooter_ln.get()
+            id_number   = crm_shooter_id_number.get()
+            cell_phone  = crm_shooter_cellphone.get()
+            email       = crm_shooter_email.get()
+            team        = crm_shooter_team.get()
+            spotter     = crm_shooter_spotter.get()
+
             # equipment
+            # rifle
             rifle = {
-                "make":         "",
-                "model":        "",
-                "caliber":      "",
-                "chassis":      "",
-                "trigger":      "",
-                "break":        "",
-                "supressor":    "",
-                "weight lbs":   "",
-                "bipod":        "",
-                "software":     ""
+                "make":         crm_rifle_make.get(),
+                "model":        crm_rifle_model.get(),
+                "caliber":      crm_rifle_cal.get(),
+                "chassis":      crm_rifle_chassis.get(),
+                "trigger":      crm_rifle_trigger.get(),
+                "break":        crm_rifle_break.get(),
+                "supressor":    crm_rifle_supressor.get(),
+                "weight":       crm_rifle_weight.get(),
+                "bipod":        crm_rifle_bipod.get(),
+                "software":     crm_rifle_software.get(),
             }
+
+            # scope
             scope = {
-                "make":             "",
-                "model":            "",
-                "rings":            "",
-                "picatinny_raise":  ""
+                "make":         crm_scope_make.get(),
+                "model":        crm_scope_model.get(),
+                "rings":        crm_scope_rings.get(),
+                "moa_rise":     crm_scope_moa_rise.get()
             }
+
+            # cartridge
             cartridge = {
-                "brass_make":       "",
-                "bullet_make":      "",
-                "bullet_model":     "",
-                "bullet_weight":    "",
-                "primer_make":      "",
-                "primer_model":     ""
+                "brass_make":       crm_cartridge_brass_make.get(),
+                "bullet_make":      crm_cartridge_bullet_make.get(),
+                "bullet_model":     crm_cartridge_bullet_model.get(),
+                "bullet_weight":    crm_cartridge_bullet_weight.get(),
+                "primer_make":      crm_cartridge_primer_make.get(),
+                "primer_model":     crm_cartridge_primer_model.get(),
             }
+
             equipment = {
                 "rifle":        rifle,
                 "scope":        scope,
                 "cartridge":    cartridge
             }
+
             # scores
-            scores   = {
-                "qualify":  "",
-                "final":    ""
-            }
+            scores   = ""
 
             if len(first_name) == 0:
                 change_background_color("#FFB2AE")
@@ -426,50 +620,59 @@ def load_shooters(main_window):
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
+            # shooter
             guid_value  = id_value.get()
-            first_name  = crm_fn.get()
-            last_name   = crm_ln.get()
-            id_number   = crm_id_number.get()
-            cell_phone  = crm_cellphone.get()
-            email       = crm_email.get()
-            team        = crm_team.get()
-            spotter     = crm_spotter.get()
+            first_name  = crm_shooter_fn.get()
+            last_name   = crm_shooter_ln.get()
+            id_number   = crm_shooter_id_number.get()
+            cell_phone  = crm_shooter_cellphone.get()
+            email       = crm_shooter_email.get()
+            team        = crm_shooter_team.get()
+            spotter     = crm_shooter_spotter.get()
+
             # equipment
+            # rifle
             rifle = {
-                "make":         "",
-                "model":        "",
-                "caliber":      "",
-                "chassis":      "",
-                "trigger":      "",
-                "break":        "",
-                "supressor":    "",
-                "weight lbs":   "",
-                "bipod":        "",
-                "software":     ""
+                "make":         crm_rifle_make.get(),
+                "model":        crm_rifle_model.get(),
+                "caliber":      crm_rifle_cal.get(),
+                "chassis":      crm_rifle_chassis.get(),
+                "trigger":      crm_rifle_trigger.get(),
+                "break":        crm_rifle_break.get(),
+                "supressor":    crm_rifle_supressor.get(),
+                "weight":       crm_rifle_weight.get(),
+                "bipod":        crm_rifle_bipod.get(),
+                "software":     crm_rifle_software.get(),
             }
+
+            # scope
             scope = {
-                "make":             "",
-                "model":            "",
-                "rings":            "",
-                "picatinny_raise":  ""
+                "make":         crm_scope_make.get(),
+                "model":        crm_scope_model.get(),
+                "rings":        crm_scope_rings.get(),
+                "moa_rise":     crm_scope_moa_rise.get()
             }
+
+            # cartridge
             cartridge = {
-                "brass_make":       "",
-                "bullet_make":      "",
-                "bullet_model":     "",
-                "bullet_weight":    "",
-                "primer_make":      "",
-                "primer_model":     ""
+                "brass_make":       crm_cartridge_brass_make.get(),
+                "bullet_make":      crm_cartridge_bullet_make.get(),
+                "bullet_model":     crm_cartridge_bullet_model.get(),
+                "bullet_weight":    crm_cartridge_bullet_weight.get(),
+                "primer_make":      crm_cartridge_primer_make.get(),
+                "primer_model":     crm_cartridge_primer_model.get(),
             }
+
             equipment = {
                 "rifle":        rifle,
                 "scope":        scope,
                 "cartridge":    cartridge
             }
+
             # scores
-            scores   = {
-                "qualify":  "",
-                "final":    ""
+            scores = {
+                "qualify": "",
+                "final": ""
             }
 
             if len(first_name) == 0:
@@ -485,31 +688,85 @@ def load_shooters(main_window):
 
         #end update_entry
 
-        def load_edit_field_with_row_data(_tuple):
+        def load_edit_field_with_row_data(json_record):
 
             if debuglevel >= 2:
                 my_logger.info('{time}, load_shooters.load_edit_field_with_row_data Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
-            if len(_tuple) == 0:
+            if len(json_record) == 0:
                 return
 
-            id_value.set(_tuple[1])
-            crm_fn.delete(0, END)
-            crm_fn.insert(0, _tuple[2])
-            crm_ln.delete(0, END)
-            crm_ln.insert(0, _tuple[3])
-            crm_id_number.delete(0, END)
-            crm_id_number.insert(0, _tuple[4])
-            crm_cellphone.delete(0, END)
-            crm_cellphone.insert(0, _tuple[5])
-            crm_email.delete(0, END)
-            crm_email.insert(0, _tuple[6])
-            crm_team.delete(0, END)
-            crm_team.insert(0, _tuple[7])
-            crm_spotter.delete(0, END)
-            crm_spotter.insert(0, _tuple[8])
+            equipment   = json_record["equipment"]
+            rifle       = equipment["rifle"]
+            scope       = equipment["scope"]
+            cartridge   = equipment["cartridge"]
+            scores      = json_record["scores"]
+
+            # shooter
+            id_value.set(json_record["id"])
+            crm_shooter_fn.delete(0, END)
+            crm_shooter_fn.insert(0, json_record["first_name"])
+            crm_shooter_ln.delete(0, END)
+            crm_shooter_ln.insert(0, json_record["last_name"])
+            crm_shooter_id_number.delete(0, END)
+            crm_shooter_id_number.insert(0, json_record["id_number"])
+            crm_shooter_cellphone.delete(0, END)
+            crm_shooter_cellphone.insert(0, json_record["cell_phone"])
+            crm_shooter_email.delete(0, END)
+            crm_shooter_email.insert(0, json_record["email"])
+            crm_shooter_team.delete(0, END)
+            crm_shooter_team.insert(0, json_record["team"])
+            crm_shooter_spotter.delete(0, END)
+            crm_shooter_spotter.insert(0, json_record["spotter"])
+
+            # Equipment
+            # rifle
+            crm_rifle_make.delete(0, END)
+            crm_rifle_make.insert(0, rifle["make"])
+            crm_rifle_model.delete(0, END)
+            crm_rifle_model.insert(0, rifle["model"])
+            crm_rifle_cal.delete(0, END)
+            crm_rifle_cal.insert(0, rifle["caliber"])
+            crm_rifle_chassis.delete(0, END)
+            crm_rifle_chassis.insert(0, rifle["chassis"])
+            crm_rifle_trigger.delete(0, END)
+            crm_rifle_trigger.insert(0, rifle["trigger"])
+            crm_rifle_break.delete(0, END)
+            crm_rifle_break.insert(0, rifle["break"])
+            crm_rifle_supressor.delete(0, END)
+            crm_rifle_supressor.insert(0, rifle["supressor"])
+            crm_rifle_weight.delete(0, END)
+            crm_rifle_weight.insert(0, rifle["weight"])
+            crm_rifle_bipod.delete(0, END)
+            crm_rifle_bipod.insert(0, rifle["bipod"])
+            crm_rifle_software.delete(0, END)
+            crm_rifle_software.insert(0, rifle["software"])
+
+            # Scope
+            crm_scope_make.delete(0, END)
+            crm_scope_make.insert(0, scope["make"])
+            crm_scope_model.delete(0, END)
+            crm_scope_model.insert(0, scope["model"])
+            crm_scope_rings.delete(0, END)
+            crm_scope_rings.insert(0, scope["rings"])
+            crm_scope_moa_rise.delete(0, END)
+            crm_scope_moa_rise.insert(0, scope["moa_rise"])
+
+            # Cartridge
+            crm_cartridge_brass_make.delete(0, END)
+            crm_cartridge_brass_make.insert(0, cartridge["brass_make"])
+            crm_cartridge_bullet_make.delete(0, END)
+            crm_cartridge_bullet_make.insert(0, cartridge["bullet_make"])
+            crm_cartridge_bullet_model.delete(0, END)
+            crm_cartridge_bullet_model.insert(0, cartridge["bullet_model"])
+            crm_cartridge_bullet_weight.delete(0, END)
+            crm_cartridge_bullet_weight.insert(0, cartridge["bullet_weight"])
+            crm_cartridge_primer_make.delete(0, END)
+            crm_cartridge_primer_make.insert(0, cartridge["primer_make"])
+            crm_cartridge_primer_model.delete(0, END)
+            crm_cartridge_primer_model.insert(0, cartridge["primer_model"])
 
             if debuglevel >= 2:
                 my_logger.info('{time}, load_shooters.load_edit_field_with_row_data Completed'.format(
@@ -517,7 +774,7 @@ def load_shooters(main_window):
                 ))
 
         if _mode == 'edit':
-            load_edit_field_with_row_data(_tuple)
+            load_edit_field_with_row_data(json_record)
 
         def process_request(command_type, guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter, equipment, scores):
             global dirty
@@ -613,6 +870,7 @@ def load_shooters(main_window):
 
         #end find_row_in_my_shooter_list
 
+
         def determineAction():
 
             if debuglevel >= 2:
@@ -646,17 +904,17 @@ def load_shooters(main_window):
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
-            crm_fn.delete(0, END)
-            crm_ln.delete(0, END)
-            crm_id_number.delete(0, END)
-            crm_cellphone.delete(0, END)
-            crm_email.delete(0, END)
-            crm_team.delete(0, END)
-            crm_spotter.delete(0, END)
+            crm_shooter_fn.delete(0, END)
+            crm_shooter_ln.delete(0, END)
+            crm_shooter_id_number.delete(0, END)
+            crm_shooter_cellphone.delete(0, END)
+            crm_shooter_email.delete(0, END)
+            crm_shooter_team.delete(0, END)
+            crm_shooter_spotter.delete(0, END)
             # Equipment
 
-            crm_id.configure(text="")
-            crm_fn.focus_set()
+            crm_shooter_id.configure(text="")       # UUID
+            crm_shooter_fn.focus_set()
             id_value.set(uuid.uuid4())
             change_background_color("#FFFFFF")
 

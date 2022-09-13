@@ -121,7 +121,7 @@ def newEvent():
     if settings.filename:
         settings.my_event_list = event.load_event_json_from_file(settings.filename)
         settings.my_event_list["uuid"] = str(uuid.uuid4())
-        event.open_event_screen(main_window, settings.my_event_list)
+        event.open_event_screen(main_window)
 
     if debuglevel >= 1:
         my_logger.info('{time}, newEvent Completed '.format(

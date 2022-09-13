@@ -1,5 +1,4 @@
  {
-      "uuid" : "",
       "name" : "",
       "location" : "",
       "start_date" : "",
@@ -53,5 +52,7 @@
                   "distance" : 3500
               }
           ]
-      }
+      },
+      "shooters": [{
+      }]
  }

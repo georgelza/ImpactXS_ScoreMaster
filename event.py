@@ -151,40 +151,40 @@ def open_event_screen(root):
 
     # Qualifying Event
 
-    lb_crm_q_target = Label(qual_frame, text="Targets",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_q_shots = Label(qual_frame, text="Shots",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_q_targets    = Label(qual_frame, text="Targets",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_q_shots      = Label(qual_frame, text="Shots",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
     lb_crm_q_time_limit = Label(qual_frame, text="Time Limit",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
 
-    lb_crm_q_target.grid(column=0, row=0, padx=1, pady=0)
+    lb_crm_q_targets.grid(column=0, row=0, padx=1, pady=0)
     lb_crm_q_shots.grid(column=0, row=1, padx=1, pady=0)
     lb_crm_q_time_limit.grid(column=0, row=2, padx=1, pady=0)
 
-    crm_q_target        = Entry(qual_frame, width=20, borderwidth=2, fg="black", font=('Consolas',14))
+    crm_q_targets       = Entry(qual_frame, width=20, borderwidth=2, fg="black", font=('Consolas',14))
     crm_q_shots         = Entry(qual_frame, width=20, borderwidth=2, fg="black", font=('Consolas',14))
     crm_q_time_limit    = Entry(qual_frame, width=20, borderwidth=2, fg="black", font=('Consolas',14))
 
-    crm_q_target.grid(row=0, column=2)
+    crm_q_targets.grid(row=0, column=2)
     crm_q_shots.grid(row=1, column=2)
     crm_q_time_limit.grid(row=2, column=2)
 
 
     # Final Event
 
-    fin_tar = Label(final_frame, text="Targets",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    fin_sht = Label(final_frame, text="Shots",      width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    fin_tl = Label(final_frame, text="Time Limit",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_f_targets    = Label(final_frame, text="Targets",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_f_shots      = Label(final_frame, text="Shots",      width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_f_time_limit = Label(final_frame, text="Time Limit",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
 
-    fin_tar.grid(column=0, row=0, padx=1, pady=0)
-    fin_sht.grid(column=0, row=1, padx=1, pady=0)
-    fin_tl.grid(column=0, row=2, padx=1, pady=0)
+    lb_crm_f_targets.grid(column=0, row=0, padx=1, pady=0)
+    lb_crm_f_shots.grid(column=0, row=1, padx=1, pady=0)
+    lb_crm_f_time_limit.grid(column=0, row=2, padx=1, pady=0)
 
-    crm_f_target        = Entry(final_frame, width=20, borderwidth=2, fg="black", font=('Consolas',14))
+    crm_f_targets       = Entry(final_frame, width=20, borderwidth=2, fg="black", font=('Consolas',14))
     crm_f_shots         = Entry(final_frame, width=20, borderwidth=2, fg="black", font=('Consolas',14))
     crm_f_time_limit    = Entry(final_frame, width=20, borderwidth=2, fg="black", font=('Consolas',14))
 
-    crm_f_target.grid      (column=2, row=0, padx=1, pady=0)
-    crm_f_shots.grid       (column=2, row=1, padx=1, pady=0)
-    crm_f_time_limit.grid  (column=2, row=2, padx=1, pady=0)
+    crm_f_targets.grid(column=2, row=0, padx=1, pady=0)
+    crm_f_shots.grid(column=2, row=1, padx=1, pady=0)
+    crm_f_time_limit.grid(column=2, row=2, padx=1, pady=0)
 
     # Final table here
 
@@ -224,7 +224,7 @@ def open_event_screen(root):
 
         # Qualifying
         my_qualifying = {
-            "targets":      crm_q_target.get(),
+            "targets":      crm_q_targets.get(),
             "shots":        crm_q_shots.get(),
             "time_limit":   crm_q_time_limit.get(),
             "target":       [
@@ -245,7 +245,7 @@ def open_event_screen(root):
 
         # Final
         my_final = {
-            "targets":      crm_f_target.get(),
+            "targets":      crm_f_targets.get(),
             "shots":        crm_f_shots.get(),
             "time_limit":   crm_q_time_limit.get(),
             "target": [
@@ -334,8 +334,8 @@ def open_event_screen(root):
     crm_Distance.insert(0, my_event["distance"])
 
     # Qualifying Event
-    crm_q_target.delete(0, END)
-    crm_q_target.insert(0, my_qualify["targets"])
+    crm_q_targets.delete(0, END)
+    crm_q_targets.insert(0, my_qualify["targets"])
     crm_q_shots.delete(0, END)
     crm_q_shots.insert(0, my_qualify["shots"])
     crm_q_time_limit.delete(0, END)
@@ -343,8 +343,8 @@ def open_event_screen(root):
     # Now paint the Treeview
 
     # Finals Event
-    crm_f_target.delete(0, END)
-    crm_f_target.insert(0, my_finals["targets"])
+    crm_f_targets.delete(0, END)
+    crm_f_targets.insert(0, my_finals["targets"])
     crm_f_shots.delete(0, END)
     crm_f_shots.insert(0, my_finals["shots"])
     crm_f_time_limit.delete(0, END)
