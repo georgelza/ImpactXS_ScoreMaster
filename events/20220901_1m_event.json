@@ -5,9 +5,9 @@
     "end_date": "25/08/2022",
     "distance": "1-Mile",
     "qualifying": {
-        "targets": 3,
-        "shots": 4,
-        "time_limit": 900,
+        "targets": "3",
+        "shots": "4",
+        "time_limit": "900",
         "target": [
             {
                 "target_no": 0,
@@ -28,9 +28,9 @@
         ]
     },
     "final": {
-        "targets": 4,
-        "shots": 4,
-        "time_limit": 900,
+        "targets": "4",
+        "shots": "4",
+        "time_limit": "900",
         "target": [
             {
                 "target_no": 0,

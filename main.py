@@ -252,6 +252,7 @@ def main():
 # end main
 
 
+
 # Set the Splash screen Interval,after Interval call main()
 splash_root.after(splashtime, main)
 
