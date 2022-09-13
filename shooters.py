@@ -80,6 +80,7 @@ def find_rec_in_my_shooter_list(guid_value):
 
 #end find_rec_in_my_shooter_list
 
+
 # We will add the scores via the File/scores menu.
 # For now ust build Scott's Treeview and user editor, then replace with my data.
 def load_shooters(main_window):
@@ -93,7 +94,7 @@ def load_shooters(main_window):
 
     child = Toplevel(main_window)
     child.geometry("1200x700")
-    child.title = "Events"
+    child.title = "Shooters"
 
     tree_frame = Frame(child)
 
@@ -113,8 +114,8 @@ def load_shooters(main_window):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-        blankTuple = dict()
-        open_popup('add', blankTuple, tree_frame)
+        emptyRecord = dict()
+        open_popup('add', emptyRecord, tree_frame)
 
     #end make_new_record
 
@@ -122,7 +123,7 @@ def load_shooters(main_window):
     btnNewRecord.grid(row=0, column=0, sticky="w")
 
     trv = ttk.Treeview(tree_frame, columns=(1, 2, 3, 4, 5, 6, 7, 8, 9), show="headings", height="16")
-    trv.grid(row=1, column=0, rowspan=16, columnspan=8)
+    trv.grid(row=1, column=0, rowspan=16, columnspan=9)
 
     trv.heading(1, text="Action", anchor="w")
     trv.heading(2, text="ID", anchor="center")
@@ -211,7 +212,7 @@ def load_shooters(main_window):
         ))
 
         lastTuple = (trv.item(currentRowIndex, 'values'))
-        # Get from my_shooter_list dictionary the record matching the lastTuple[1], this is the id column
+        # Get from my_shooter_list dictionary the entire record matching the lastTuple[1], this is the id column
         my_jsonrec = find_rec_in_my_shooter_list(lastTuple[1])
         open_popup('edit', my_jsonrec, tree_frame)
 
@@ -245,16 +246,30 @@ def load_shooters(main_window):
         child.configure(bg='LightBlue')
         load_form = True
 
+        lb_shooter_frame    = LabelFrame(shooter_frame,     text='Enter New Shooter',           bg="lightgray", font=('Consolas', 14))
+        lb_shooter_frame.grid(row=0, rowspan=8, column=0, columnspan=2, sticky="W", pady=(1, 5))
+
+        lb_rifle_frame      = LabelFrame(rifle_frame,       text='Enter New Rifle',             bg="lightgray", font=('Consolas', 14))
+        lb_rifle_frame.grid(row=9, rowspan=6, column=0, columnspan=2, sticky="W", pady=(1, 5))
+
+        lb_scope_frame      = LabelFrame(scope_frame,       text='Enter New Scope - Rifle',     bg="lightgray", font=('Consolas', 14))
+        lb_scope_frame.grid(row=0, rowspan=6, column=3, columnspan=2, sticky="W", pady=(1, 5))
+
+        lb_cartridge_frame  = LabelFrame(cartridge_frame,   text='Enter New Cartridge - Rifle', bg="lightgray", font=('Consolas', 14))
+        lb_cartridge_frame.grid(row=9, rowspan=6, column=3, columnspan=2, sticky="W", pady=(1, 5))
+
+        lb_button_frame  = LabelFrame(cartridge_frame,  bg="lightgray", font=('Consolas', 14))
+        lb_button_frame.grid(row=0, rowspan=1, column=0, columnspan=4, sticky="W", pady=(1, 5))
+
         # Shooter
-        lb_shooter_frame = LabelFrame(shooter_frame, text='Enter New Shooter',bg="lightgray",font=('Consolas', 14))
-        lb_shooter1 = Label(shooter_frame, text="ID", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
-        lb_shooter2 = Label(shooter_frame, text="First Name", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        lb_shooter3 = Label(shooter_frame, text="Last Name", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
-        lb_shooter4 = Label(shooter_frame, text="ID Number", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        lb_shooter5 = Label(shooter_frame, text="Cell Phone", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        lb_shooter6 = Label(shooter_frame, text="eMail", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        lb_shooter7 = Label(shooter_frame, text="Team", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        lb_shooter8 = Label(shooter_frame, text="Spotter", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_shooter1 = Label(shooter_frame, text="ID",            width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_shooter2 = Label(shooter_frame, text="First Name",    width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_shooter3 = Label(shooter_frame, text="Last Name",     width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_shooter4 = Label(shooter_frame, text="ID Number",     width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_shooter5 = Label(shooter_frame, text="Cell Phone",    width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_shooter6 = Label(shooter_frame, text="eMail",         width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_shooter7 = Label(shooter_frame, text="Team",          width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_shooter8 = Label(shooter_frame, text="Spotter",       width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
 
         lb_shooter1.grid(row=0, column=0, padx=1, pady=0)
         lb_shooter2.grid(row=1, column=0, padx=1, pady=0)
@@ -269,7 +284,7 @@ def load_shooters(main_window):
         id_value.set(uuid.uuid4())
 
         # Shooter
-        crm_shooter_id = Label(shooter_frame, anchor="w", height=1,relief="ridge", textvariable=id_value, font=('Consolas', 14))
+        crm_shooter_id = Label(shooter_frame, anchor="w", height=1, relief="ridge", textvariable=id_value, font=('Consolas', 14))
         crm_shooter_id.grid(row=0, column=1, padx=20)
 
         crm_shooter_fn = Entry(shooter_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
@@ -295,17 +310,16 @@ def load_shooters(main_window):
 
 
         # Rifle
-        lb_rifle_frame = LabelFrame(rifle_frame, text='Enter New Rifle',bg="lightgray",font=('Consolas', 14))
-        lb_rifle1 = Label(rifle_frame, text="Make", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        lb_rifle2 = Label(rifle_frame, text="Model", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        lb_rifle3 = Label(rifle_frame, text="Caliber", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
-        lb_rifle4 = Label(rifle_frame, text="Chassis", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        lb_rifle5 = Label(rifle_frame, text="Trigger", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        lb_rifle6 = Label(rifle_frame, text="Break", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        lb_rifle7 = Label(rifle_frame, text="Supressor", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        lb_rifle8 = Label(rifle_frame, text="Weight (lb)", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        lb_rifle9 = Label(rifle_frame, text="Bipod", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
-        lb_rifle10 = Label(rifle_frame, text="Balistic Software", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
+        lb_rifle1 = Label(rifle_frame, text="Make",         width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_rifle2 = Label(rifle_frame, text="Model",        width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_rifle3 = Label(rifle_frame, text="Caliber",      width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_rifle4 = Label(rifle_frame, text="Chassis",      width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_rifle5 = Label(rifle_frame, text="Trigger",      width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_rifle6 = Label(rifle_frame, text="Break",        width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_rifle7 = Label(rifle_frame, text="Supressor",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_rifle8 = Label(rifle_frame, text="Weight (lb)",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_rifle9 = Label(rifle_frame, text="Bipod",        width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
+        lb_rifle10 = Label(rifle_frame, text="Software",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
 
         lb_rifle1.grid(row=0, column=0, padx=1, pady=0)
         lb_rifle2.grid(row=1, column=0, padx=1, pady=0)
@@ -322,35 +336,34 @@ def load_shooters(main_window):
         crm_rifle_make.grid(row=0, column=1, padx=20)
 
         crm_rifle_model = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_rifle_model.grid(row=1, column=1)
+        crm_rifle_model.grid(row=1, column=1, padx=20)
 
         crm_rifle_cal = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_rifle_cal.grid(row=2, column=1)
+        crm_rifle_cal.grid(row=2, column=1, padx=20)
 
         crm_rifle_chassis = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_rifle_chassis.grid(row=3, column=1)
+        crm_rifle_chassis.grid(row=3, column=1, padx=20)
 
         crm_rifle_trigger = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_rifle_trigger.grid(row=4, column=1)
+        crm_rifle_trigger.grid(row=4, column=1, padx=20)
 
         crm_rifle_break = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_rifle_break.grid(row=5, column=1)
+        crm_rifle_break.grid(row=5, column=1, padx=20)
 
         crm_rifle_supressor = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_rifle_supressor.grid(row=6, column=1)
+        crm_rifle_supressor.grid(row=6, column=1, padx=20)
 
         crm_rifle_weight = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_rifle_weight.grid(row=7, column=1)
+        crm_rifle_weight.grid(row=7, column=1, padx=20)
 
         crm_rifle_bipod = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_rifle_bipod.grid(row=8, column=1)
+        crm_rifle_bipod.grid(row=8, column=1, padx=20)
 
         crm_rifle_software = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
         crm_rifle_software.grid(row=9, column=1)
 
 
         # Scope
-        lb_scope_frame = LabelFrame(scope_frame, text='Enter New Scope - Rifle',bg="lightgray",font=('Consolas', 14))
         lb_scope1 = Label(scope_frame, text="Make", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
         lb_scope2 = Label(scope_frame, text="Model", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
         lb_scope3 = Label(scope_frame, text="Rings", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
@@ -365,17 +378,16 @@ def load_shooters(main_window):
         crm_scope_make.grid(row=0, column=1, padx=20)
 
         crm_scope_model = Entry(scope_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_scope_model.grid(row=1, column=1)
+        crm_scope_model.grid(row=1, column=1, padx=20)
 
         crm_scope_rings = Entry(scope_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_scope_rings.grid(row=2, column=1)
+        crm_scope_rings.grid(row=2, column=1, padx=20)
 
         crm_scope_moa_rise = Entry(scope_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_scope_moa_rise.grid(row=3, column=1)
+        crm_scope_moa_rise.grid(row=3, column=1, padx=20)
 
 
         # Cartridge
-        lb_cartridge_frame = LabelFrame(cartridge_frame, text='Enter New Scope - Rifle', bg="lightgray", font=('Consolas', 14))
         lb_scope1 = Label(cartridge_frame, text="Brass", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
         lb_scope2 = Label(cartridge_frame, text="Bullet Make", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
         lb_scope3 = Label(cartridge_frame, text="Bullet Model", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
@@ -394,19 +406,19 @@ def load_shooters(main_window):
         crm_cartridge_brass_make.grid(row=0, column=1, padx=20)
 
         crm_cartridge_bullet_make = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_cartridge_bullet_make.grid(row=1, column=1)
+        crm_cartridge_bullet_make.grid(row=1, column=1, padx=20)
 
         crm_cartridge_bullet_model = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_cartridge_bullet_model.grid(row=2, column=1)
+        crm_cartridge_bullet_model.grid(row=2, column=1, padx=20)
 
         crm_cartridge_bullet_weight = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_cartridge_bullet_weight.grid(row=3, column=1)
+        crm_cartridge_bullet_weight.grid(row=3, column=1, padx=20)
 
         crm_cartridge_primer_make = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_cartridge_primer_make.grid(row=4, column=1)
+        crm_cartridge_primer_make.grid(row=4, column=1, padx=20)
 
         crm_cartridge_primer_model = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_cartridge_primer_model.grid(row=5, column=1)
+        crm_cartridge_primer_model.grid(row=5, column=1, padx=20)
 
 
         # button

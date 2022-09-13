@@ -109,26 +109,26 @@ def open_event_screen(root):
 
     # Frame Layout
     input_frame = LabelFrame(child, text='Event Profile', bg="lightgray", font=('Consolas', 14))
-    input_frame.grid(row=0, rowspan=6, column=0,columnspan=12, sticky="W", pady=(1,5))
+    input_frame.grid(row=0, rowspan=6, column=0, columnspan=12, sticky="W", pady=(1,5))
 
     # Frame Layout house the Qualifying event common information and grid
     qual_frame = LabelFrame(child, text='Qualifying Profile', bg="lightgray", font=('Consolas', 14))
-    qual_frame.grid(column=0, row=6, rowspan=5, columnspan=3, sticky="W", padx=(0,5))
+    qual_frame.grid(row=6, rowspan=5, column=0, columnspan=3, sticky="W", padx=(0,5))
 
     # house the Final event common information and grid
     final_frame = LabelFrame(child, text='Final Profile', bg="lightgray", font=('Consolas', 14))
-    final_frame.grid(column=3, row=6, rowspan=5, columnspan=3, sticky="W")
+    final_frame.grid(row=6, rowspan=5, column=3, columnspan=3, sticky="W")
 
     # House the buttons
     crtls_frame = LabelFrame(child, bg="lightgray", font=('Consolas', 14))
     crtls_frame.grid(row=12, rowspan=4, column=0, sticky="W",pady=(5,0))
 
     # input_frame
-    lb_crm_eventname = Label(input_frame, text="Event Name",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_Location = Label(input_frame, text="Location",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_Start_Date = Label(input_frame, text="Start Date",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_End_Date = Label(input_frame, text="End Date",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_Distance = Label(input_frame, text="Distance",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_eventname = Label(input_frame,   text="Event Name",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_Location = Label(input_frame,    text="Location",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_Start_Date = Label(input_frame,  text="Start Date",   width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_End_Date = Label(input_frame,    text="End Date",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_Distance = Label(input_frame,    text="Distance",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
 
     lb_crm_eventname.grid   (column=0, row=0, padx=1, pady=0)
     lb_crm_Location.grid    (column=0, row=1, padx=1, pady=0)
@@ -151,8 +151,8 @@ def open_event_screen(root):
 
     # Qualifying Event
 
-    lb_crm_q_targets    = Label(qual_frame, text="Targets",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_q_shots      = Label(qual_frame, text="Shots",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_q_targets    = Label(qual_frame, text="Targets",     width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_q_shots      = Label(qual_frame, text="Shots",       width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
     lb_crm_q_time_limit = Label(qual_frame, text="Time Limit",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
 
     lb_crm_q_targets.grid(column=0, row=0, padx=1, pady=0)
@@ -172,7 +172,7 @@ def open_event_screen(root):
 
     lb_crm_f_targets    = Label(final_frame, text="Targets",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
     lb_crm_f_shots      = Label(final_frame, text="Shots",      width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_f_time_limit = Label(final_frame, text="Time Limit",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_f_time_limit = Label(final_frame, text="Time Limit", width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
 
     lb_crm_f_targets.grid(column=0, row=0, padx=1, pady=0)
     lb_crm_f_shots.grid(column=0, row=1, padx=1, pady=0)
