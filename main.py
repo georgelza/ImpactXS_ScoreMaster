@@ -10,6 +10,8 @@
 #   File            :   main.py
 #
 #	By              :   George Leonard ( georgelza@gmail.com )
+#                   :   With lots of help from Scott Johnson
+#                   :   & many YouTube videos ;)
 #
 #   Created     	:   0.0.1 - 5 September 2022
 #
