@@ -271,14 +271,14 @@ def load_shooters(main_window):
         lb_shooter7 = Label(shooter_frame, text="Team",          width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
         lb_shooter8 = Label(shooter_frame, text="Spotter",       width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
 
-        lb_shooter1.grid(row=0, column=0, padx=1, pady=0)
-        lb_shooter2.grid(row=1, column=0, padx=1, pady=0)
-        lb_shooter3.grid(row=2, column=0, padx=1, pady=0)
-        lb_shooter4.grid(row=3, column=0, padx=1, pady=0)
-        lb_shooter5.grid(row=4, column=0, padx=1, pady=0)
-        lb_shooter6.grid(row=5, column=0, padx=1, pady=0)
-        lb_shooter7.grid(row=6, column=0, padx=1, pady=0)
-        lb_shooter8.grid(row=7, column=0, padx=1, pady=0)
+        lb_shooter1.grid(row=0, column=0, padx=5, pady=0)
+        lb_shooter2.grid(row=1, column=0, padx=5, pady=0)
+        lb_shooter3.grid(row=2, column=0, padx=5, pady=0)
+        lb_shooter4.grid(row=3, column=0, padx=5, pady=0)
+        lb_shooter5.grid(row=4, column=0, padx=5, pady=0)
+        lb_shooter6.grid(row=5, column=0, padx=5, pady=0)
+        lb_shooter7.grid(row=6, column=0, padx=5, pady=0)
+        lb_shooter8.grid(row=7, column=0, padx=5, pady=0)
 
         id_value = StringVar()
         id_value.set(uuid.uuid4())
@@ -321,16 +321,16 @@ def load_shooters(main_window):
         lb_rifle9 = Label(rifle_frame, text="Bipod",        width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
         lb_rifle10 = Label(rifle_frame, text="Software",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
 
-        lb_rifle1.grid(row=0, column=0, padx=1, pady=0)
-        lb_rifle2.grid(row=1, column=0, padx=1, pady=0)
-        lb_rifle3.grid(row=2, column=0, padx=1, pady=0)
-        lb_rifle4.grid(row=3, column=0, padx=1, pady=0)
-        lb_rifle5.grid(row=4, column=0, padx=1, pady=0)
-        lb_rifle6.grid(row=5, column=0, padx=1, pady=0)
-        lb_rifle7.grid(row=6, column=0, padx=1, pady=0)
-        lb_rifle8.grid(row=7, column=0, padx=1, pady=0)
-        lb_rifle9.grid(row=8, column=0, padx=1, pady=0)
-        lb_rifle10.grid(row=9, column=0, padx=1, pady=0)
+        lb_rifle1.grid(row=0, column=0, padx=5, pady=0)
+        lb_rifle2.grid(row=1, column=0, padx=5, pady=0)
+        lb_rifle3.grid(row=2, column=0, padx=5, pady=0)
+        lb_rifle4.grid(row=3, column=0, padx=5, pady=0)
+        lb_rifle5.grid(row=4, column=0, padx=5, pady=0)
+        lb_rifle6.grid(row=5, column=0, padx=5, pady=0)
+        lb_rifle7.grid(row=6, column=0, padx=5, pady=0)
+        lb_rifle8.grid(row=7, column=0, padx=5, pady=0)
+        lb_rifle9.grid(row=8, column=0, padx=5, pady=0)
+        lb_rifle10.grid(row=9, column=0, padx=5, pady=0)
 
         crm_rifle_make = Entry(rifle_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
         crm_rifle_make.grid(row=0, column=1)
@@ -369,22 +369,22 @@ def load_shooters(main_window):
         lb_scope3 = Label(scope_frame, text="Rings", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
         lb_scope4 = Label(scope_frame, text="MOA Rise", width=25, height=2, anchor="w", relief="ridge",font=('Consolas', 14))
 
-        lb_scope1.grid(row=0, column=0, padx=1, pady=0)
-        lb_scope2.grid(row=1, column=0, padx=1, pady=0)
-        lb_scope3.grid(row=2, column=0, padx=1, pady=0)
-        lb_scope4.grid(row=3, column=0, padx=1, pady=0)
+        lb_scope1.grid(row=0, column=0, padx=5, pady=0)
+        lb_scope2.grid(row=1, column=0, padx=5, pady=0)
+        lb_scope3.grid(row=2, column=0, padx=5, pady=0)
+        lb_scope4.grid(row=3, column=0, padx=5, pady=0)
 
         crm_scope_make = Entry(scope_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_scope_make.grid(row=0, column=1)
+        crm_scope_make.grid(row=0, column=1, padx=5, pady=0)
 
         crm_scope_model = Entry(scope_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_scope_model.grid(row=1, column=1)
+        crm_scope_model.grid(row=1, column=1, padx=5, pady=0)
 
         crm_scope_rings = Entry(scope_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_scope_rings.grid(row=2, column=1)
+        crm_scope_rings.grid(row=2, column=1, padx=5, pady=0)
 
         crm_scope_moa_rise = Entry(scope_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_scope_moa_rise.grid(row=3, column=1)
+        crm_scope_moa_rise.grid(row=3, column=1, padx=5, pady=0)
 
 
         # Cartridge
@@ -395,30 +395,30 @@ def load_shooters(main_window):
         lb_scope5 = Label(cartridge_frame, text="Primer Make", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
         lb_scope6 = Label(cartridge_frame, text="Primer Model", width=25, height=2, anchor="w", relief="ridge", font=('Consolas', 14))
 
-        lb_scope1.grid(row=0, column=0, padx=1, pady=0)
-        lb_scope2.grid(row=1, column=0, padx=1, pady=0)
-        lb_scope3.grid(row=2, column=0, padx=1, pady=0)
-        lb_scope4.grid(row=3, column=0, padx=1, pady=0)
-        lb_scope5.grid(row=4, column=0, padx=1, pady=0)
-        lb_scope6.grid(row=5, column=0, padx=1, pady=0)
+        lb_scope1.grid(row=0, column=0, padx=5, pady=0)
+        lb_scope2.grid(row=1, column=0, padx=5, pady=0)
+        lb_scope3.grid(row=2, column=0, padx=5, pady=0)
+        lb_scope4.grid(row=3, column=0, padx=5, pady=0)
+        lb_scope5.grid(row=4, column=0, padx=5, pady=0)
+        lb_scope6.grid(row=5, column=0, padx=5, pady=0)
 
         crm_cartridge_brass_make = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_cartridge_brass_make.grid(row=0, column=1)
+        crm_cartridge_brass_make.grid(row=0, column=1, padx=5, pady=0)
 
         crm_cartridge_bullet_make = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_cartridge_bullet_make.grid(row=1, column=1)
+        crm_cartridge_bullet_make.grid(row=1, column=1, padx=5, pady=0)
 
         crm_cartridge_bullet_model = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_cartridge_bullet_model.grid(row=2, column=1)
+        crm_cartridge_bullet_model.grid(row=2, column=1, padx=5, pady=0)
 
         crm_cartridge_bullet_weight = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_cartridge_bullet_weight.grid(row=3, column=1)
+        crm_cartridge_bullet_weight.grid(row=3, column=1, padx=5, pady=0)
 
         crm_cartridge_primer_make = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_cartridge_primer_make.grid(row=4, column=1)
+        crm_cartridge_primer_make.grid(row=4, column=1, padx=5, pady=0)
 
         crm_cartridge_primer_model = Entry(cartridge_frame, width=30, borderwidth=2, fg="black", font=('Consolas', 14))
-        crm_cartridge_primer_model.grid(row=5, column=1)
+        crm_cartridge_primer_model.grid(row=5, column=1, padx=5, pady=0)
 
 
         # button
