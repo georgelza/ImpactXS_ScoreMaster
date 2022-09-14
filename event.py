@@ -151,11 +151,11 @@ def open_event_screen(root):
     lb_crm_Distance.grid    (column=0, row=4, padx=1, pady=0)
 
 
-    crm_eventname   = Entry(input_frame, width=40, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-    crm_Location    = Entry(input_frame, width=40, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-    crm_Start_Date  = Entry(input_frame, width=40, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-    crm_End_Date    = Entry(input_frame, width=40, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-    crm_Distance    = Entry(input_frame, width=40, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_eventname   = Entry(input_frame, width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_Location    = Entry(input_frame, width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_Start_Date  = Entry(input_frame, width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_End_Date    = Entry(input_frame, width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_Distance    = Entry(input_frame, width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
 
     crm_eventname.grid  (column=1, row=0)
     crm_Location.grid   (column=1, row=1)
@@ -173,9 +173,9 @@ def open_event_screen(root):
     lb_crm_q_shots.grid(column=0, row=1, padx=1, pady=0)
     lb_crm_q_time_limit.grid(column=0, row=2, padx=1, pady=0)
 
-    crm_q_targets       = Entry(qual_frame, width=20, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-    crm_q_shots         = Entry(qual_frame, width=20, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-    crm_q_time_limit    = Entry(qual_frame, width=20, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_q_targets       = Entry(qual_frame, width=20, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_q_shots         = Entry(qual_frame, width=20, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_q_time_limit    = Entry(qual_frame, width=20, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
 
     crm_q_targets.grid(row=0, column=2)
     crm_q_shots.grid(row=1, column=2)
@@ -192,9 +192,9 @@ def open_event_screen(root):
     lb_crm_f_shots.grid(column=0, row=1, padx=1, pady=0)
     lb_crm_f_time_limit.grid(column=0, row=2, padx=1, pady=0)
 
-    crm_f_targets       = Entry(final_frame, width=20, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-    crm_f_shots         = Entry(final_frame, width=20, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-    crm_f_time_limit    = Entry(final_frame, width=20, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_f_targets       = Entry(final_frame, width=20, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_f_shots         = Entry(final_frame, width=20, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_f_time_limit    = Entry(final_frame, width=20, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
 
     crm_f_targets.grid(column=2, row=0, padx=1, pady=0)
     crm_f_shots.grid(column=2, row=1, padx=1, pady=0)
