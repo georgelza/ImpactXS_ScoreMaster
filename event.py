@@ -95,40 +95,49 @@ def open_event_screen(root):
     my_finals       = settings.my_event_list["final"]
     my_shooters     = settings.my_event_list["shooters"]
 
+    # color'ing
+    frame_bg        = settings.frame_bg
+    frame_fg        = settings.frame_fg
+    label_text_bg   = settings.label_text_bg
+    label_text_fg   = settings.label_text_fg
+    entry_text_bg   = settings.entry_text_bg
+    entry_text_fg   = settings.entry_text_fg
+
+
     if debuglevel >= 1:
         my_logger.info('{time}, open_event_screen Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
     child = Toplevel(root)
-    child.geometry("1200x700")
     child.title = "Events"
-    
-    child.configure(bg='LightBlue')
+    child.geometry("1200x700")
+    child.configure(bg=frame_bg)
+
     load_form = True
 
     # Frame Layout
-    input_frame = LabelFrame(child, text='Event Profile', bg="lightgray", font=('Consolas', 14))
+    input_frame = LabelFrame(child, text='Event Profile', bg=label_text_bg, fg=label_text_fg, font=('Consolas', 14))
     input_frame.grid(row=0, rowspan=6, column=0, columnspan=12, sticky="W", pady=(1,5))
 
     # Frame Layout house the Qualifying event common information and grid
-    qual_frame = LabelFrame(child, text='Qualifying Profile', bg="lightgray", font=('Consolas', 14))
+    qual_frame = LabelFrame(child, text='Qualifying Profile', bg=label_text_bg, fg=label_text_fg, font=('Consolas', 14))
     qual_frame.grid(row=6, rowspan=5, column=0, columnspan=3, sticky="W", padx=(0,5))
 
     # house the Final event common information and grid
-    final_frame = LabelFrame(child, text='Final Profile', bg="lightgray", font=('Consolas', 14))
+    final_frame = LabelFrame(child, text='Final Profile', bg=label_text_bg, fg=label_text_fg, font=('Consolas', 14))
     final_frame.grid(row=6, rowspan=5, column=3, columnspan=3, sticky="W")
 
     # House the buttons
-    crtls_frame = LabelFrame(child, bg="lightgray", font=('Consolas', 14))
+    crtls_frame = LabelFrame(child, bg=label_text_bg, fg=label_text_fg, font=('Consolas', 14))
     crtls_frame.grid(row=12, rowspan=4, column=0, sticky="W",pady=(5,0))
 
     # input_frame
-    lb_crm_eventname = Label(input_frame,   text="Event Name",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_Location = Label(input_frame,    text="Location",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_Start_Date = Label(input_frame,  text="Start Date",   width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_End_Date = Label(input_frame,    text="End Date",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_Distance = Label(input_frame,    text="Distance",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_eventname    = Label(input_frame, text="Event Name",  width=25, height=2, anchor="w", relief="ridge", bg=label_text_bg, fg=label_text_fg, font=('Consolas',14))
+    lb_crm_Location     = Label(input_frame, text="Location",    width=25, height=2, anchor="w", relief="ridge", bg=label_text_bg, fg=label_text_fg, font=('Consolas',14))
+    lb_crm_Start_Date   = Label(input_frame, text="Start Date",  width=25, height=2, anchor="w", relief="ridge", bg=label_text_bg, fg=label_text_fg, font=('Consolas',14))
+    lb_crm_End_Date     = Label(input_frame, text="End Date",    width=25, height=2, anchor="w", relief="ridge", bg=label_text_bg, fg=label_text_fg, font=('Consolas',14))
+    lb_crm_Distance     = Label(input_frame, text="Distance",    width=25, height=2, anchor="w", relief="ridge", bg=label_text_bg, fg=label_text_fg, font=('Consolas',14))
 
     lb_crm_eventname.grid   (column=0, row=0, padx=1, pady=0)
     lb_crm_Location.grid    (column=0, row=1, padx=1, pady=0)
@@ -137,11 +146,11 @@ def open_event_screen(root):
     lb_crm_Distance.grid    (column=0, row=4, padx=1, pady=0)
 
 
-    crm_eventname   = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
-    crm_Location    = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
-    crm_Start_Date  = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
-    crm_End_Date    = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
-    crm_Distance    = Entry(input_frame, width=40, borderwidth=2, fg="black", font=('Consolas',14))
+    crm_eventname   = Entry(input_frame, width=40, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=('Consolas',14))
+    crm_Location    = Entry(input_frame, width=40, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=('Consolas',14))
+    crm_Start_Date  = Entry(input_frame, width=40, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=('Consolas',14))
+    crm_End_Date    = Entry(input_frame, width=40, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=('Consolas',14))
+    crm_Distance    = Entry(input_frame, width=40, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=('Consolas',14))
 
     crm_eventname.grid  (column=1, row=0)
     crm_Location.grid   (column=1, row=1)
@@ -151,17 +160,17 @@ def open_event_screen(root):
 
     # Qualifying Event
 
-    lb_crm_q_targets    = Label(qual_frame, text="Targets",     width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_q_shots      = Label(qual_frame, text="Shots",       width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_q_time_limit = Label(qual_frame, text="Time Limit",  width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_q_targets    = Label(qual_frame, text="Targets",     width=25, height=2, anchor="w", relief="ridge", bg=label_text_bg, fg=label_text_fg, font=('Consolas',14))
+    lb_crm_q_shots      = Label(qual_frame, text="Shots",       width=25, height=2, anchor="w", relief="ridge", bg=label_text_bg, fg=label_text_fg, font=('Consolas',14))
+    lb_crm_q_time_limit = Label(qual_frame, text="Time Limit",  width=25, height=2, anchor="w", relief="ridge", bg=label_text_bg, fg=label_text_fg, font=('Consolas',14))
 
     lb_crm_q_targets.grid(column=0, row=0, padx=1, pady=0)
     lb_crm_q_shots.grid(column=0, row=1, padx=1, pady=0)
     lb_crm_q_time_limit.grid(column=0, row=2, padx=1, pady=0)
 
-    crm_q_targets       = Entry(qual_frame, width=20, borderwidth=2, fg="black", font=('Consolas',14))
-    crm_q_shots         = Entry(qual_frame, width=20, borderwidth=2, fg="black", font=('Consolas',14))
-    crm_q_time_limit    = Entry(qual_frame, width=20, borderwidth=2, fg="black", font=('Consolas',14))
+    crm_q_targets       = Entry(qual_frame, width=20, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=('Consolas',14))
+    crm_q_shots         = Entry(qual_frame, width=20, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=('Consolas',14))
+    crm_q_time_limit    = Entry(qual_frame, width=20, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=('Consolas',14))
 
     crm_q_targets.grid(row=0, column=2)
     crm_q_shots.grid(row=1, column=2)
@@ -170,17 +179,17 @@ def open_event_screen(root):
 
     # Final Event
 
-    lb_crm_f_targets    = Label(final_frame, text="Targets",    width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_f_shots      = Label(final_frame, text="Shots",      width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
-    lb_crm_f_time_limit = Label(final_frame, text="Time Limit", width=25, height=2, anchor="w", relief="ridge", font=('Consolas',14))
+    lb_crm_f_targets    = Label(final_frame, text="Targets",    width=25, height=2, anchor="w", relief="ridge", bg=label_text_bg, fg=label_text_fg, font=('Consolas',14))
+    lb_crm_f_shots      = Label(final_frame, text="Shots",      width=25, height=2, anchor="w", relief="ridge", bg=label_text_bg, fg=label_text_fg, font=('Consolas',14))
+    lb_crm_f_time_limit = Label(final_frame, text="Time Limit", width=25, height=2, anchor="w", relief="ridge", bg=label_text_bg, fg=label_text_fg, font=('Consolas',14))
 
     lb_crm_f_targets.grid(column=0, row=0, padx=1, pady=0)
     lb_crm_f_shots.grid(column=0, row=1, padx=1, pady=0)
     lb_crm_f_time_limit.grid(column=0, row=2, padx=1, pady=0)
 
-    crm_f_targets       = Entry(final_frame, width=20, borderwidth=2, fg="black", font=('Consolas',14))
-    crm_f_shots         = Entry(final_frame, width=20, borderwidth=2, fg="black", font=('Consolas',14))
-    crm_f_time_limit    = Entry(final_frame, width=20, borderwidth=2, fg="black", font=('Consolas',14))
+    crm_f_targets       = Entry(final_frame, width=20, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=('Consolas',14))
+    crm_f_shots         = Entry(final_frame, width=20, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=('Consolas',14))
+    crm_f_time_limit    = Entry(final_frame, width=20, borderwidth=2, fg=entry_text_fg, bg=entry_text_bg, font=('Consolas',14))
 
     crm_f_targets.grid(column=2, row=0, padx=1, pady=0)
     crm_f_shots.grid(column=2, row=1, padx=1, pady=0)

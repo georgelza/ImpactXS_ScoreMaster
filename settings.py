@@ -43,6 +43,14 @@ def init():
     global currentRowIndex
     global filename
 
+    # Colours
+    global frame_bg
+    global frame_fg
+    global label_text_bg
+    global label_text_fg
+    global entry_text_bg
+    global entry_text_fg
+
     # Our Lists of fields for the event, qualifying round setup and final round setup and then a
     # lists of shooters...
     # all collapsed into one json structure when written to a file.
@@ -52,11 +60,20 @@ def init():
     my_shooter_list     = []
 
     # Read/Define Environment variables
-    config_params   = getAppEnvVariables()
-    loglevel        = config_params["loglevel"]
-    splashtime      = config_params["splashtime"]
-    debuglevel      = config_params["debuglevel"]
-    appname         = "ImpactXS - ScoreMaster"
+    config_params       = getAppEnvVariables()
+    loglevel            = config_params["loglevel"]
+    splashtime          = config_params["splashtime"]
+    debuglevel          = config_params["debuglevel"]
+    appname             = "ImpactXS - ScoreMaster"
+
+    # Global colors, to be moved to the environment variables, config_params
+    frame_bg            = config_params["frame_bg"]
+    frame_fg            = config_params["frame_fg"]
+    label_text_bg       = config_params["label_text_bg"]
+    label_text_fg       = config_params["label_text_fg"]
+    entry_text_bg       = config_params["entry_text_bg"]
+    entry_text_fg       = config_params["entry_text_fg"]
+
 
     # Logging Handler
     logging.root.handlers = []
@@ -101,6 +118,13 @@ def getAppEnvVariables():
     Params['debuglevel']                = int(os.environ.get("DEBUGLEVEL"))
     Params['loglevel']                  = os.environ.get("LOGLEVEL")
     Params['splashtime']                = int(os.environ.get("SPLASHTIME"))
+
+    Params['frame_bg']                  = os.environ.get("frame_bg")
+    Params['frame_fg']                  = os.environ.get("frame_fg")
+    Params['label_text_bg']             = os.environ.get("label_text_bg")
+    Params['label_text_fg']             = os.environ.get("label_text_fg")
+    Params['entry_text_bg']             = os.environ.get("entry_text_bg")
+    Params['entry_text_fg']             = os.environ.get("entry_text_fg")
 
     return Params
 
@@ -169,6 +193,13 @@ def print_config(config_params):
         my_logger.info('**    DEBUGLEVEL            : ' + str(config_params['debuglevel']))
         my_logger.info('**    LOGLEVEL              : ' + str(config_params['loglevel']))
         my_logger.info('**    SPLASHTIME            : ' + str(config_params['splashtime']))
+        my_logger.info('**')
+        my_logger.info('**    frame_bg              : ' + str(config_params['frame_bg']))
+        my_logger.info('**    frame_fg              : ' + str(config_params['frame_fg']))
+        my_logger.info('**    label_text_bg         : ' + str(config_params['label_text_bg']))
+        my_logger.info('**    label_text_fg         : ' + str(config_params['label_text_fg']))
+        my_logger.info('**    entry_text_bg         : ' + str(config_params['entry_text_bg']))
+        my_logger.info('**    entry_text_fg         : ' + str(config_params['entry_text_fg']))
         my_logger.info('**')
         my_logger.info('*******************************************')
 

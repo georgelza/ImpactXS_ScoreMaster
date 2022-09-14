@@ -1,56 +1,12 @@
 {
+    "uuid": "07d12652-2d6a-11ed-a261-0242ac120002",
     "name": "Hanover King of 1Mile/2Mile 2022",
     "location": "Hanover",
     "start_date": "22/08/2022",
     "end_date": "25/08/2022",
     "distance": "1-Mile",
-    "qualifying":
-    {
-        "targets": "3",
-        "shots": "3",
-        "time_limit": "600",
-        "target": [
-            {
-                "target_no": 0,
-                "distance": 800
-            },
-            {
-                "target_no": 1,
-                "distance": 1000
-            },
-            {
-                "target_no": 2,
-                "distance": 1300
-            },
-            {
-                "target_no": 3,
-                "distance": 1600
-            }
-        ]
-    },
-    "final": {
-        "targets": "4",
-        "shots": "5",
-        "time_limit": "600",
-        "target": [
-            {
-                "target_no": 0,
-                "distance": 1800
-            },
-            {
-                "target_no": 1,
-                "distance": 2500
-            },
-            {
-                "target_no": 2,
-                "distance": 3000
-            },
-            {
-                "target_no": 3,
-                "distance": 3500
-            }
-        ]
-    },
+    "qualifying": [],
+    "final": [],
     "shooters": [
         {
             "id": "07d12652-2d6a-11ed-a038-0242ac120002",
@@ -69,7 +25,7 @@
                     "chassis": "Gun Warrior, Gen 6",
                     "trigger": "Triggertech",
                     "break": "Gun Warrior, 5 chamber",
-                    "supressor": "",
+                    "supressor": "NoSupressor",
                     "weight": "16",
                     "bipod": "Tier-One ELR",
                     "software": "Hornady 4Dof"
@@ -110,7 +66,7 @@
                     "caliber": "300 PRC",
                     "chassis": "MDT ACC",
                     "trigger": "Triggertech",
-                    "break": "",
+                    "break": "No Break",
                     "supressor": "APW Warrior",
                     "weight": "18",
                     "bipod": "Accu-Tac",
@@ -132,64 +88,8 @@
                 }
             },
             "scores": {
-                "qualifying": {
-                    "cold_bore": "True",
-                    "time": 15,
-                    "inspect": "True",
-                    "hit_miss": "True",
-                    "targets": [
-                        {
-                            "target_Number": 0,
-                            "time": 25,
-                            "hit_miss": "True",
-                            "inspect": "False"
-                        },
-                        {
-                            "target_number": 1,
-                            "time": 55,
-                            "hit_miss": "False",
-                            "inspect": "True"
-                        },
-                        {
-                            "target_number": 2,
-                            "time": 185,
-                            "hit_miss": "True",
-                            "inspect": "False"
-                        },
-                        {
-                            "target_number": 3,
-                            "time": 225,
-                            "hit_miss": "True",
-                            "inspect": "False"
-                        }
-                    ]
-                },
-                "final": [
-                    {
-                        "target_number": 0,
-                        "time": 24,
-                        "hit_miss": "True",
-                        "inspect": "False"
-                    },
-                    {
-                        "target_number": 1,
-                        "time": 44,
-                        "hit_miss": "True",
-                        "inspect": "False"
-                    },
-                    {
-                        "target_number": 2,
-                        "time": 86,
-                        "hit_miss": "True",
-                        "inspect": "False"
-                    },
-                    {
-                        "target_number": 3,
-                        "time": 129,
-                        "hit_miss": "True",
-                        "inspect": "True"
-                    }
-                ]
+                "qualify": "",
+                "final": ""
             }
         }
     ]
