@@ -50,6 +50,12 @@ def init():
     global label_text_fg
     global entry_text_bg
     global entry_text_fg
+    global txtfont
+    global txtfont_size
+    global lblfont
+    global lblfont_size
+    global lblframefont
+    global lblframefont_size
 
     # Our Lists of fields for the event, qualifying round setup and final round setup and then a
     # lists of shooters...
@@ -73,7 +79,12 @@ def init():
     label_text_fg       = config_params["label_text_fg"]
     entry_text_bg       = config_params["entry_text_bg"]
     entry_text_fg       = config_params["entry_text_fg"]
-
+    txtfont             = config_params["txtfont"]
+    txtfont_size        = config_params["txtfont_size"]
+    lblfont             = config_params["lblfont"]
+    lblfont_size        = config_params["lblfont_size"]
+    lblframefont        = config_params["lblframefont"]
+    lblframefont_size   = config_params["lblframefont_size"]
 
     # Logging Handler
     logging.root.handlers = []
@@ -125,6 +136,14 @@ def getAppEnvVariables():
     Params['label_text_fg']             = os.environ.get("label_text_fg")
     Params['entry_text_bg']             = os.environ.get("entry_text_bg")
     Params['entry_text_fg']             = os.environ.get("entry_text_fg")
+
+    Params['txtfont']                   = os.environ.get("txtfont")
+    Params['txtfont_size']              = os.environ.get("txtfont_size")
+    Params['lblfont']                   = os.environ.get("lblfont")
+    Params['lblfont_size']              = os.environ.get("lblfont_size")
+    Params['lblframefont']              = os.environ.get("lblframefont")
+    Params['lblframefont_size']         = os.environ.get("lblframefont_size")
+
 
     return Params
 
@@ -200,6 +219,13 @@ def print_config(config_params):
         my_logger.info('**    label_text_fg         : ' + str(config_params['label_text_fg']))
         my_logger.info('**    entry_text_bg         : ' + str(config_params['entry_text_bg']))
         my_logger.info('**    entry_text_fg         : ' + str(config_params['entry_text_fg']))
+        my_logger.info('**')
+        my_logger.info('**    txtfont               : ' + str(config_params['txtfont']))
+        my_logger.info('**    txtfont_size          : ' + str(config_params['txtfont_size']))
+        my_logger.info('**    lblfont               : ' + str(config_params['lblfont']))
+        my_logger.info('**    lblfont_size          : ' + str(config_params['lblfont_size']))
+        my_logger.info('**    lblframefont          : ' + str(config_params['lblframefont']))
+        my_logger.info('**    lblframefont_size     : ' + str(config_params['lblframefont_size']))
         my_logger.info('**')
         my_logger.info('*******************************************')
 
