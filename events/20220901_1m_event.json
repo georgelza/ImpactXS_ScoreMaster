@@ -94,7 +94,9 @@
                     "bullet_model" : "A-Tip",
                     "bullet_weight" : "230gr",
                     "primer_make" : "Federal",
-                    "primer_model" : "Magnum-Large Rifle"
+                    "primer_model" : "Magnum-Large Rifle",
+                    "powder_make":      "Hodgdon",
+                    "powder_model":      "Retumbo"
                 }
             },
             "scores" :
@@ -200,7 +202,9 @@
                     "bullet_model" : "A-Tip",
                     "bullet_weight" : "250gr",
                     "primer_make" : "Federal",
-                    "primer_model" : "Magnum-Large Rifle"
+                    "primer_model" : "Magnum-Large Rifle",
+                    "powder_make":      "Hodgdon",
+                    "powder_model":      "H1000"
                 }
             },
             "scores" :
