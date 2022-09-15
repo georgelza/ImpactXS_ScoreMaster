@@ -12,14 +12,13 @@ export label_text_fg=black
 export entry_text_bg=white
 export entry_text_fg=black
 export txtfont=arial
-# Consolas
 export txtfont_size=14
 export lblfont=Consolas
 export lblfont_size=16
 export lblframefont=Consolas
 export lblframefont_size=16
 
-# Ghost White
-# cadet blue
+# Consolas or Arial
+# Ghost White or cadet blue
 
 python main.py

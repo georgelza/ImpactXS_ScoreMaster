@@ -15,7 +15,8 @@
 #
 #   Changelog       :   0.0.1 -
 #
-#   Notes           :
+#   Notes           :   some ideas of tiling frames as a look https://www.youtube.com/watch?v=dlRXp4YSuG4
+#
 ########################################################################################################################
 __author__ = "George Leonard"
 __email__ = "georgelza@gmail.com"
@@ -115,7 +116,7 @@ def open_event_screen(root):
         ))
 
     child = Toplevel(root)
-    child.title = "Events"
+    child.title = "Events Maintenance"
     child.geometry("1200x700")
     child.configure(bg=frame_bg)
 
@@ -135,7 +136,7 @@ def open_event_screen(root):
 
     # House the buttons
     crtls_frame = LabelFrame(child, bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-    crtls_frame.grid(row=12, rowspan=4, column=0, sticky="W",pady=(5,0))
+    crtls_frame.grid(row=12, rowspan=4, column=0, sticky="W", pady=(5,0))
 
     # input_frame
     lb_crm_eventname    = Label(input_frame, text="Event Name",  width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
