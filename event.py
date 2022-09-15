@@ -117,26 +117,35 @@ def open_event_screen(root):
 
     child = Toplevel(root)
     child.title = "Events Maintenance"
-    child.geometry("1200x700")
+    child.geometry("825x465")
     child.configure(bg=frame_bg)
 
     load_form = True
 
+    input_f = Frame(child)
+    qual_f  = Frame(child)
+    final_f = Frame(child)
+    crtls_f = Frame(child)
+
     # Frame Layout
-    input_frame = LabelFrame(child, text='Event Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-    input_frame.grid(row=0, rowspan=6, column=0, columnspan=12, sticky="W", pady=(1,5))
+    input_frame = LabelFrame(input_f, text='Event Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+    input_frame.grid()
+    input_f.grid(row=0, rowspan=6, column=0, columnspan=12, sticky="W", pady=(1,5))
 
     # Frame Layout house the Qualifying event common information and grid
-    qual_frame = LabelFrame(child, text='Qualifying Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-    qual_frame.grid(row=6, rowspan=5, column=0, columnspan=3, sticky="W", padx=(0,5))
+    qual_frame = LabelFrame(qual_f, text='Qualifying Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+    qual_frame.grid()
+    qual_f.grid(row=6, rowspan=5, column=0, columnspan=3, sticky="W", padx=(0,5))
 
     # house the Final event common information and grid
-    final_frame = LabelFrame(child, text='Final Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-    final_frame.grid(row=6, rowspan=5, column=3, columnspan=3, sticky="W")
+    final_frame = LabelFrame(final_f, text='Final Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+    final_frame.grid()
+    final_f.grid(row=6, rowspan=5, column=3, columnspan=3, sticky="W")
 
     # House the buttons
-    crtls_frame = LabelFrame(child, bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-    crtls_frame.grid(row=12, rowspan=4, column=0, sticky="W", pady=(5,0))
+    crtls_frame = LabelFrame(crtls_f, bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+    crtls_frame.grid()
+    crtls_f.grid(row=12, rowspan=4, column=0, sticky="W", pady=(5,0))
 
     # input_frame
     lb_crm_eventname    = Label(input_frame, text="Event Name",  width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))

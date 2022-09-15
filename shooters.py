@@ -263,25 +263,36 @@ def load_shooters(main_window):
 
         load_form = True
 
+        shooter_f   = Frame(child)
+        rifle_f     = Frame(child)
+        scope_f     = Frame(child)
+        cartridge_f = Frame(child)
+        button_f    = Frame(child)
+
         # Frame Layout
-        shooter_frame = LabelFrame(child, text='Shooter Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-        shooter_frame.grid(row=0, rowspan=10, column=0, columnspan=4, sticky="W", pady=(1, 5))
+        shooter_frame = LabelFrame(shooter_f, text='Shooter Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+        shooter_frame.grid()
+        shooter_f.grid(row=0, rowspan=10, column=0, columnspan=4, sticky="W", pady=(1, 5))
 
         # Frame Layout : Shooter
-        rifle_frame = LabelFrame(child, text='Rifle Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-        rifle_frame.grid(row=11, rowspan=11, column=0, columnspan=4, sticky="W", padx=(1, 5))
+        rifle_frame = LabelFrame(rifle_f, text='Rifle Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+        rifle_frame.grid()
+        rifle_f.grid(row=11, rowspan=11, column=0, columnspan=4, sticky="W", padx=(1, 5))
 
         # Frame Layout : Rifle
-        scope_frame = LabelFrame(child, text='Scope Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-        scope_frame.grid(row=0, rowspan=5, column=6, columnspan=3, sticky="W", padx=(1, 5))
+        scope_frame = LabelFrame(scope_f, text='Scope Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+        scope_frame.grid()
+        scope_f.grid(row=0, rowspan=5, column=6, columnspan=3, sticky="W", padx=(1, 5))
 
         # Frame Layout : Cartridge
-        cartridge_frame = LabelFrame(child, text='Cartridge Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-        cartridge_frame.grid(row=11, rowspan=8, column=6, columnspan=4, sticky="W", padx=(1, 5))
+        cartridge_frame = LabelFrame(cartridge_f, text='Cartridge Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+        cartridge_frame.grid()
+        cartridge_f.grid(row=11, rowspan=8, column=6, columnspan=4, sticky="W", padx=(1, 5))
 
         # Frame Layout : Buttons
-        button_frame = LabelFrame(child, bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size), relief=RIDGE)
-        button_frame.grid(row=22, rowspan=4, column=0, columnspan=8, sticky="W", pady=(5, 0))
+        button_frame = LabelFrame(button_f, bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size), relief=RIDGE)
+        button_frame.grid()
+        button_f.grid(row=22, rowspan=4, column=0, columnspan=8, sticky="W", pady=(5, 0))
 
         # Shooter
         lb_shooter1 = Label(shooter_frame, text="ID",            width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
