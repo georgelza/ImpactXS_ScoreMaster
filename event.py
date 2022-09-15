@@ -25,6 +25,7 @@ __version__ = "0.0.1"
 from tkinter import *
 from tkinter import filedialog as fd
 from datetime import datetime
+from tkcalendar import DateEntry
 
 import json
 import os
@@ -127,27 +128,27 @@ def open_event_screen(root):
     final_frame = Frame(child)
     crtls_frame = Frame(child)
 
-    # Frame Layout
+    # Event Frame Layout
     input_lbframe = LabelFrame(input_frame, text='Event Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
     input_lbframe.grid()
     input_frame.grid(row=0, rowspan=6, column=0, columnspan=12, sticky="W", pady=(1,5))
 
-    # Frame Layout house the Qualifying event common information and grid
+    # Qualifications Event Layout
     qual_lbframe = LabelFrame(qual_frame, text='Qualifying Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
     qual_lbframe.grid()
     qual_frame.grid(row=6, rowspan=5, column=0, columnspan=3, sticky="W", padx=(0,5))
 
-    # house the Final event common information and grid
+    # Final Event Layout
     final_lbframe = LabelFrame(final_frame, text='Final Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
     final_lbframe.grid()
     final_frame.grid(row=6, rowspan=5, column=3, columnspan=3, sticky="W")
 
-    # House the buttons
+    # Controlling Buttons
     crtls_lbframe = LabelFrame(crtls_frame, bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
     crtls_lbframe.grid()
     crtls_frame.grid(row=12, rowspan=4, column=0, sticky="W", pady=(5,0))
 
-    # input_lbframe
+    # Event Frame Layout
     lb_crm_eventname    = Label(input_lbframe, text="Event Name",  width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
     lb_crm_Location     = Label(input_lbframe, text="Location",    width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
     lb_crm_Start_Date   = Label(input_lbframe, text="Start Date",  width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
@@ -163,8 +164,8 @@ def open_event_screen(root):
 
     crm_eventname   = Entry(input_lbframe, width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
     crm_Location    = Entry(input_lbframe, width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-    crm_Start_Date  = Entry(input_lbframe, width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-    crm_End_Date    = Entry(input_lbframe, width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_Start_Date  = DateEntry(input_lbframe, width=39, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yy', selectmode='day')
+    crm_End_Date    = DateEntry(input_lbframe, width=39, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yy', selectmode='day')
     crm_Distance    = Entry(input_lbframe, width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
 
     crm_eventname.grid  (column=1, row=0)
@@ -173,8 +174,7 @@ def open_event_screen(root):
     crm_End_Date.grid   (column=1, row=3)
     crm_Distance.grid   (column=1, row=4)
 
-    # Qualifying Event
-
+    # Qualifications Event Layout
     lb_crm_q_targets    = Label(qual_lbframe, text="Targets",     width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
     lb_crm_q_shots      = Label(qual_lbframe, text="Shots",       width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
     lb_crm_q_time_limit = Label(qual_lbframe, text="Time Limit",  width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
@@ -191,9 +191,7 @@ def open_event_screen(root):
     crm_q_shots.grid(row=1, column=2)
     crm_q_time_limit.grid(row=2, column=2)
 
-
-    # Final Event
-
+    # Finals Event Layout
     lb_crm_f_targets    = Label(final_lbframe, text="Targets",    width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
     lb_crm_f_shots      = Label(final_lbframe, text="Shots",      width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
     lb_crm_f_time_limit = Label(final_lbframe, text="Time Limit", width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
@@ -210,7 +208,9 @@ def open_event_screen(root):
     crm_f_shots.grid(column=2, row=1, padx=1, pady=0)
     crm_f_time_limit.grid(column=2, row=2, padx=1, pady=0)
 
-    # Final table here
+    # Qualifications treeview here
+
+    # Finals treeview here
 
     def cancelEvent():
 
