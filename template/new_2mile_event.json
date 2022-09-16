@@ -12,16 +12,19 @@
           "target" :
           [
               {
-                  "target_no": 0,
-                  "distance" : 1200
+                "target_no": 0,
+                "qb": 1,
+                "distance" : 1200
               },
               {
-                  "target_no": 1,
-                  "distance" : 1400
+                "target_no": 1,
+                "qb": 0,
+                "distance" : 1400
               },
               {
-                  "target_no": 2,
-                  "distance" : 1800
+                "target_no": 2,
+                "qb": 0,
+                "distance" : 1800
               }
           ]
       },

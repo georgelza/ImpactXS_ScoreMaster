@@ -24,7 +24,6 @@ __version__ = "0.0.1"
 from tkinter import *
 from tkinter import ttk
 from datetime import datetime
-#from api.apputils import *
 
 import uuid
 import json
@@ -36,6 +35,9 @@ my_logger       = settings.my_logger
 debuglevel      = settings.debuglevel
 
 
+# Refresh data in memory from file (include updating global settings variable),
+# shooters include their personal data,
+# equipment and scores
 def load_shooter_json_from_file(myfile):
 
     if debuglevel >= 1:
@@ -98,7 +100,6 @@ def load_shooters(main_window):
     global lblframefont_size
 
     frame_bg            = settings.frame_bg
-    frame_fg            = settings.frame_fg
     label_text_bg       = settings.label_text_bg
     label_text_fg       = settings.label_text_fg
     entry_text_bg       = settings.entry_text_bg
@@ -250,6 +251,11 @@ def load_shooters(main_window):
     # Lets design/pain the popup, this is what is opened when the user clicks on a shooter in the treeview.
     def open_popup(_mode, json_record, primary):
 
+
+        settings.pp_json(json_record)
+
+        scores = json_record["scores"]
+
         if debuglevel >= 2:
             my_logger.info('{time}, load_shooters.open_popup Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
@@ -320,8 +326,8 @@ def load_shooters(main_window):
         crm_shooter_id = Label(shooter_lbframe, anchor="w", height=1, relief="ridge", textvariable=id_value, font=(txtfont, txtfont_size))
         crm_shooter_id.grid(row=1, column=1, padx=20)
 
-        crm_shooter_framen = Entry(shooter_lbframe, width=30, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-        crm_shooter_framen.grid(row=2, column=1)
+        crm_shooter_fn = Entry(shooter_lbframe, width=30, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+        crm_shooter_fn.grid(row=2, column=1)
 
         crm_shooter_ln = Entry(shooter_lbframe, width=30, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
         crm_shooter_ln.grid(row=3, column=1)
@@ -483,7 +489,7 @@ def load_shooters(main_window):
                 ))
 
             guid_value  = id_value.get()
-            first_name  = crm_shooter_framen.get()
+            first_name  = crm_shooter_fn.get()
             last_name   = crm_shooter_ln.get()
             id_number   = crm_shooter_id_number.get()
             cell_phone  = crm_shooter_cellphone.get()
@@ -546,7 +552,7 @@ def load_shooters(main_window):
                 ))
 
             # Shooter
-            crm_shooter_framen.config(bg=new_color)
+            crm_shooter_fn.config(bg=new_color)
             crm_shooter_ln.config(bg=new_color)
             crm_shooter_id_number.config(bg=new_color)
             crm_shooter_cellphone.config(bg=new_color)
@@ -599,7 +605,7 @@ def load_shooters(main_window):
 
             # shooter
             guid_value  = id_value.get()
-            first_name  = crm_shooter_framen.get()
+            first_name  = crm_shooter_fn.get()
             last_name   = crm_shooter_ln.get()
             id_number   = crm_shooter_id_number.get()
             cell_phone  = crm_shooter_cellphone.get()
@@ -649,7 +655,14 @@ def load_shooters(main_window):
             }
 
             # scores
-            scores   = ""
+            # Place a blank set of tags here for now, this is a new shooter so does not have any scores yet.
+            # will be populated via the scoring entry window
+            scores   = {
+                "qualifying_score": 0,
+                "final_score": 0,
+                "qualifying": "",
+                "final": ""
+            }
 
             if len(first_name) == 0:
                 change_background_color("#FFB2AE")
@@ -666,6 +679,7 @@ def load_shooters(main_window):
 
         def update_entry():
 
+
             if debuglevel >= 2:
                 my_logger.info('{time}, load_shooters.update_entry Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
@@ -673,7 +687,7 @@ def load_shooters(main_window):
 
             # shooter
             guid_value  = id_value.get()
-            first_name  = crm_shooter_framen.get()
+            first_name  = crm_shooter_fn.get()
             last_name   = crm_shooter_ln.get()
             id_number   = crm_shooter_id_number.get()
             cell_phone  = crm_shooter_cellphone.get()
@@ -713,7 +727,8 @@ def load_shooters(main_window):
                 "primer_make":      crm_cartridge_primer_make.get(),
                 "primer_model":     crm_cartridge_primer_model.get(),
                 "powder_make":      crm_cartridge_powder_make.get(),
-                "powder_model":     crm_cartridge_powder_model.get(),            }
+                "powder_model":     crm_cartridge_powder_model.get(),
+            }
 
             equipment = {
                 "rifle":        rifle,
@@ -721,11 +736,16 @@ def load_shooters(main_window):
                 "cartridge":    cartridge
             }
 
+            # !!!!!!!!!!!!!!! PLACE HOLDER !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+            #m_qual_scores = 0
+            #m_final_scores = 0
             # scores
-            scores = {
-                "qualify": "",
-                "final": ""
-            }
+            #scores = {
+            #    "qualifying_score": 0,
+            #    "final_score": 0,
+            #    "qualifying": [{"scores": m_qual_scores}],
+            #    "final": [{"scores": m_final_scores}]
+            #}
 
             if len(first_name) == 0:
                 change_background_color("#FFB2AE")
@@ -758,8 +778,8 @@ def load_shooters(main_window):
 
             # shooter
             id_value.set(json_record["id"])
-            crm_shooter_framen.delete(0, END)
-            crm_shooter_framen.insert(0, json_record["first_name"])
+            crm_shooter_fn.delete(0, END)
+            crm_shooter_fn.insert(0, json_record["first_name"])
             crm_shooter_ln.delete(0, END)
             crm_shooter_ln.insert(0, json_record["last_name"])
             crm_shooter_id_number.delete(0, END)
@@ -960,7 +980,7 @@ def load_shooters(main_window):
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
-            crm_shooter_framen.delete(0, END)
+            crm_shooter_fn.delete(0, END)
             crm_shooter_ln.delete(0, END)
             crm_shooter_id_number.delete(0, END)
             crm_shooter_cellphone.delete(0, END)
@@ -970,7 +990,7 @@ def load_shooters(main_window):
             # Equipment
 
             crm_shooter_id.configure(text="")       # UUID
-            crm_shooter_framen.focus_set()
+            crm_shooter_fn.focus_set()
             id_value.set(uuid.uuid4())
             change_background_color("#FFFFFF")
 

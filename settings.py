@@ -45,7 +45,6 @@ def init():
 
     # Colours
     global frame_bg
-    global frame_fg
     global label_text_bg
     global label_text_fg
     global entry_text_bg
@@ -74,7 +73,6 @@ def init():
 
     # Global colors, to be moved to the environment variables, config_params
     frame_bg            = config_params["frame_bg"]
-    frame_fg            = config_params["frame_fg"]
     label_text_bg       = config_params["label_text_bg"]
     label_text_fg       = config_params["label_text_fg"]
     entry_text_bg       = config_params["entry_text_bg"]
@@ -131,7 +129,6 @@ def getAppEnvVariables():
     Params['splashtime']                = int(os.environ.get("SPLASHTIME"))
 
     Params['frame_bg']                  = os.environ.get("frame_bg")
-    Params['frame_fg']                  = os.environ.get("frame_fg")
     Params['label_text_bg']             = os.environ.get("label_text_bg")
     Params['label_text_fg']             = os.environ.get("label_text_fg")
     Params['entry_text_bg']             = os.environ.get("entry_text_bg")
@@ -214,7 +211,6 @@ def print_config(config_params):
         my_logger.info('**    SPLASHTIME            : ' + str(config_params['splashtime']))
         my_logger.info('**')
         my_logger.info('**    frame_bg              : ' + str(config_params['frame_bg']))
-        my_logger.info('**    frame_fg              : ' + str(config_params['frame_fg']))
         my_logger.info('**    label_text_bg         : ' + str(config_params['label_text_bg']))
         my_logger.info('**    label_text_fg         : ' + str(config_params['label_text_fg']))
         my_logger.info('**    entry_text_bg         : ' + str(config_params['entry_text_bg']))

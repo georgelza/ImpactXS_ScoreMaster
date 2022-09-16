@@ -143,7 +143,11 @@ def loadEvent():
 
     settings.filename = event.select_file("Load")
     if settings.filename:
-        settings.my_event_list = event.load_event_json_from_file(settings.filename)
+        settings.my_event_list      = event.load_event_json_from_file(settings.filename)
+        settings.my_qualifying_list = settings.my_event_list["qualifying"]
+        settings.my_final_list      = settings.my_event_list["final"]
+        settings.my_shooter_list    = settings.my_event_list["shooters"]
+
         event.open_event_screen(main_window)
 
     if debuglevel >= 1:

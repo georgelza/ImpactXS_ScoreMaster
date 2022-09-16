@@ -24,6 +24,7 @@ __version__ = "0.0.1"
 
 from tkinter import *
 from tkinter import filedialog as fd
+from tkinter import ttk
 from datetime import datetime
 from tkcalendar import DateEntry
 
@@ -93,13 +94,12 @@ def select_file(mode):
 def open_event_screen(root):
 
     my_event        = settings.my_event_list
-    my_qualify      = settings.my_event_list["qualifying"]
-    my_finals       = settings.my_event_list["final"]
-    my_shooters     = settings.my_event_list["shooters"]
+    my_qualify      = settings.my_qualifying_list
+    my_finals       = settings.my_final_list
+    my_shooters     = settings.my_shooter_list
 
     # color'ing
     frame_bg            = settings.frame_bg
-    frame_fg            = settings.frame_fg
     label_text_bg       = settings.label_text_bg
     label_text_fg       = settings.label_text_fg
     entry_text_bg       = settings.entry_text_bg
@@ -118,7 +118,7 @@ def open_event_screen(root):
 
     child = Toplevel(root)
     child.title = "Events Maintenance"
-    child.geometry("825x465")
+    child.geometry("825x675")
     child.configure(bg=frame_bg)
 
     load_form = True
@@ -142,6 +142,162 @@ def open_event_screen(root):
     final_lbframe = LabelFrame(final_frame, text='Final Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
     final_lbframe.grid()
     final_frame.grid(row=6, rowspan=5, column=3, columnspan=3, sticky="W")
+
+
+    # Qualifications
+    tree_qualframe  = Frame(qual_frame, bg=label_text_bg)
+
+    def make_new_qual_record():
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.make_new_qual_record Called'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+        emptyRecord = dict()
+        open_qualify_popup('add', emptyRecord, tree_qualframe)
+
+    # end make_new_record
+
+    btnQualNewRecord = Button(tree_qualframe, text="Add", bg="#34d2eb", padx=2, pady=3, command=lambda: make_new_qual_record())
+    btnQualNewRecord.grid(row=0, column=0, sticky="w")
+    btnQualDelRecord = Button(tree_qualframe, text="Delete", bg="#34d2eb", padx=2, pady=3, command=lambda: make_new_qual_record())
+    btnQualDelRecord.grid(row=0, column=1, sticky="W")
+
+    trv_qual = ttk.Treeview(tree_qualframe, columns=(1, 2, 3), show="headings", height="7")
+    trv_qual.grid(row=1, column=0, rowspan=5, columnspan=9)
+
+    trv_qual.heading(1, text="Shot",     anchor="w")
+    trv_qual.heading(2, text="QB",       anchor="center")
+    trv_qual.heading(3, text="Distance", anchor="center")
+    trv_qual.column("#1", anchor="w", width=60, stretch=True)
+    trv_qual.column("#2", anchor="w", width=100, stretch=True)
+    trv_qual.column("#3", anchor="w", width=100, stretch=True)
+
+    # Finals shots
+    tree_finalframe = Frame(final_frame, bg=label_text_bg)
+
+    def make_new_finals_record():
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.make_new_finals_record Called'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+        emptyRecord = dict()
+        open_finals_popup('add', emptyRecord, tree_finalframe)
+
+    # end make_new_record
+
+    btnFinalsNewRecord = Button(tree_finalframe, text="Add", bg="#34d2eb", padx=2, pady=3, command=lambda: make_new_finals_record())
+    btnFinalsNewRecord.grid(row=0, column=0, sticky="w")
+    btnFinalsDelRecord = Button(tree_finalframe, text="Delete", bg="#34d2eb", padx=2, pady=3, command=lambda: make_new_finals_record())
+    btnFinalsDelRecord.grid(row=0, column=1, sticky="W")
+
+    trv_finals = ttk.Treeview(tree_finalframe, columns=(1, 2), show="headings", height="7")
+    trv_finals.grid(row=1, column=0, rowspan=5, columnspan=9)
+    # Make space for a "Add" and "Delete" button
+
+    trv_finals.heading(1, text="Shot",     anchor="w")
+    trv_finals.heading(2, text="Distance", anchor="center")
+    trv_finals.column("#1", anchor="w", width=60, stretch=True)
+    trv_finals.column("#2", anchor="w", width=100, stretch=True)
+
+    tree_qualframe.grid(row=4, column=0)
+    tree_finalframe.grid(row=4, column=0)
+
+    def open_qualify_popup(_q_mode, json_record, primary):
+        pass
+    def open_finals_popup(_f_mode, json_record, primary):
+        pass
+
+    # Clear Qualification Treeview
+    def remove_all_data_from_qualtrv():
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.remove_all_data_from_qualtrv Called '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+        for item in trv_qual.get_children():
+            trv_qual.delete(item)
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.remove_all_data_from_qualtrv Completed '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+    # Clear Finals Treeview
+    def remove_all_data_from_finalstrv():
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.remove_all_data_from_finalstrv Called '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+        for item in trv_finals.get_children():
+            trv_finals.delete(item)
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.remove_all_data_from_finalstrv Completed '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+    # Populate Qualify Treeview
+    def load_qualtrv_with_json():
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.load_qualtrv_with_json Called '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+            settings.pp_json(my_qualify)
+
+        remove_all_data_from_qualtrv()
+
+        rowIndex = 1
+        for key in my_qualify["target"]:
+            target_no   = key["target_no"]
+            qb          = key["qb"]
+            distance    = key["distance"]
+
+            trv_qual.insert('', index='end', iid=rowIndex, text="", values=(target_no, qb, distance))
+            rowIndex = rowIndex + 1
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.load_qualtrv_with_json Completed '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+    # end load_qualtrv_with_json
+
+    # Populate Finals Treeview
+    def load_finalstrv_with_json():
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.load_finalstrv_with_json Called '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+            settings.pp_json(my_finals)
+
+        remove_all_data_from_finalstrv()
+
+        rowIndex = 1
+        for key in my_finals["target"]:
+            target_no = key["target_no"]
+            distance = key["distance"]
+
+            trv_finals.insert('', index='end', iid=rowIndex, text="", values=(target_no, distance))
+            rowIndex = rowIndex + 1
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.load_finaltrv_with_json Completed '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+    # end load_finalstrv_with_json
+
+    load_qualtrv_with_json()
+    load_finalstrv_with_json()
 
     # Controlling Buttons
     crtls_lbframe = LabelFrame(crtls_frame, bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
@@ -253,16 +409,24 @@ def open_event_screen(root):
             "time_limit":   crm_q_time_limit.get(),
             "target":       [
                 {
-                    "target_no": 0, "distance": 800
+                    "target_no": 0,
+                    "qb": 1,
+                    "distance": 800
                 },
                 {
-                    "target_no": 1, "distance": 1000
+                    "target_no": 1,
+                    "qb": 0,
+                    "distance": 1000
                 },
                 {
-                    "target_no": 2, "distance": 1300
+                    "target_no": 2,
+                    "qb": 0,
+                    "distance": 1300
                 },
                 {
-                    "target_no": 3, "distance": 1600
+                    "target_no": 3,
+                    "qb": 0,
+                    "distance": 1600
                 }
             ]
         }
@@ -274,16 +438,20 @@ def open_event_screen(root):
             "time_limit":   crm_q_time_limit.get(),
             "target": [
                 {
-                    "target_no": 0, "distance": 1800
+                    "target_no": 0,
+                    "distance": 1800
                 },
                 {
-                    "target_no": 1, "distance": 2500
+                    "target_no": 1,
+                    "distance": 2500
                 },
                 {
-                    "target_no": 2, "distance": 3000
+                    "target_no": 2,
+                    "distance": 3000
                 },
                 {
-                    "target_no": 3, "distance": 3500
+                    "target_no": 3,
+                    "distance": 3500
                 }
             ]
         }

@@ -11,18 +11,22 @@
         "target": [
             {
                 "target_no": 0,
+                "qb": 1,
                 "distance": 800
             },
             {
                 "target_no": 1,
+                "qb": 0,
                 "distance": 1000
             },
             {
                 "target_no": 2,
+                "qb": 0,
                 "distance": 1300
             },
             {
                 "target_no": 3,
+                "qb": 0,
                 "distance": 1600
             }
         ]
@@ -91,69 +95,73 @@
                 }
             },
             "scores": {
-                "qualifying": {
-                    "cold_bore": "True",
-                    "time": 5,
-                    "hit_miss": "True",
-                    "inspect": "False",
-                    "targets": [
-                        {
-                            "target_number": 0,
-                            "time": 35,
-                            "hit_miss": "True",
-                            "inspect": "False"
-                        },
-                        {
-                            "target_number": 1,
-                            "time": 75,
-                            "hit_miss": "False",
-                            "inspect": "True"
-                        },
-                        {
-                            "target_number": 2,
-                            "time": 205,
-                            "hit_miss": "True",
-                            "inspect": "False"
-                        },
-                        {
-                            "target_number": 3,
-                            "time": 245,
-                            "hit_miss": "True",
-                            "inspect": "False"
-                        }
-                    ]
-                },
+                "qualifying_score": 400,
+                "final_score": 500,
+                "qualifying": [
+                    {
+                        "target_number": 0,
+                        "time": 35,
+                        "hit_miss": "True",
+                        "inspect": "False",
+                        "score": 20
+                    },
+                    {
+                        "target_number": 1,
+                        "time": 75,
+                        "hit_miss": "False",
+                        "inspect": "True",
+                        "score": 20
+                    },
+                    {
+                        "target_number": 2,
+                        "time": 205,
+                        "hit_miss": "True",
+                        "inspect": "False",
+                        "score": 50
+                    },
+                    {
+                        "target_number": 3,
+                        "time": 245,
+                        "hit_miss": "True",
+                        "inspect": "False",
+                        "score": 100
+                    }
+                ],
                 "final": [
                     {
                         "target_number": 0,
                         "time": 32,
                         "hit_miss": "True",
-                        "inspect": "False"
+                        "inspect": "False",
+                        "score": 110
                     },
                     {
                         "target_number": 1,
                         "time": 65,
                         "hit_miss": "True",
-                        "inspect": "True"
+                        "inspect": "True",
+                        "score": 200
                     },
                     {
                         "target_number": 2,
                         "time": 99,
                         "hit_miss": "True",
-                        "inspect": "False"
+                        "inspect": "False",
+                        "score": 120
                     },
                     {
                         "target_number": 3,
                         "time": 142,
                         "hit_miss": "False",
-                        "inspect": "True"
+                        "inspect": "True",
+                        "score": 300
                     }
                 ]
             }
         },
         {
             "id": "07d12652-2d6a-11ed-a038-0242fc120002",
-            "first_name": "Edgar",
+            "first_name": "Edgar11",
             "last_name": "Doubell",
             "id_number": "7004105127085",
             "cell_phone": "0826552446",
@@ -191,62 +199,66 @@
                 }
             },
             "scores": {
-                "qualifying": {
-                    "cold_bore": "True",
-                    "time": 15,
-                    "inspect": "True",
-                    "hit_miss": "True",
-                    "targets": [
-                        {
-                            "target_Number": 0,
-                            "time": 25,
-                            "hit_miss": "True",
-                            "inspect": "False"
-                        },
-                        {
-                            "target_number": 1,
-                            "time": 55,
-                            "hit_miss": "False",
-                            "inspect": "True"
-                        },
-                        {
-                            "target_number": 2,
-                            "time": 185,
-                            "hit_miss": "True",
-                            "inspect": "False"
-                        },
-                        {
-                            "target_number": 3,
-                            "time": 225,
-                            "hit_miss": "True",
-                            "inspect": "False"
-                        }
-                    ]
-                },
+                "qualifying_score": 400,
+                "final_score": 500,
+                "qualifying": [
+                    {
+                        "target_Number": 0,
+                        "time": 25,
+                        "hit_miss": "True",
+                        "inspect": "False",
+                        "score": 222
+                    },
+                    {
+                        "target_number": 1,
+                        "time": 55,
+                        "hit_miss": "False",
+                        "inspect": "True",
+                        "score": 153
+                    },
+                    {
+                        "target_number": 2,
+                        "time": 185,
+                        "hit_miss": "True",
+                        "inspect": "False",
+                        "score": 421
+                    },
+                    {
+                        "target_number": 3,
+                        "time": 225,
+                        "hit_miss": "True",
+                        "inspect": "False",
+                        "score": 111
+                    }
+                ],
                 "final": [
                     {
                         "target_number": 0,
                         "time": 24,
                         "hit_miss": "True",
-                        "inspect": "False"
+                        "inspect": "False",
+                        "score": 422
                     },
                     {
                         "target_number": 1,
                         "time": 44,
                         "hit_miss": "True",
-                        "inspect": "False"
+                        "inspect": "False",
+                        "score": 111
                     },
                     {
                         "target_number": 2,
                         "time": 86,
                         "hit_miss": "True",
-                        "inspect": "False"
+                        "inspect": "False",
+                        "score": 311
                     },
                     {
                         "target_number": 3,
                         "time": 129,
                         "hit_miss": "True",
-                        "inspect": "True"
+                        "inspect": "True",
+                        "score": 111
                     }
                 ]
             }
