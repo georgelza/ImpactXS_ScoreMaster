@@ -251,15 +251,18 @@ def load_shooters(main_window):
     # Lets design/pain the popup, this is what is opened when the user clicks on a shooter in the treeview.
     def open_popup(_mode, json_record, primary):
 
-
-        settings.pp_json(json_record)
-
+        # json_record is the entire record of the current shooter,
         scores = json_record["scores"]
 
         if debuglevel >= 2:
             my_logger.info('{time}, load_shooters.open_popup Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
+
+            my_logger.info('{time}, load_shooters.open_popup Current Shooter'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+            settings.pp_json(json_record)
 
         child = Toplevel(primary)
         child.title('Shooter Maintenance')
@@ -616,24 +619,24 @@ def load_shooters(main_window):
             # equipment
             # rifle
             rifle = {
-                "make":         crm_rifle_make.get(),
-                "model":        crm_rifle_model.get(),
-                "caliber":      crm_rifle_cal.get(),
-                "chassis":      crm_rifle_chassis.get(),
-                "trigger":      crm_rifle_trigger.get(),
-                "break":        crm_rifle_break.get(),
-                "supressor":    crm_rifle_supressor.get(),
-                "weight":       crm_rifle_weight.get(),
-                "bipod":        crm_rifle_bipod.get(),
-                "software":     crm_rifle_software.get(),
+                "make":             crm_rifle_make.get(),
+                "model":            crm_rifle_model.get(),
+                "caliber":          crm_rifle_cal.get(),
+                "chassis":          crm_rifle_chassis.get(),
+                "trigger":          crm_rifle_trigger.get(),
+                "break":            crm_rifle_break.get(),
+                "supressor":        crm_rifle_supressor.get(),
+                "weight":           crm_rifle_weight.get(),
+                "bipod":            crm_rifle_bipod.get(),
+                "software":         crm_rifle_software.get(),
             }
 
             # scope
             scope = {
-                "make":         crm_scope_make.get(),
-                "model":        crm_scope_model.get(),
-                "rings":        crm_scope_rings.get(),
-                "moa_rise":     crm_scope_moa_rise.get()
+                "make":             crm_scope_make.get(),
+                "model":            crm_scope_model.get(),
+                "rings":            crm_scope_rings.get(),
+                "moa_rise":         crm_scope_moa_rise.get()
             }
 
             # cartridge
@@ -698,24 +701,24 @@ def load_shooters(main_window):
             # equipment
             # rifle
             rifle = {
-                "make":         crm_rifle_make.get(),
-                "model":        crm_rifle_model.get(),
-                "caliber":      crm_rifle_cal.get(),
-                "chassis":      crm_rifle_chassis.get(),
-                "trigger":      crm_rifle_trigger.get(),
-                "break":        crm_rifle_break.get(),
-                "supressor":    crm_rifle_supressor.get(),
-                "weight":       crm_rifle_weight.get(),
-                "bipod":        crm_rifle_bipod.get(),
-                "software":     crm_rifle_software.get(),
+                "make":             crm_rifle_make.get(),
+                "model":            crm_rifle_model.get(),
+                "caliber":          crm_rifle_cal.get(),
+                "chassis":          crm_rifle_chassis.get(),
+                "trigger":          crm_rifle_trigger.get(),
+                "break":            crm_rifle_break.get(),
+                "supressor":        crm_rifle_supressor.get(),
+                "weight":           crm_rifle_weight.get(),
+                "bipod":            crm_rifle_bipod.get(),
+                "software":         crm_rifle_software.get(),
             }
 
             # scope
             scope = {
-                "make":         crm_scope_make.get(),
-                "model":        crm_scope_model.get(),
-                "rings":        crm_scope_rings.get(),
-                "moa_rise":     crm_scope_moa_rise.get()
+                "make":             crm_scope_make.get(),
+                "model":            crm_scope_model.get(),
+                "rings":            crm_scope_rings.get(),
+                "moa_rise":         crm_scope_moa_rise.get()
             }
 
             # cartridge
