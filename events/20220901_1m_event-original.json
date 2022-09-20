@@ -5,14 +5,14 @@
     "end_date": "25/08/2022",
     "distance": "1-Mile",
     "qualifying": {
-        "targets": "4",
-        "shots": "3",
+        "no_of_targets": "4",
+        "no_of_shots": "4",
         "time_limit": "600",
-        "target": [
+        "target_list": [
             {
                 "target_no": 0,
                 "qb": 1,
-                "distance": 800
+                "distance": 925
             },
             {
                 "target_no": 1,
@@ -32,10 +32,10 @@
         ]
     },
     "final": {
-        "targets": "4",
-        "shots": "5",
+        "no_of_targets": "4",
+        "no_of_shots": "5",
         "time_limit": "600",
-        "target": [
+        "target_list": [
             {
                 "target_no": 0,
                 "distance": 1800
@@ -161,7 +161,7 @@
         },
         {
             "id": "07d12652-2d6a-11ed-a038-0242fc120002",
-            "first_name": "Edgar",
+            "first_name": "Edgar11",
             "last_name": "Doubell",
             "id_number": "7004105127085",
             "cell_phone": "0826552446",
@@ -201,7 +201,7 @@
             "scores": {
                 "qualifying_score": 400,
                 "final_score": 500,
-                "qualifying":[
+                "qualifying": [
                     {
                         "target_Number": 0,
                         "time": 25,
@@ -230,7 +230,7 @@
                         "inspect": "False",
                         "score": 111
                     }
-                    ],
+                ],
                 "final": [
                     {
                         "target_number": 0,

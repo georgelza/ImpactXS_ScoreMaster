@@ -188,6 +188,22 @@ def open_event_screen(root):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
+        # Add record to json
+        my_qualifying_target_list = settings.my_qualifying_list["target_list"]
+        my_qualifying_target_list.append({"target_no": len(my_qualifying_target_list),
+                               "qb": 0,
+                               "distance": 0})
+        settings.my_qualifying_list["target_list"]      = my_qualifying_target_list
+        settings.my_qualifying_list["no_of_targets"]    = str(len(my_qualifying_target_list))
+
+        crm_q_targets.delete(0, END)
+        crm_q_targets.insert(0, settings.my_qualifying_list["no_of_targets"])
+
+        # Remove records from treeview
+        remove_all_data_from_quals_trv()
+        # reload treeview
+        load_quals_trv_with_json()
+
     # end make_new_quals_record
 
     # Delete Row to Treeview
@@ -197,6 +213,14 @@ def open_event_screen(root):
             my_logger.info('{time}, open_event_screen.remove_quals_record Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
+
+        # Remove record from json
+        # figure out which target is being deleted ?
+
+        # remove records from treeview
+        remove_all_data_from_quals_trv()
+        # reload treeview
+        load_quals_trv_with_json()
 
     # end remove_quals_record
 
@@ -208,7 +232,17 @@ def open_event_screen(root):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-    # end make_new_finals_record
+
+        # Add record to json
+        my_finals_target_list = settings.my_final_list["target_list"]
+        my_finals_target_list.append({"target_no": len(my_finals_target_list),
+                               "distance": 0})
+        settings.my_final_list["target_list"]      = my_finals_target_list
+        settings.my_final_list["no_of_targets"]    = str(len(my_finals_target_list))
+
+        crm_f_targets.delete(0, END)
+        crm_f_targets.insert(0, settings.my_final_list["no_of_targets"])
+
 
     # Delete Row to Treeview
     def remove_finals_record():
@@ -267,7 +301,7 @@ def open_event_screen(root):
         remove_all_data_from_quals_trv()
 
         rowIndex = 1
-        for key in my_qualify["target"]:
+        for key in my_qualify["target_list"]:
             target_no = key["target_no"]
             qb = key["qb"]
             distance = key["distance"]
@@ -295,7 +329,7 @@ def open_event_screen(root):
         remove_all_data_from_finals_trv()
 
         rowIndex = 1
-        for key in my_finals["target"]:
+        for key in my_finals["target_list"]:
             target_no = key["target_no"]
             distance = key["distance"]
 
@@ -393,10 +427,10 @@ def open_event_screen(root):
 
         # Build Qualifying json record
         my_qualifying = {
-            "targets":      crm_q_targets.get(),
-            "shots":        crm_q_shots.get(),
-            "time_limit":   crm_q_time_limit.get(),
-            "target":       m_qual_targets
+            "no_of_targets":    crm_q_targets.get(),
+            "no_of_shots":      crm_q_shots.get(),
+            "time_limit":       crm_q_time_limit.get(),
+            "target_list":      m_qual_targets
         }
 
         # Retrieve the data from the treeview
@@ -404,10 +438,10 @@ def open_event_screen(root):
 
         # Build Finals json record
         my_final = {
-            "targets":      crm_f_targets.get(),
-            "shots":        crm_f_shots.get(),
-            "time_limit":   crm_q_time_limit.get(),
-            "target":       m_finals_targets
+            "no_of_targets":    crm_f_targets.get(),
+            "no_of_shots":      crm_f_shots.get(),
+            "time_limit":       crm_q_time_limit.get(),
+            "target_list":      m_finals_targets
         }
 
         # Save - Main Event structures
@@ -415,6 +449,26 @@ def open_event_screen(root):
         settings.my_qualifying_list = my_qualifying
         settings.my_final_list      = my_final
         settings.my_shooter_list    = my_shooters
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.save_Main_Event_json_data_to_file Writing JSON to even file '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+            my_logger.info('{time}, open_event_screen.save_Main_Event_json_data_to_file Event Information '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+            settings.pp_json(my_event)
+
+            my_logger.info('{time}, open_event_screen.save_Main_Event_json_data_to_file Qualifying Information '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+            settings.pp_json(my_qualifying)
+
+            my_logger.info('{time}, open_event_screen.save_Main_Event_json_data_to_file Finals Information '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+            settings.pp_json(my_final)
 
         settings.save_json_to_file(settings.filename)
 
@@ -497,9 +551,9 @@ def open_event_screen(root):
     crm_Distance.grid   (column=1, row=4)
 
     # Qualifications Event Layout
-    lb_crm_q_targets    = Label(qual_lbframe, text="Targets",     width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
-    lb_crm_q_shots      = Label(qual_lbframe, text="Shots",       width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
-    lb_crm_q_time_limit = Label(qual_lbframe, text="Time Limit",  width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
+    lb_crm_q_targets    = Label(qual_lbframe, text="No Of Targets", width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
+    lb_crm_q_shots      = Label(qual_lbframe, text="No of Shots",   width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
+    lb_crm_q_time_limit = Label(qual_lbframe, text="Time Limit",    width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
 
     lb_crm_q_targets.grid(column=0, row=0, padx=1, pady=0)
     lb_crm_q_shots.grid(column=0, row=1, padx=1, pady=0)
@@ -514,9 +568,9 @@ def open_event_screen(root):
     crm_q_time_limit.grid(row=2, column=2)
 
     # Finals Event Layout
-    lb_crm_f_targets    = Label(final_lbframe, text="Targets",    width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
-    lb_crm_f_shots      = Label(final_lbframe, text="Shots",      width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
-    lb_crm_f_time_limit = Label(final_lbframe, text="Time Limit", width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
+    lb_crm_f_targets    = Label(final_lbframe, text="No of Targets",    width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
+    lb_crm_f_shots      = Label(final_lbframe, text="No of Shots",      width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
+    lb_crm_f_time_limit = Label(final_lbframe, text="Time Limit",       width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
 
     lb_crm_f_targets.grid(column=0, row=0, padx=1, pady=0)
     lb_crm_f_shots.grid(column=0, row=1, padx=1, pady=0)
@@ -543,9 +597,9 @@ def open_event_screen(root):
     trv_qual = TreeviewEdit(tree_qualframe, columns=(1, 2, 3), show="headings", height="7")
     trv_qual.grid(row=1, column=0, rowspan=5, columnspan=9)
 
-    trv_qual.heading(1, text="Shot",     anchor="w")
-    trv_qual.heading(2, text="QB",       anchor="center")
-    trv_qual.heading(3, text="Distance", anchor="center")
+    trv_qual.heading(1, text="Target #",    anchor="w")
+    trv_qual.heading(2, text="QB",          anchor="center")
+    trv_qual.heading(3, text="Distance",    anchor="center")
     trv_qual.column("#1", anchor="w", width=60, stretch=True)
     trv_qual.column("#2", anchor="w", width=100, stretch=True)
     trv_qual.column("#3", anchor="w", width=100, stretch=True)
@@ -566,8 +620,8 @@ def open_event_screen(root):
     trv_finals.grid(row=1, column=0, rowspan=5, columnspan=9)
     # Make space for a "Add" and "Delete" button
 
-    trv_finals.heading(1, text="Shot",     anchor="w")
-    trv_finals.heading(2, text="Distance", anchor="center")
+    trv_finals.heading(1, text="Target #",  anchor="w")
+    trv_finals.heading(2, text="Distance",  anchor="center")
     trv_finals.column("#1", anchor="w", width=60, stretch=True)
     trv_finals.column("#2", anchor="w", width=100, stretch=True)
 
@@ -598,18 +652,18 @@ def open_event_screen(root):
 
     # Qualifying Event
     crm_q_targets.delete(0, END)
-    crm_q_targets.insert(0, my_qualify["targets"])
+    crm_q_targets.insert(0, my_qualify["no_of_targets"])
     crm_q_shots.delete(0, END)
-    crm_q_shots.insert(0, my_qualify["shots"])
+    crm_q_shots.insert(0, my_qualify["no_of_shots"])
     crm_q_time_limit.delete(0, END)
     crm_q_time_limit.insert(0, my_qualify["time_limit"])
     # Now paint the Treeview
 
     # Finals Event
     crm_f_targets.delete(0, END)
-    crm_f_targets.insert(0, my_finals["targets"])
+    crm_f_targets.insert(0, my_finals["no_of_targets"])
     crm_f_shots.delete(0, END)
-    crm_f_shots.insert(0, my_finals["shots"])
+    crm_f_shots.insert(0, my_finals["no_of_shots"])
     crm_f_time_limit.delete(0, END)
     crm_f_time_limit.insert(0, my_finals["time_limit"])
     # Now paint the Treeview
