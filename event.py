@@ -214,8 +214,25 @@ def open_event_screen(root):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-        # Remove record from json
-        # figure out which target is being deleted ?
+        # Remove item from treeview
+        selected_item = trv_qual.selection()[0]  ## get selected item
+        trv_qual.delete(selected_item)
+
+        # dumb treeview to json
+        my_qualifying_target_list = create_quals_json_from_treeview(trv_qual)
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.remove_quals_record Update Qualifying Target List'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+            settings.pp_json(my_qualifying_target_list)
+
+        # Update settings:
+        settings.my_qualifying_list["target_list"]      = my_qualifying_target_list
+        settings.my_qualifying_list["no_of_targets"]    = str(len(my_qualifying_target_list))
+
+        crm_q_targets.delete(0, END)
+        crm_q_targets.insert(0, settings.my_qualifying_list["no_of_targets"])
 
         # remove records from treeview
         remove_all_data_from_quals_trv()
@@ -232,17 +249,22 @@ def open_event_screen(root):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-
         # Add record to json
         my_finals_target_list = settings.my_final_list["target_list"]
         my_finals_target_list.append({"target_no": len(my_finals_target_list),
-                               "distance": 0})
+                                      "distance": 0})
         settings.my_final_list["target_list"]      = my_finals_target_list
         settings.my_final_list["no_of_targets"]    = str(len(my_finals_target_list))
 
         crm_f_targets.delete(0, END)
         crm_f_targets.insert(0, settings.my_final_list["no_of_targets"])
 
+        # Remove records from treeview
+        remove_all_data_from_finals_trv()
+        # reload treeview
+        load_finals_trv_with_json()
+
+    # end make_new_finals_record
 
     # Delete Row to Treeview
     def remove_finals_record():
@@ -251,6 +273,26 @@ def open_event_screen(root):
             my_logger.info('{time}, open_event_screen.remove_finals_record Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
+
+            # Remove item from treeview
+            selected_item = trv_finals.selection()[0]  ## get selected item
+            trv_finals.delete(selected_item)
+
+            # dumb treeview to json
+            my_finals_target_list = create_finals_json_from_treeview(trv_finals)
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, open_event_screen.remove_finals_record Update Finals Target List'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+                settings.pp_json(my_finals_target_list)
+
+            # Update settings:
+            settings.my_final_list["target_list"]   = my_finals_target_list
+            settings.my_final_list["no_of_targets"] = str(len(my_finals_target_list))
+
+            crm_f_targets.delete(0, END)
+            crm_f_targets.insert(0, settings.my_final_list["no_of_targets"])
 
     # end remove_finals_record
 

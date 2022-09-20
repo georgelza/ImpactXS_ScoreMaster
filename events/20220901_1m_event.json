@@ -5,7 +5,7 @@
     "end_date": "25/08/2022",
     "distance": "1-Mile",
     "qualifying": {
-        "no_of_targets": "5",
+        "no_of_targets": "4",
         "no_of_shots": "4",
         "time_limit": "600",
         "target_list": [
@@ -28,11 +28,6 @@
                 "target_no": 3,
                 "qb": 0,
                 "distance": 1600
-            },
-            {
-                "target_no": 4,
-                "qb": 0,
-                "distance": 0
             }
         ]
     },
