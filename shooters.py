@@ -251,8 +251,11 @@ def load_shooters(main_window):
     # Lets design/pain the popup, this is what is opened when the user clicks on a shooter in the treeview.
     def open_popup(_mode, json_record, primary):
 
-        # json_record is the entire record of the current shooter,
-        scores = json_record["scores"]
+        if _mode == 'add':
+            scores = {}
+        else:
+            # json_record is the entire record of the current shooter,
+            scores = json_record["scores"]
 
         if debuglevel >= 2:
             my_logger.info('{time}, load_shooters.open_popup Called'.format(

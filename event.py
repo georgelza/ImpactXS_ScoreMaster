@@ -385,21 +385,39 @@ def open_event_screen(root):
 
     # end load_finals_trv_with_json
 
-    def cancel_Event():
+    def cancel_Event_Update():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, open_event_screen.cancel_Event Called '.format(
+            my_logger.info('{time}, open_event_screen.cancel_Event_Update Called '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+        # Reload screen from current Saved state.
+        # For now we just exit....
+        child.destroy()
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.cancel_Event_Update Completed '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+    #end cancel_Event_Update
+
+    def Exit_Event():
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, open_event_screen.Exit_Event Called '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
         child.destroy()
 
         if debuglevel >= 2:
-            my_logger.info('{time}, open_event_screen.cancel_Event Completed '.format(
+            my_logger.info('{time}, open_event_screen.Exit_Event Completed '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-    #end cancel_Event
+    # end Exit_Event
 
     def create_quals_json_from_treeview(treeview):
 
@@ -517,6 +535,7 @@ def open_event_screen(root):
         # cleanup
         child.destroy()
 
+
         if debuglevel >= 2:
             my_logger.info('{time}, open_event_screen.save_Main_Event_json_data_to_file Completed '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
@@ -566,6 +585,7 @@ def open_event_screen(root):
     crtls_lbframe = LabelFrame(crtls_frame, bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
     crtls_lbframe.grid()
     crtls_frame.grid(row=12, rowspan=4, column=0, sticky="W", pady=(5,0))
+
 
     # Main Event Frame Layout
     lb_crm_eventname    = Label(input_lbframe, text="Event Name",  width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
@@ -676,8 +696,11 @@ def open_event_screen(root):
     btnSave = Button(crtls_lbframe, text="Save", padx=5, pady=10, command=save_Main_Event_json_data_to_file)
     btnSave.grid(row=13, column=0)
 
-    btnCancel = Button(crtls_lbframe, text="Cancel", padx=5, pady=10, command=cancel_Event)
-    btnCancel.grid(row=13, column=1)
+#    btnCancel = Button(crtls_lbframe, text="Cancel", padx=5, pady=10, command=cancel_Event_Update)
+#    btnCancel.grid(row=13, column=1)
+
+    btnExit = Button(crtls_lbframe, text="Exit", padx=5, pady=10, command=Exit_Event)
+    btnExit.grid(row=13, column=2)
 
     # Insert/Paint the screen with the data as we have it currently
     # Main Event
