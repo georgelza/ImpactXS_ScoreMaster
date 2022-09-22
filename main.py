@@ -49,6 +49,7 @@ loglevel        = settings.loglevel
 splashtime      = settings.splashtime
 debuglevel      = settings.debuglevel
 appname         = settings.appname
+event_mode      = settings.event_mode
 
 ############## LETS Start ##############
 my_logger.info('{time}, --------------------------------------------------'.format(
@@ -111,12 +112,16 @@ def exitProgram():
 # end exitProgram
 
 def newEvent():
-    loadEvent("New")
+    # Call loadEvent in the new mode
+    settings.event_mode = "Load_Template"
+    loadEvent("Load_Template")
 
 # end newEvent
 
 def currentEvent():
-    loadEvent("")
+    # Call loadEvent in the load current known event mode mode
+    settings.event_mode = "Load_Event"
+    loadEvent("Load_Event")
 
 # end CurrentEvent
 
@@ -129,11 +134,13 @@ def loadEvent(_mode):
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-    if _mode == "new":
-        settings.filename = event.select_file("New")
+    if _mode == "Load_Template":
+        settings.filename = settings.file_dialog("Load_Template")
+        settings.event_mode = "Initial_Event_Save"
 
     else:
-        settings.filename = event.select_file("Load")
+        settings.filename = settings.file_dialog("Load_Event")
+        settings.event_mode = ""
 
     if settings.filename:
         settings.my_event_list              = event.load_event_json_from_file(settings.filename)
@@ -141,7 +148,7 @@ def loadEvent(_mode):
         settings.my_finals_target_list      = settings.my_event_list["final"]
         settings.my_shooter_list            = settings.my_event_list["shooters"]
 
-    if _mode == "new":
+    if _mode == "New_Event":
         settings.my_event_list["uuid"]  = str(uuid.uuid4())
 
     event.open_event_screen(main_window)
@@ -152,6 +159,7 @@ def loadEvent(_mode):
         ))
 
 # end loadEvent
+
 
 def load_all_shooters():
 
@@ -189,6 +197,7 @@ def load_all_scores():
         ))
 
 # end load_all_shooters
+
 
 def main():
 
@@ -254,9 +263,10 @@ def main():
 # end main
 
 
+if __name__ == "__main__":
 
-# Set the Splash screen Interval,after Interval call main()
-splash_root.after(splashtime, main)
+    # Set the Splash screen Interval,after Interval call main()
+    splash_root.after(splashtime, main)
 
-# Execute tkinter program
-mainloop()
+    # Execute tkinter program
+    mainloop()

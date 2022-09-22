@@ -24,7 +24,6 @@ __version__ = "0.0.1"
 
 from tkinter import *
 import tkinter as tk
-from tkinter import filedialog as fd
 from tkinter import ttk
 from datetime import datetime
 from tkcalendar import DateEntry
@@ -36,61 +35,6 @@ import settings
 
 my_logger       = settings.my_logger
 debuglevel      = settings.debuglevel
-
-# Open/Select file dialog box
-def select_file(mode):
-
-    filetypes = (
-        ('json files', '*.json'),
-        ('All files', '*.*')
-    )
-
-    if debuglevel >= 1:
-        my_logger.info('{time}, event.select_file Called '.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-    # Determine where we running, as template and events are by default subdirectories of the App directory.
-    directory = os.getcwd()
-    if debuglevel >= 1:
-        my_logger.info('{time}, event.select_file.Current App Directory {directory}'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            directory=directory
-        ))
-
-        my_logger.info('{time}, event.select_file.Mode is {mode}'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            mode=mode
-        ))
-
-    if mode == "New":
-        # We're creating a new event, so lets present a event template.
-        filename = fd.askopenfilename(
-            title='Open a file',
-            initialdir=directory + '/template',
-            filetypes=filetypes)
-    else:
-        #we're opening a previous defined event, so lets show saved events from ./events folder as default.
-        filename = fd.askopenfilename(
-            title='Open a file',
-            initialdir=directory + '/events',
-            filetypes=filetypes)
-
-    if filename:
-        if debuglevel >= 1:
-            my_logger.info('{time}, event.select_file.File Selected: {file}'.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-                file=filename
-            ))
-        return filename
-    else:
-        if debuglevel >= 1:
-            my_logger.info('{time}, event.select_file.Aborted, No File Selected'.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-        return ""
-
-# end select_file
 
 
 # Our special Treeview class that allows us to edit cells in place

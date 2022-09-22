@@ -22,6 +22,7 @@ __email__ = "georgelza@gmail.com"
 __version__ = "0.0.1"
 
 from datetime import datetime
+from tkinter import filedialog as fd
 
 import logging
 import os, socket, uuid, sys, json, time
@@ -43,6 +44,7 @@ def init():
     global currentRowIndex
     global filename
     global my_event_image
+    global event_mode
 
     # Colours
     global frame_bg
@@ -72,6 +74,7 @@ def init():
     debuglevel          = config_params["debuglevel"]
     appname             = "ImpactXS - ScoreMaster"
     my_event_image      = ""
+    event_mode          = ""
 
     # Global colors, to be moved to the environment variables, config_params
     frame_bg            = config_params["frame_bg"]
@@ -217,6 +220,68 @@ def print_config(config_params):
 #end print_config()
 
 
+# Open/Select file dialog box
+def file_dialog(mode):
+
+    filetypes = (
+        ('json files', '*.json'),
+        ('All files', '*.*')
+    )
+
+    if debuglevel >= 1:
+        my_logger.info('{time}, settings.file_dialog Called, Mode {mode}'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+            mode=mode
+        ))
+
+    # Determine where we running, as template and events are by default subdirectories of the App directory.
+    directory = os.getcwd()
+    if debuglevel >= 1:
+        my_logger.info('{time}, settings.file_dialog.Current App Directory {directory}'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+            directory=directory
+        ))
+
+        my_logger.info('{time}, settings.file_dialog.Mode is {mode}'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+            mode=mode
+        ))
+
+    if mode == "Load_Template":
+        # We're creating a new event, so lets present a event template.
+        filename = fd.askopenfilename(
+            title='Open a file',
+            initialdir=directory + '/template',
+            filetypes=filetypes)
+
+    elif mode == "Initial_Event_Save":
+        filename = fd.asksaveasfile(
+            title='Save file As',
+            initialdir=directory + '/events',
+            filetypes=filetypes)
+    else:
+        #we're opening a previous defined event, so lets show saved events from ./events folder as default.
+        filename = fd.askopenfilename(
+            title='Open a file',
+            initialdir=directory + '/events',
+            filetypes=filetypes)
+
+    if filename:
+        if debuglevel >= 1:
+            my_logger.info('{time}, settings.file_dialog.File Selected: {file}'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                file=filename
+            ))
+        return filename
+    else:
+        if debuglevel >= 1:
+            my_logger.info('{time}, settings.file_dialog.Aborted, No File Selected'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+        return ""
+
+# end file_dialog
+
 def save_json_to_file(myfile):
 
     global my_event_list
@@ -229,18 +294,29 @@ def save_json_to_file(myfile):
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-    with open(myfile, "w") as file_handler:
-        my_event_list["qualifying"] = my_qualifying_target_list
-        my_event_list["final"]      = my_finals_target_list
-        my_event_list["shooters"]   = my_shooter_list
+    if event_mode == "Initial_Event_Save":
+        myfile = file_dialog("Initial_Event_Save")
+        event_mode == "Load_Event"
 
-        json.dump(my_event_list, file_handler, indent=4)
+    if myfile:
+        with open(myfile, "w") as file_handler:
+            my_event_list["qualifying"] = my_qualifying_target_list
+            my_event_list["final"]      = my_finals_target_list
+            my_event_list["shooters"]   = my_shooter_list
 
-    file_handler.close
+            json.dump(my_event_list, file_handler, indent=4)
 
-    if debuglevel >= 2:
-        my_logger.info('{time}, settings.save_json_to_file.file has been written to and closed '.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
+        file_handler.close
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, settings.save_json_to_file.file has been written to and closed '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+    else:
+        if debuglevel >= 2:
+            my_logger.info('{time}, settings.save_json_to_file.No target file defined. File Save Aborted!!! '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
 
 #end save_json_to_file
