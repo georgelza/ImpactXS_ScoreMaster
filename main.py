@@ -111,33 +111,16 @@ def exitProgram():
 # end exitProgram
 
 def newEvent():
-
-    global main_window
-
-    if debuglevel >= 1:
-        my_logger.info('{time}, main.newEvent Called '.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-    # Popup file open window, allowing user to select 1Mile or 2 Mile event.json template file
-    settings.filename = event.select_file("New")
-    if settings.filename:
-        settings.my_event_list              = event.load_event_json_from_file(settings.filename)
-        settings.my_qualifying_target_list  = settings.my_event_list["qualifying"]
-        settings.my_finals_target_list      = settings.my_event_list["final"]
-        settings.my_shooter_list            = settings.my_event_list["shooters"]
-        settings.my_event_list["uuid"]  = str(uuid.uuid4())
-
-        event.open_event_screen(main_window)
-
-    if debuglevel >= 1:
-        my_logger.info('{time}, main.newEvent Completed '.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
+    loadEvent("New")
 
 # end newEvent
 
-def loadEvent():
+def currentEvent():
+    loadEvent("")
+
+# end CurrentEvent
+
+def loadEvent(_mode):
 
     global main_window
 
@@ -146,14 +129,22 @@ def loadEvent():
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-    settings.filename = event.select_file("Load")
+    if _mode == "new":
+        settings.filename = event.select_file("New")
+
+    else:
+        settings.filename = event.select_file("Load")
+
     if settings.filename:
         settings.my_event_list              = event.load_event_json_from_file(settings.filename)
         settings.my_qualifying_target_list  = settings.my_event_list["qualifying"]
         settings.my_finals_target_list      = settings.my_event_list["final"]
         settings.my_shooter_list            = settings.my_event_list["shooters"]
 
-        event.open_event_screen(main_window)
+    if _mode == "new":
+        settings.my_event_list["uuid"]  = str(uuid.uuid4())
+
+    event.open_event_screen(main_window)
 
     if debuglevel >= 1:
         my_logger.info('{time}, main.loadEvent Completed '.format(
@@ -232,7 +223,7 @@ def main():
     fileMenu.add_command(label="New Event", command=newEvent)
 
     # Open file dialog allowing user to select event file
-    fileMenu.add_command(label="Load Event", command=loadEvent)
+    fileMenu.add_command(label="Load Event", command=currentEvent)
 
     # Load all shooters as per the event file loaded into Treeview, if it is a new event with no shooters open
     # empty treeview, with only Add button enabled
