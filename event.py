@@ -23,8 +23,7 @@ __email__ = "georgelza@gmail.com"
 __version__ = "0.0.1"
 
 from tkinter import *
-import tkinter as tk
-from tkinter import ttk
+
 from datetime import datetime
 from tkcalendar import DateEntry
 
@@ -35,73 +34,6 @@ import settings
 
 my_logger       = settings.my_logger
 debuglevel      = settings.debuglevel
-
-
-# Our special Treeview class that allows us to edit cells in place
-class TreeviewEdit(ttk.Treeview):
-    def __init__(self, master, **kw):
-        super().__init__(master, **kw)
-
-        self.bind("<Double-1>", self.on_double_click)
-
-    def on_double_click(self, event):
-        region_clicked = self.identify_region(event.x, event.y)
-
-        if region_clicked not in ("tree", "cell"):
-            return
-
-        column = self.identify_column(event.x)
-        column_index = int(column[1:]) - 1
-        selected_iid = self.focus()
-        select_values = self.item(selected_iid)
-
-        if column == "#0":
-            selected_text = select_values.get("text")
-        else:
-            selected_text = select_values.get("values")[column_index]
-
-        # This gives us the X/Y of the box and then the Width/Height
-        column_box = self.bbox(selected_iid, column, )
-        entry_edit = ttk.Entry(self, width=column_box[2])
-
-        # Record the column index and item iid
-        entry_edit.editing_column_index = column_index
-        entry_edit.editing_item_iid = selected_iid
-
-        entry_edit.insert(0, selected_text)
-        entry_edit.select_range(0, tk.END)
-
-        entry_edit.focus()
-        entry_edit.bind("<FocusOut>", self.on_focus_out)
-        entry_edit.bind("<Return>", self.on_enter_pressed)
-
-        entry_edit.place(x=column_box[0],
-                         y=column_box[1],
-                         w=column_box[2],
-                         h=column_box[3])
-
-    def on_focus_out(self, event):
-        event.widget.destroy()
-
-    def on_enter_pressed(self, event):
-        new_text = event.widget.get()
-
-        # Such as I002
-        selected_iid = event.widget.editing_item_iid
-
-        # Such as -1 (tree column), 0 (first self defined column), etc.
-        column_index = event.widget.editing_column_index
-
-        if column_index == -1:
-            self.item(selected_iid, text=new_text)
-        else:
-            curret_values = self.item(selected_iid).get("values")
-            curret_values[column_index] = new_text
-            self.item(selected_iid, values=curret_values)
-
-        event.widget.destroy()
-
-# end TreeviewEdit
 
 
 def open_event_screen(root):
@@ -145,10 +77,8 @@ def open_event_screen(root):
         crm_q_targets.delete(0, END)
         crm_q_targets.insert(0, settings.my_qualifying_target_list["no_of_targets"])
 
-        # Remove records from treeview
-        remove_all_data_from_quals_trv()
         # reload treeview
-        load_quals_trv_with_json()
+        load_trv_with_json(trv_qual, "quals")
 
     # end make_new_quals_record
 
@@ -165,7 +95,7 @@ def open_event_screen(root):
         trv_qual.delete(selected_item)
 
         # dumb treeview to json
-        my_qualifying_target_list = create_quals_json_from_treeview(trv_qual)
+        my_qualifying_target_list = create_json_from_treeview(trv_qual, "quals")
 
         if debuglevel >= 2:
             my_logger.info('{time}, event.open_event_screen.remove_quals_record Update Qualifying Target List'.format(
@@ -180,10 +110,8 @@ def open_event_screen(root):
         crm_q_targets.delete(0, END)
         crm_q_targets.insert(0, settings.my_qualifying_target_list["no_of_targets"])
 
-        # remove records from treeview
-        remove_all_data_from_quals_trv()
         # reload treeview
-        load_quals_trv_with_json()
+        load_trv_with_json(trv_qual, "quals")
 
     # end remove_quals_record
 
@@ -206,10 +134,8 @@ def open_event_screen(root):
         crm_f_targets.delete(0, END)
         crm_f_targets.insert(0, settings.my_finals_target_list["no_of_targets"])
 
-        # Remove records from treeview
-        remove_all_data_from_finals_trv()
         # reload treeview
-        load_finals_trv_with_json()
+        load_trv_with_json(trv_finals, "finals")
 
     # end make_new_finals_record
 
@@ -226,7 +152,7 @@ def open_event_screen(root):
             trv_finals.delete(selected_item)
 
             # dumb treeview to json
-            my_finals_target_list = create_finals_json_from_treeview(trv_finals)
+            my_finals_target_list = create_json_from_treeview(trv_finals, "finals")
 
             if debuglevel >= 2:
                 my_logger.info('{time}, event.open_event_screen.remove_finals_record Update Finals Target List'.format(
@@ -243,96 +169,56 @@ def open_event_screen(root):
 
     # end remove_finals_record
 
-    # Clear Qualification Treeview
-    def remove_all_data_from_quals_trv():
-        if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.remove_all_data_from_qualtrv Called '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-
-        for item in trv_qual.get_children():
-            trv_qual.delete(item)
-
-        if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.remove_all_data_from_qualtrv Completed '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-
-    # end remove_all_data_from_quals_trv
-
-    # Clear Finals Treeview
-    def remove_all_data_from_finals_trv():
-        if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.remove_all_data_from_finalstrv Called '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-
-        for item in trv_finals.get_children():
-            trv_finals.delete(item)
-
-        if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.remove_all_data_from_finalstrv Completed '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-
-    # end remove_all_data_from_finals_trv
 
     # Populate Qualify Treeview
-    def load_quals_trv_with_json():
+    def load_trv_with_json(treeview, mode):
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.load_quals_trv_with_json Called '.format(
+            my_logger.info('{time}, event.open_event_screen.load_trv_with_json Called '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-            settings.pp_json(my_qualify)
-
-        remove_all_data_from_quals_trv()
+            if mode == "quals":
+                settings.pp_json(settings.my_qualifying_target_list)
+            else:
+                settings.pp_json(settings.my_finals_target_list)
 
         rowIndex = 1
-        for key in my_qualify["target_list"]:
-            target_no   = key["target_no"]
-            qb          = key["qb"]
-            distance    = key["distance"]
-            target_size = key["target_size"]
+        if mode == "quals":
+            # Clean out current painted treeview
+            for item in treeview.get_children():
+                trv_qual.delete(item)
 
-            trv_qual.insert('', index='end', iid=rowIndex, text="", values=(target_no, qb, distance, target_size))
-            rowIndex = rowIndex + 1
+            for key in my_qualify["target_list"]:
+                target_no   = key["target_no"]
+                qb          = key["qb"]
+                distance    = key["distance"]
+                target_size = key["target_size"]
+
+                trv_qual.insert('', index='end', iid=rowIndex, text="", values=(target_no, qb, distance, target_size))
+                rowIndex = rowIndex + 1
+
+        else:
+            # Clean out current painted treeview
+            for item in treeview.get_children():
+                trv_finals.delete(item)
+
+            for key in my_finals["target_list"]:
+                target_no = key["target_no"]
+                distance = key["distance"]
+                target_size = key["target_size"]
+
+                trv_finals.insert('', index='end', iid=rowIndex, text="", values=(target_no, distance, target_size))
+                rowIndex = rowIndex + 1
+
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.load_quals_trv_with_json Completed '.format(
+            my_logger.info('{time}, event.open_event_screen.load_trv_with_json Completed '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-    # end load_quals_trv_with_json
+    # end load_trv_with_json
 
-    # Populate Finals Treeview
-    def load_finals_trv_with_json():
-
-        if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.load_finals_trv_with_json Called '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-
-            settings.pp_json(my_finals)
-
-        remove_all_data_from_finals_trv()
-
-        rowIndex = 1
-        for key in my_finals["target_list"]:
-            target_no   = key["target_no"]
-            distance    = key["distance"]
-            target_size = key["target_size"]
-
-            trv_finals.insert('', index='end', iid=rowIndex, text="", values=(target_no, distance, target_size))
-            rowIndex = rowIndex + 1
-
-        if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.load_finals_trv_with_json Completed '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-
-    # end load_finals_trv_with_json
 
     def cancel_Event_Update():
 
@@ -368,52 +254,41 @@ def open_event_screen(root):
 
     # end Exit_Event
 
-    def create_quals_json_from_treeview(treeview):
 
-        json_quals_record = []
+    def create_json_from_treeview(treeview, mode):
 
-        if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.create_quals_json_from_treeview Called '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-
-        for line in treeview.get_children():
-            values = treeview.item(line)['values']
-            json_quals_record.append({"target_no":   values[0],
-                                      "qb":          values[1],
-                                      "distance":    values[2],
-                                      "target_size": values[3] })
+        json_record = []
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.create_quals_json_from_treeview Completed '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            my_logger.info('{time}, event.open_event_screen.create_json_from_treeview Called Mode: {mode}'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                mode=mode
             ))
-        return json_quals_record
 
-    # end create_quals_json_from_treeview
+        if mode == "quals":
+            for line in treeview.get_children():
+                values = treeview.item(line)['values']
+                json_record.append({"target_no":    values[0],
+                                    "qb":           values[1],
+                                    "distance":     values[2],
+                                    "target_size":  values[3]})
 
-    def create_finals_json_from_treeview(treeview):
-
-        json_quals_record = []
+        else:
+            for line in treeview.get_children():
+                values = treeview.item(line)['values']
+                json_record.append({"target_no":    values[0],
+                                    "distance":     values[1],
+                                    "target_size":  values[2]})
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.create_finals_json_from_treeview Called '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            my_logger.info('{time}, event.open_event_screen.create_json_from_treeview Completed Mode: {mode}'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                mode=mode
             ))
+        return json_record
 
-        for line in treeview.get_children():
-            values = treeview.item(line)['values']
-            json_quals_record.append({"target_no":      values[0],
-                                      "distance":       values[1],
-                                      "target_size":    values[2]})
+    # end create_json_from_treeview
 
-        if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.create_finals_json_from_treeview Completed '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-        return json_quals_record
-
-    # end create_finals_json_from_treeview
 
     # Save event data to file
     def save_Main_Event_json_data_to_file():
@@ -434,7 +309,7 @@ def open_event_screen(root):
         }
 
         # Retrieve the data from the treeview
-        m_qual_targets = create_quals_json_from_treeview(trv_qual)
+        m_qual_targets = create_json_from_treeview(trv_qual, "quals")
 
         # Build Qualifying json record
         my_qualifying = {
@@ -445,7 +320,7 @@ def open_event_screen(root):
         }
 
         # Retrieve the data from the treeview
-        m_finals_targets = create_finals_json_from_treeview(trv_finals)
+        m_finals_targets = create_json_from_treeview(trv_finals, "finals")
 
         # Build Finals json record
         my_final = {
@@ -607,7 +482,7 @@ def open_event_screen(root):
     btnQualDelRecord = Button(tree_qualframe, text="Delete", bg="#34d2eb", padx=2, pady=3, command=lambda: remove_quals_record())
     btnQualDelRecord.grid(row=0, column=1, sticky="W")
 
-    trv_qual = TreeviewEdit(tree_qualframe, columns=(1, 2, 3, 4), show="headings", height="7")
+    trv_qual = settings.TreeviewEdit(tree_qualframe, columns=(1, 2, 3, 4), show="headings", height="7")
     trv_qual.grid(row=1, column=0, rowspan=5, columnspan=9)
 
     trv_qual.heading(1, text="Target #",        anchor="w")
@@ -620,7 +495,7 @@ def open_event_screen(root):
     trv_qual.column("#4", anchor="w", width=100, stretch=True)
 
     tree_qualframe.grid(row=4, column=0)
-    load_quals_trv_with_json()
+    load_trv_with_json(trv_qual, "quals")
 
 
     # Finals shots
@@ -631,7 +506,7 @@ def open_event_screen(root):
     btnFinalsDelRecord = Button(tree_finalframe, text="Delete", bg="#34d2eb", padx=2, pady=3, command=lambda: remove_finals_record())
     btnFinalsDelRecord.grid(row=0, column=1, sticky="W")
 
-    trv_finals = TreeviewEdit(tree_finalframe, columns=(1, 2, 3), show="headings", height="7")
+    trv_finals = settings.TreeviewEdit(tree_finalframe, columns=(1, 2, 3), show="headings", height="7")
     trv_finals.grid(row=1, column=0, rowspan=5, columnspan=9)
     # Make space for a "Add" and "Delete" button
 
@@ -643,7 +518,7 @@ def open_event_screen(root):
     trv_finals.column("#3", anchor="w", width=100, stretch=True)
 
     tree_finalframe.grid(row=4, column=0)
-    load_finals_trv_with_json()
+    load_trv_with_json(trv_finals, "finals")
 
 
     # Main Event Common Data

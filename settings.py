@@ -23,6 +23,8 @@ __version__ = "0.0.1"
 
 from datetime import datetime
 from tkinter import filedialog as fd
+from tkinter import ttk
+import tkinter as tk
 
 import logging
 import os, socket, uuid, sys, json, time
@@ -242,11 +244,6 @@ def file_dialog(mode):
             directory=directory
         ))
 
-        my_logger.info('{time}, settings.file_dialog.Mode is {mode}'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            mode=mode
-        ))
-
     if mode == "Load_Template":
         # We're creating a new event, so lets present a event template.
         filename = fd.askopenfilename(
@@ -268,7 +265,7 @@ def file_dialog(mode):
 
     if filename:
         if debuglevel >= 1:
-            my_logger.info('{time}, settings.file_dialog.File Selected: {file}'.format(
+            my_logger.info('{time}, settings.file_dialog.File: {file}'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
                 file=filename
             ))
@@ -320,3 +317,70 @@ def save_json_to_file(myfile):
             ))
 
 #end save_json_to_file
+
+
+# Our special Treeview class that allows us to edit cells in place
+class TreeviewEdit(ttk.Treeview):
+    def __init__(self, master, **kw):
+        super().__init__(master, **kw)
+
+        self.bind("<Double-1>", self.on_double_click)
+
+    def on_double_click(self, event):
+        region_clicked = self.identify_region(event.x, event.y)
+
+        if region_clicked not in ("tree", "cell"):
+            return
+
+        column = self.identify_column(event.x)
+        column_index = int(column[1:]) - 1
+        selected_iid = self.focus()
+        select_values = self.item(selected_iid)
+
+        if column == "#0":
+            selected_text = select_values.get("text")
+        else:
+            selected_text = select_values.get("values")[column_index]
+
+        # This gives us the X/Y of the box and then the Width/Height
+        column_box = self.bbox(selected_iid, column, )
+        entry_edit = ttk.Entry(self, width=column_box[2])
+
+        # Record the column index and item iid
+        entry_edit.editing_column_index = column_index
+        entry_edit.editing_item_iid = selected_iid
+
+        entry_edit.insert(0, selected_text)
+        entry_edit.select_range(0, tk.END)
+
+        entry_edit.focus()
+        entry_edit.bind("<FocusOut>", self.on_focus_out)
+        entry_edit.bind("<Return>", self.on_enter_pressed)
+
+        entry_edit.place(x=column_box[0],
+                         y=column_box[1],
+                         w=column_box[2],
+                         h=column_box[3])
+
+    def on_focus_out(self, event):
+        event.widget.destroy()
+
+    def on_enter_pressed(self, event):
+        new_text = event.widget.get()
+
+        # Such as I002
+        selected_iid = event.widget.editing_item_iid
+
+        # Such as -1 (tree column), 0 (first self defined column), etc.
+        column_index = event.widget.editing_column_index
+
+        if column_index == -1:
+            self.item(selected_iid, text=new_text)
+        else:
+            curret_values = self.item(selected_iid).get("values")
+            curret_values[column_index] = new_text
+            self.item(selected_iid, values=curret_values)
+
+        event.widget.destroy()
+
+# end TreeviewEdit
