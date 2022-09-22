@@ -12,27 +12,32 @@
             {
                 "target_no": 0,
                 "qb": 1,
-                "distance": 925
+                "distance": 925,
+                "target_size": "300x300"
             },
             {
                 "target_no": 1,
                 "qb": 0,
-                "distance": 1000
+                "distance": 1000,
+                "target_size": "300x350"
             },
             {
                 "target_no": 2,
                 "qb": 0,
-                "distance": 1300
+                "distance": 1300,
+                "target_size": "400x500"
             },
             {
                 "target_no": 3,
                 "qb": 0,
-                "distance": 1600
+                "distance": 1600,
+                "target_size": "520x520"
             },
             {
                 "target_no": 4,
                 "qb": 0,
-                "distance": 1800
+                "distance": 1800,
+                "target_size": "550x550"
             }
         ]
     },
@@ -43,19 +48,23 @@
         "target_list": [
             {
                 "target_no": 0,
-                "distance": 1800
+                "distance": 1800,
+                "target_size" : "300x350"
             },
             {
                 "target_no": 1,
-                "distance": 2500
+                "distance": 2500,
+                "target_size": "400x500"
             },
             {
                 "target_no": 2,
-                "distance": 3000
+                "distance": 3000,
+                "target_size": "520x520"
             },
             {
                 "target_no": 3,
-                "distance": 3500
+                "distance": 3500,
+                "target_size": "550x550"
             }
         ]
     },

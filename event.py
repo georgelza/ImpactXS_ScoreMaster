@@ -191,8 +191,9 @@ def open_event_screen(root):
         # Add record to json
         my_qualifying_target_list = settings.my_qualifying_list["target_list"]
         my_qualifying_target_list.append({"target_no": len(my_qualifying_target_list),
-                               "qb": 0,
-                               "distance": 0})
+                                "qb": 0,
+                                "distance": 0,
+                                "target_size": ""})
         settings.my_qualifying_list["target_list"]      = my_qualifying_target_list
         settings.my_qualifying_list["no_of_targets"]    = str(len(my_qualifying_target_list))
 
@@ -252,7 +253,8 @@ def open_event_screen(root):
         # Add record to json
         my_finals_target_list = settings.my_final_list["target_list"]
         my_finals_target_list.append({"target_no": len(my_finals_target_list),
-                                      "distance": 0})
+                                        "distance": 0,
+                                        "target_size": ""})
         settings.my_final_list["target_list"]      = my_finals_target_list
         settings.my_final_list["no_of_targets"]    = str(len(my_finals_target_list))
 
@@ -344,11 +346,12 @@ def open_event_screen(root):
 
         rowIndex = 1
         for key in my_qualify["target_list"]:
-            target_no = key["target_no"]
-            qb = key["qb"]
-            distance = key["distance"]
+            target_no   = key["target_no"]
+            qb          = key["qb"]
+            distance    = key["distance"]
+            target_size = key["target_size"]
 
-            trv_qual.insert('', index='end', iid=rowIndex, text="", values=(target_no, qb, distance))
+            trv_qual.insert('', index='end', iid=rowIndex, text="", values=(target_no, qb, distance, target_size))
             rowIndex = rowIndex + 1
 
         if debuglevel >= 2:
@@ -372,10 +375,11 @@ def open_event_screen(root):
 
         rowIndex = 1
         for key in my_finals["target_list"]:
-            target_no = key["target_no"]
-            distance = key["distance"]
+            target_no   = key["target_no"]
+            distance    = key["distance"]
+            target_size = key["target_size"]
 
-            trv_finals.insert('', index='end', iid=rowIndex, text="", values=(target_no, distance))
+            trv_finals.insert('', index='end', iid=rowIndex, text="", values=(target_no, distance, target_size))
             rowIndex = rowIndex + 1
 
         if debuglevel >= 2:
@@ -430,9 +434,10 @@ def open_event_screen(root):
 
         for line in treeview.get_children():
             values = treeview.item(line)['values']
-            json_quals_record.append({"target_no":  values[0],
-                                      "qb":         values[1],
-                                      "distance":   values[2]})
+            json_quals_record.append({"target_no":   values[0],
+                                      "qb":          values[1],
+                                      "distance":    values[2],
+                                      "target_size": values[3] })
 
         if debuglevel >= 2:
             my_logger.info('{time}, open_event_screen.create_quals_json_from_treeview Completed '.format(
@@ -453,9 +458,9 @@ def open_event_screen(root):
 
         for line in treeview.get_children():
             values = treeview.item(line)['values']
-            json_quals_record.append({"target_no":  values[0],
-                                      "distance":   values[1]})
-
+            json_quals_record.append({"target_no":      values[0],
+                                      "distance":       values[1],
+                                      "target_size":    values[2]})
 
         if debuglevel >= 2:
             my_logger.info('{time}, open_event_screen.create_finals_json_from_treeview Completed '.format(
@@ -588,11 +593,11 @@ def open_event_screen(root):
 
 
     # Main Event Frame Layout
-    lb_crm_eventname    = Label(input_lbframe, text="Event Name",  width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
-    lb_crm_Location     = Label(input_lbframe, text="Location",    width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
-    lb_crm_Start_Date   = Label(input_lbframe, text="Start Date",  width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
-    lb_crm_End_Date     = Label(input_lbframe, text="End Date",    width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
-    lb_crm_Distance     = Label(input_lbframe, text="Distance",    width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
+    lb_crm_eventname    = Label(input_lbframe, text="Event Name",   width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
+    lb_crm_Location     = Label(input_lbframe, text="Location",     width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
+    lb_crm_Start_Date   = Label(input_lbframe, text="Start Date",   width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
+    lb_crm_End_Date     = Label(input_lbframe, text="End Date",     width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
+    lb_crm_Distance     = Label(input_lbframe, text="Distance",     width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
 
     lb_crm_eventname.grid   (column=0, row=0, padx=1, pady=0)
     lb_crm_Location.grid    (column=0, row=1, padx=1, pady=0)
@@ -656,15 +661,17 @@ def open_event_screen(root):
     btnQualDelRecord = Button(tree_qualframe, text="Delete", bg="#34d2eb", padx=2, pady=3, command=lambda: remove_quals_record())
     btnQualDelRecord.grid(row=0, column=1, sticky="W")
 
-    trv_qual = TreeviewEdit(tree_qualframe, columns=(1, 2, 3), show="headings", height="7")
+    trv_qual = TreeviewEdit(tree_qualframe, columns=(1, 2, 3, 4), show="headings", height="7")
     trv_qual.grid(row=1, column=0, rowspan=5, columnspan=9)
 
-    trv_qual.heading(1, text="Target #",    anchor="w")
-    trv_qual.heading(2, text="QB",          anchor="center")
-    trv_qual.heading(3, text="Distance",    anchor="center")
+    trv_qual.heading(1, text="Target #",        anchor="w")
+    trv_qual.heading(2, text="QB",              anchor="center")
+    trv_qual.heading(3, text="Distance (m)",    anchor="center")
+    trv_qual.heading(4, text="Target Size",     anchor="center")
     trv_qual.column("#1", anchor="w", width=60, stretch=True)
     trv_qual.column("#2", anchor="w", width=100, stretch=True)
     trv_qual.column("#3", anchor="w", width=100, stretch=True)
+    trv_qual.column("#4", anchor="w", width=100, stretch=True)
 
     tree_qualframe.grid(row=4, column=0)
     load_quals_trv_with_json()
@@ -678,14 +685,16 @@ def open_event_screen(root):
     btnFinalsDelRecord = Button(tree_finalframe, text="Delete", bg="#34d2eb", padx=2, pady=3, command=lambda: remove_finals_record())
     btnFinalsDelRecord.grid(row=0, column=1, sticky="W")
 
-    trv_finals = TreeviewEdit(tree_finalframe, columns=(1, 2), show="headings", height="7")
+    trv_finals = TreeviewEdit(tree_finalframe, columns=(1, 2, 3), show="headings", height="7")
     trv_finals.grid(row=1, column=0, rowspan=5, columnspan=9)
     # Make space for a "Add" and "Delete" button
 
-    trv_finals.heading(1, text="Target #",  anchor="w")
-    trv_finals.heading(2, text="Distance",  anchor="center")
+    trv_finals.heading(1, text="Target #",      anchor="w")
+    trv_finals.heading(2, text="Distance (m)",  anchor="center")
+    trv_finals.heading(3, text="Target Size",   anchor="center")
     trv_finals.column("#1", anchor="w", width=60, stretch=True)
     trv_finals.column("#2", anchor="w", width=100, stretch=True)
+    trv_finals.column("#3", anchor="w", width=100, stretch=True)
 
     tree_finalframe.grid(row=4, column=0)
     load_finals_trv_with_json()
