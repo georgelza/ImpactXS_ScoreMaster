@@ -10,7 +10,7 @@
 #   File            :   main.py
 #
 #	By              :   George Leonard ( georgelza@gmail.com )
-#                   :   With lots of help from Scott Johnson
+#                   :   With lots of help from Scott Johnson (softwareNugget65@gmail.com)
 #                   :   & many YouTube videos ;)
 #
 #   Created     	:   0.0.1 - 5 September 2022
@@ -40,6 +40,7 @@ settings.init()
 
 import event
 import shooters
+import scores
 
 global main_window
 
@@ -102,7 +103,7 @@ labelimpactxs.place(x=0, y=450)
 # Our Functions
 def exitProgram():
 
-    my_logger.info('{time}, Exiting...'.format(
+    my_logger.info('{time}, main.Exiting...'.format(
         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
     ))
     exit()
@@ -114,19 +115,19 @@ def newEvent():
     global main_window
 
     if debuglevel >= 1:
-        my_logger.info('{time}, newEvent Called '.format(
+        my_logger.info('{time}, main.newEvent Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
     # Popup file open window, allowing user to select 1Mile or 2 Mile event.json template file
     settings.filename = event.select_file("New")
     if settings.filename:
-        settings.my_event_list = event.load_event_json_from_file(settings.filename)
-        settings.my_event_list["uuid"] = str(uuid.uuid4())
+        settings.my_event_list          = event.load_event_json_from_file(settings.filename)
+        settings.my_event_list["uuid"]  = str(uuid.uuid4())
         event.open_event_screen(main_window)
 
     if debuglevel >= 1:
-        my_logger.info('{time}, newEvent Completed '.format(
+        my_logger.info('{time}, main.newEvent Completed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -137,21 +138,21 @@ def loadEvent():
     global main_window
 
     if debuglevel >= 1:
-        my_logger.info('{time}, loadEvent Called '.format(
+        my_logger.info('{time}, main.loadEvent Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
     settings.filename = event.select_file("Load")
     if settings.filename:
-        settings.my_event_list      = event.load_event_json_from_file(settings.filename)
-        settings.my_qualifying_list = settings.my_event_list["qualifying"]
-        settings.my_final_list      = settings.my_event_list["final"]
-        settings.my_shooter_list    = settings.my_event_list["shooters"]
+        settings.my_event_list              = event.load_event_json_from_file(settings.filename)
+        settings.my_qualifying_target_list  = settings.my_event_list["qualifying"]
+        settings.my_finals_target_list      = settings.my_event_list["final"]
+        settings.my_shooter_list            = settings.my_event_list["shooters"]
 
         event.open_event_screen(main_window)
 
     if debuglevel >= 1:
-        my_logger.info('{time}, loadEvent Completed '.format(
+        my_logger.info('{time}, main.loadEvent Completed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -162,33 +163,33 @@ def load_all_shooters():
     global main_window
 
     if debuglevel >= 1:
-        my_logger.info('{time}, load_all_shooters Called '.format(
+        my_logger.info('{time}, main.load_all_shooters Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-    shooters.load_shooters(main_window)
+    shooters.load_all_shooters(main_window)
 
     if debuglevel >= 1:
-        my_logger.info('{time}, load_all_shooters Completed '.format(
+        my_logger.info('{time}, main.load_all_shooters Completed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
 # end load_all_shooters
 
 
-def load_scores():
+def load_all_scores():
 
     global myevent_list
 
     if debuglevel >= 1:
-        my_logger.info('{time}, load_scores Called '.format(
+        my_logger.info('{time}, main.load_all_scores Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-    shooters.load_scores(main_window)
+    scores.load_all_scores(main_window)
 
     if debuglevel >= 1:
-        my_logger.info('{time}, load_scores Completed '.format(
+        my_logger.info('{time}, main.load_all_scores Completed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -236,7 +237,7 @@ def main():
     # #1 Load the shooters and scores into treeview
     # #2 if auto update is selected, disable edit mode, allow user to select Qualify or Final as the order, initiate
     # auto refresh, for now every 10 seconds, change to refresh when shooter score is updated,
-    fileMenu.add_command(label="Scores...", command=load_scores)
+    fileMenu.add_command(label="Scores...", command=load_all_scores)
 
     fileMenu.add_separator()
     fileMenu.add_command(label="Exit", command=exitProgram)

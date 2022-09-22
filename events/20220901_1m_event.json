@@ -49,7 +49,7 @@
             {
                 "target_no": 0,
                 "distance": 1800,
-                "target_size" : "300x350"
+                "target_size": "300x350"
             },
             {
                 "target_no": 1,
@@ -63,7 +63,7 @@
             },
             {
                 "target_no": 3,
-                "distance": 3500,
+                "distance": 3400,
                 "target_size": "550x550"
             }
         ]

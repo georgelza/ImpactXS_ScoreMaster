@@ -32,8 +32,8 @@ def init():
     global my_logger
 
     global my_event_list
-    global my_qualifying_list
-    global my_final_list
+    global my_qualifying_target_list
+    global my_finals_target_list
     global my_shooter_list
 
     global debuglevel
@@ -59,10 +59,10 @@ def init():
     # Our Lists of fields for the event, qualifying round setup and final round setup and then a
     # lists of shooters...
     # all collapsed into one json structure when written to a file.
-    my_event_list       = []
-    my_qualifying_list  = []
-    my_final_list       = []
-    my_shooter_list     = []
+    my_event_list               = []
+    my_qualifying_target_list   = []
+    my_finals_target_list       = []
+    my_shooter_list             = []
 
     # Read/Define Environment variables
     config_params       = getAppEnvVariables()
@@ -97,19 +97,19 @@ def init():
     # Set Logging level
     if loglevel == 'INFO':
         my_logger.setLevel(logging.INFO)
-        my_logger.info('{time}, INFO LEVEL Activated'.format(
+        my_logger.info('{time}, settings.INFO LEVEL Activated'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
     elif loglevel == 'DEBUG':
         my_logger.setLevel(logging.DEBUG)
-        my_logger.debug('{time}, DEBUG LEVEL Activated'.format(
+        my_logger.debug('{time}, settings.DEBUG LEVEL Activated'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
     elif loglevel == 'CRITICAL':
         my_logger.setLevel(logging.CRITICAL)
-        my_logger.critical('{time}, CRITICAL LEVEL Activated'.format(
+        my_logger.critical('{time}, settings.CRITICAL LEVEL Activated'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -171,21 +171,6 @@ def get_system_info():
 
 #end get_system_info
 
-
-# Generate a 15 digit uuid
-def gen_endToEndId():
-
-    txnid = str(uuid.uuid4().hex)[:15]
-
-    print('{time}, Assigned {txnid}'.format(
-        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-        txnid=txnid))
-
-    sys.stdout.flush()
-    return txnid
-
-#end gen_endToEndId
-
 def pp_json(json_thing, sort=True, indents=4):
     if type(json_thing) is str:
         print(json.dumps(json.loads(json_thing), sort_keys=sort, indent=indents))
@@ -238,13 +223,13 @@ def save_json_to_file(myfile):
     global my_shooter_list
 
     if debuglevel >= 2:
-        my_logger.info('{time}, save_json_to_file Called'.format(
+        my_logger.info('{time}, settings.save_json_to_file Called'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
     with open(myfile, "w") as file_handler:
-        my_event_list["qualifying"] = my_qualifying_list
-        my_event_list["final"]      = my_final_list
+        my_event_list["qualifying"] = my_qualifying_target_list
+        my_event_list["final"]      = my_finals_target_list
         my_event_list["shooters"]   = my_shooter_list
 
         json.dump(my_event_list, file_handler, indent=4)
@@ -252,7 +237,7 @@ def save_json_to_file(myfile):
     file_handler.close
 
     if debuglevel >= 2:
-        my_logger.info('{time}, save_json_to_file.file has been written to and closed '.format(
+        my_logger.info('{time}, settings.save_json_to_file.file has been written to and closed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 

@@ -41,7 +41,7 @@ debuglevel      = settings.debuglevel
 def load_shooter_json_from_file(myfile):
 
     if debuglevel >= 1:
-        my_logger.info('{time}, load_shooter_json_from_file Called '.format(
+        my_logger.info('{time}, shooters.load_shooter_json_from_file Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -54,7 +54,7 @@ def load_shooter_json_from_file(myfile):
     settings.pp_json(settings.my_shooter_list)
 
     if debuglevel >= 1:
-        my_logger.info('{time}, load_shooter_json_from_file.file has been read and closed '.format(
+        my_logger.info('{time}, shooters.load_shooter_json_from_file.file has been read and closed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -63,7 +63,7 @@ def load_shooter_json_from_file(myfile):
 def find_rec_in_my_shooter_list(guid_value):
 
     if debuglevel >= 2:
-        my_logger.info('{time}, find_rec_in_my_shooter_list Called'.format(
+        my_logger.info('{time}, shooters.find_rec_in_my_shooter_list Called'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -85,7 +85,7 @@ def find_rec_in_my_shooter_list(guid_value):
 
 # We will add the scores via the File/scores menu.
 # For now ust build Scott's Treeview and user editor, then replace with my data.
-def load_shooters(main_window):
+def load_all_shooters(main_window):
 
     global trv
     global label_text_bg
@@ -112,7 +112,7 @@ def load_shooters(main_window):
     lblframefont_size   = settings.lblframefont_size
 
     if debuglevel >= 1:
-        my_logger.info('{time}, load_shooters Called '.format(
+        my_logger.info('{time}, shooters.load_all_shooters Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -127,7 +127,7 @@ def load_shooters(main_window):
     directory = os.getcwd()
 
     if debuglevel >= 1:
-        my_logger.info('{time}, load_shooters.Current App Directory {directory}'.format(
+        my_logger.info('{time}, shooters.load_all_shooters.Current App Directory {directory}'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
             directory=directory
         ))
@@ -135,7 +135,7 @@ def load_shooters(main_window):
     def make_new_record():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, load_shooters.make_new_record Called'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.make_new_record Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -175,7 +175,7 @@ def load_shooters(main_window):
     def remove_all_data_from_trv():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, load_shooters.remove_all_data_from_trv Called'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.remove_all_data_from_trv Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -183,7 +183,7 @@ def load_shooters(main_window):
             trv.delete(item)
 
         if debuglevel >= 2:
-            my_logger.info('{time}, load_shooters.remove_all_data_from_trv Completed'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.remove_all_data_from_trv Completed'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -192,7 +192,7 @@ def load_shooters(main_window):
     def load_trv_with_json():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, load_shooters.load_trv_with_json Called'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.load_trv_with_json Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -215,7 +215,7 @@ def load_shooters(main_window):
             rowIndex = rowIndex + 1
 
         if debuglevel >= 2:
-            my_logger.info('{time}, load_shooters.load_trv_with_json Completed'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.load_trv_with_json Completed'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -225,13 +225,13 @@ def load_shooters(main_window):
         global trv
 
         if debuglevel >= 2:
-            my_logger.info('{time}, load_shooters.MouseButtonUpCallBack Called'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.MouseButtonUpCallBack Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
         currentRowIndex = trv.selection()[0]
 
-        my_logger.info('{time}, load_shooters.MouseButtonUpCallBack Called Cur Row Index: {currentRowIndex}'.format(
+        my_logger.info('{time}, shooters.load_all_shooters.MouseButtonUpCallBack Called Cur Row Index: {currentRowIndex}'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
             currentRowIndex=currentRowIndex
         ))
@@ -242,7 +242,7 @@ def load_shooters(main_window):
         open_popup('edit', my_jsonrec, tree_frame)
 
         if debuglevel >= 2:
-            my_logger.info('{time}, load_shooters.MouseButtonUpCallBack Completed'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.MouseButtonUpCallBack Completed'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -258,11 +258,11 @@ def load_shooters(main_window):
             scores = json_record["scores"]
 
         if debuglevel >= 2:
-            my_logger.info('{time}, load_shooters.open_popup Called'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.open_popup Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-            my_logger.info('{time}, load_shooters.open_popup Current Shooter'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.open_popup Current Shooter'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
             settings.pp_json(json_record)
@@ -490,7 +490,7 @@ def load_shooters(main_window):
         def delete_record():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.delete_record Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.delete_record Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -513,7 +513,7 @@ def load_shooters(main_window):
             child.update()
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.delete_record Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.delete_record Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -522,7 +522,7 @@ def load_shooters(main_window):
         def child_cancel():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.child_cancel Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.child_cancel Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -531,7 +531,7 @@ def load_shooters(main_window):
             child.update()
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.child_cancel Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.child_cancel Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -540,20 +540,20 @@ def load_shooters(main_window):
         def reload_main_form():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.reload_main_form Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.reload_main_form Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
             load_trv_with_json()
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.reload_main_form Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.reload_main_form Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
         def change_background_color(new_color):
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.change_background_color Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.change_background_color Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -596,7 +596,7 @@ def load_shooters(main_window):
             crm_cartridge_powder_model.config(bg=new_color)
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.change_background_color Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.change_background_color Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -605,7 +605,7 @@ def load_shooters(main_window):
         def add_entry():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.add_entry Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.add_entry Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -677,7 +677,7 @@ def load_shooters(main_window):
             process_request('_INSERT_', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter, equipment, scores)
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.add_entry Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.add_entry Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -687,7 +687,7 @@ def load_shooters(main_window):
 
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.update_entry Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.update_entry Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -760,7 +760,7 @@ def load_shooters(main_window):
             process_request('_UPDATE_', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter, equipment, scores)
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.update_entry Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.update_entry Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -769,7 +769,7 @@ def load_shooters(main_window):
         def load_edit_field_with_row_data(json_record):
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.load_edit_field_with_row_data Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.load_edit_field_with_row_data Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -851,7 +851,7 @@ def load_shooters(main_window):
             crm_cartridge_powder_model.insert(0, cartridge["powder_model"])
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.load_edit_field_with_row_data Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.load_edit_field_with_row_data Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -863,7 +863,7 @@ def load_shooters(main_window):
             dirty = True
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.process_request Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.process_request Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -885,7 +885,7 @@ def load_shooters(main_window):
                     settings.my_shooter_list[row] = dict
 
                 if debuglevel >= 2:
-                    my_logger.info('{time}, load_shooters.process_request _UPDATE_'.format(
+                    my_logger.info('{time}, shooters.load_all_shooters.process_request _UPDATE_'.format(
                         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                     ))
 
@@ -905,7 +905,7 @@ def load_shooters(main_window):
                 settings.my_shooter_list.append(dict)
 
                 if debuglevel >= 2:
-                    my_logger.info('{time}, load_shooters.process_request _INSERT_'.format(
+                    my_logger.info('{time}, shooters.load_all_shooters.process_request _INSERT_'.format(
                         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                     ))
 
@@ -915,7 +915,7 @@ def load_shooters(main_window):
                     del settings.my_shooter_list[row]
 
                 if debuglevel >= 2:
-                    my_logger.info('{time}, load_shooters.process_request _DELETE_'.format(
+                    my_logger.info('{time}, shooters.load_all_shooters.process_request _DELETE_'.format(
                         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                     ))
 
@@ -923,7 +923,7 @@ def load_shooters(main_window):
             clear_all_fields()
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.process_request Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.process_request Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -932,7 +932,7 @@ def load_shooters(main_window):
         def find_row_in_my_shooter_list(guid_value):
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.find_row_in_my_shooter_list Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.find_row_in_my_shooter_list Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -956,7 +956,7 @@ def load_shooters(main_window):
         def determineAction():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.determineAction Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.determineAction Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -972,7 +972,7 @@ def load_shooters(main_window):
             child.update()
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.determineAction Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.determineAction Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -982,7 +982,7 @@ def load_shooters(main_window):
         def clear_all_fields():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.clear_all_fields Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.clear_all_fields Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -1001,14 +1001,14 @@ def load_shooters(main_window):
             change_background_color("#FFFFFF")
 
             if debuglevel >= 2:
-                my_logger.info('{time}, load_shooters.clear_all_fields Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.clear_all_fields Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
         #end clear_all_fields
 
         if debuglevel >= 2:
-            my_logger.info('{time}, load_shooters.open_popup Completed'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.open_popup Completed'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -1019,25 +1019,8 @@ def load_shooters(main_window):
     load_trv_with_json()
 
     if debuglevel >= 1:
-        my_logger.info('{time}, load_shooters Completed'.format(
+        my_logger.info('{time}, shooters.load_all_shooters Completed'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
 # end load_all_shooters
-
-
-def load_scores(main_window):
-
-    if debuglevel >= 1:
-        my_logger.info('{time}, load_scores Called'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-    # ...
-
-    if debuglevel >= 1:
-        my_logger.info('{time}, load_scores Completed'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-# end load_scores
