@@ -4,6 +4,7 @@
     "start_date": "22/08/2022",
     "end_date": "25/08/2022",
     "distance": "1-Mile",
+    "image": "2mile.png",
     "qualifying": {
         "no_of_targets": "5",
         "no_of_shots": "4",

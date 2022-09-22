@@ -4,6 +4,7 @@
     "start_date": "22/08/2022",
     "end_date": "25/08/2022",
     "distance": "1-Mile",
+    "image": "1mile.png",
     "qualifying": {
         "no_of_targets": "5",
         "no_of_shots": "4",
@@ -19,25 +20,25 @@
                 "target_no": 1,
                 "qb": 0,
                 "distance": 1000,
-                "target_size" : "300x350"
+                "target_size": "300x350"
             },
             {
                 "target_no": 2,
                 "qb": 0,
                 "distance": 1300,
-                "target_size" : "400x500"
+                "target_size": "400x500"
             },
             {
                 "target_no": 3,
                 "qb": 0,
                 "distance": 1600,
-                "target_size" : "520x520"
+                "target_size": "520x520"
             },
             {
                 "target_no": 4,
                 "qb": 0,
                 "distance": 1800,
-                "target_size" : "550x550"
+                "target_size": "550x550"
             }
         ]
     },
@@ -49,22 +50,22 @@
             {
                 "target_no": 0,
                 "distance": 1800,
-                "target_size" : "300x300"
+                "target_size": "300x350"
             },
             {
                 "target_no": 1,
                 "distance": 2500,
-                "target_size" : "300x300"
+                "target_size": "400x500"
             },
             {
                 "target_no": 2,
                 "distance": 3000,
-                "target_size" : "300x300"
+                "target_size": "520x520"
             },
             {
                 "target_no": 3,
-                "distance": 3500,
-                "target_size" : "300x300"
+                "distance": 3400,
+                "target_size": "550x550"
             }
         ]
     },

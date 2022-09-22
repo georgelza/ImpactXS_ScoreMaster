@@ -42,6 +42,7 @@ def init():
     global splashtime
     global currentRowIndex
     global filename
+    global my_event_image
 
     # Colours
     global frame_bg
@@ -70,6 +71,7 @@ def init():
     splashtime          = config_params["splashtime"]
     debuglevel          = config_params["debuglevel"]
     appname             = "ImpactXS - ScoreMaster"
+    my_event_image      = ""
 
     # Global colors, to be moved to the environment variables, config_params
     frame_bg            = config_params["frame_bg"]

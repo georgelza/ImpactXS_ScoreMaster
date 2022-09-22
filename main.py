@@ -122,8 +122,12 @@ def newEvent():
     # Popup file open window, allowing user to select 1Mile or 2 Mile event.json template file
     settings.filename = event.select_file("New")
     if settings.filename:
-        settings.my_event_list          = event.load_event_json_from_file(settings.filename)
+        settings.my_event_list              = event.load_event_json_from_file(settings.filename)
+        settings.my_qualifying_target_list  = settings.my_event_list["qualifying"]
+        settings.my_finals_target_list      = settings.my_event_list["final"]
+        settings.my_shooter_list            = settings.my_event_list["shooters"]
         settings.my_event_list["uuid"]  = str(uuid.uuid4())
+
         event.open_event_screen(main_window)
 
     if debuglevel >= 1:

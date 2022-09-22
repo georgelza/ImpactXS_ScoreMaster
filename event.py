@@ -166,6 +166,7 @@ def open_event_screen(root):
     my_qualify          = settings.my_qualifying_target_list
     my_finals           = settings.my_finals_target_list
     my_shooters         = settings.my_shooter_list
+    my_event_image      = settings.my_event_image
 
     # color'ing
     frame_bg            = settings.frame_bg
@@ -484,7 +485,8 @@ def open_event_screen(root):
             "location":     crm_Location.get(),
             "start_date":   crm_Start_Date.get(),
             "end_date":     crm_End_Date.get(),
-            "distance":     crm_Distance.get()
+            "distance":     crm_Distance.get(),
+            "image":        settings.my_event_image
         }
 
         # Retrieve the data from the treeview
@@ -767,10 +769,11 @@ def load_event_json_from_file(file):
         ))
 
     with open(file, "r") as fh:
-        my_event_list       = json.load(fh)
-        my_qualifying_target_list  = my_event_list["qualifying"]
+        my_event_list               = json.load(fh)
+        settings.my_event_image     = my_event_list["image"]
+        my_qualifying_target_list   = my_event_list["qualifying"]
         my_finals_target_list       = my_event_list["final"]
-        my_shooter_list     = my_event_list["shooters"]
+        my_shooter_list             = my_event_list["shooters"]
 
     fh.close
 
