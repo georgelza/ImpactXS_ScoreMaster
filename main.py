@@ -189,7 +189,7 @@ def load_all_scores():
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-    scores.load_all_scores(main_window)
+    scores.load_all_shooters_scores(main_window)
 
     if debuglevel >= 1:
         my_logger.info('{time}, main.load_all_scores Completed '.format(

@@ -23,7 +23,9 @@ __version__ = "0.0.1"
 
 from tkinter import *
 from tkinter import ttk
+import tkinter as tk
 from datetime import datetime
+from PIL import Image, ImageTk
 
 import uuid
 import json
@@ -96,11 +98,17 @@ def load_all_shooters_scores(main_window):
         ))
 
     child = Toplevel(main_window)
-    child.title = "Shooters"
-    child.geometry("1000x700")
+    child.title = "Scores"
+    child.geometry("1000x800")
     child.configure(bg=frame_bg)
 
-    tree_frame = Frame(child)
+    header_frame    = Frame(child)
+    tree_frame      = Frame(child)
+    footer_frame    = Frame(child)
+
+    header_frame.pack(fill="both",  expand="yes", padx=10, pady=10)
+    tree_frame.pack(fill="both",    expand="yes", padx=10, pady=10)
+    footer_frame.pack(fill="both",  expand="yes", padx=10, pady=10)
 
     # Determine where we're running, as template and events are by default subdirectories of the App directory.
     directory = os.getcwd()
@@ -111,31 +119,45 @@ def load_all_shooters_scores(main_window):
             directory=directory
         ))
 
-    trv = ttk.Treeview(tree_frame, columns=(1, 2, 3, 4, 5, 6, 7, 8, 9), show="headings", height="16")
-    trv.grid(row=1, column=0, rowspan=16, columnspan=9)
+    image_file = "images/" + settings.my_event_image
+    # Read the Image
+    image               = Image.open(image_file)
+    # Resize the image using resize() method
+    resize_image_event  = image.resize((150, 150))
+    img1                = ImageTk.PhotoImage(resize_image_event)
+    # create label and add resize image
+    label1              = Label(header_frame, image=img1)
+    label1.image        = img1
+    label1.pack(side=tk.LEFT)
 
-    trv.heading(1, text="Action",       anchor="w")
-    trv.heading(2, text="ID",           anchor="center")
-    trv.heading(3, text="First Name",   anchor="center")
-    trv.heading(4, text="Last Name",    anchor="center")
-    trv.heading(5, text="ID Number",    anchor="center")
-    trv.heading(6, text="Cell Phone",   anchor="center")
-    trv.heading(7, text="eMail",        anchor="center")
-    trv.heading(8, text="Team",         anchor="center")
-    trv.heading(9, text="Spotter",      anchor="center")
+    trv = ttk.Treeview(tree_frame, columns=(1, 2, 3, 4, 5, 6), show="headings", height="20")
+    trv.grid(row=0, column=0, rowspan=20, columnspan=6, sticky=E+W)
+    #trv.pack()
 
-    trv.column("#1", anchor="w", width=100, stretch=True)
-    trv.column("#2", anchor="w", width=270, stretch=True)
-    trv.column("#3", anchor="w", width=140, stretch=False)
-    trv.column("#4", anchor="w", width=140, stretch=False)
-    trv.column("#5", anchor="w", width=140, stretch=False)
-    trv.column("#6", anchor="w", width=140, stretch=False)
-    trv.column("#7", anchor="w", width=140, stretch=False)
-    trv.column("#8", anchor="w", width=140, stretch=False)
-    trv.column("#9", anchor="w", width=140, stretch=False)
+    trv.heading(1, text="Place",        anchor="w")
+    trv.heading(2, text="Shooter",      anchor="center")
+    trv.heading(3, text="Spotter",      anchor="center")
+    trv.heading(4, text="Caliber",      anchor="center")
+    trv.heading(5, text="Qualifying",   anchor="center")
+    trv.heading(6, text="Finals",       anchor="center")
 
-    tree_frame.grid(row=0, column=0)
+    trv.column("#1", anchor="w", width=50, stretch=True)
+    trv.column("#2", anchor="w", width=250, stretch=True)
+    trv.column("#3", anchor="w", width=250, stretch=True)
+    trv.column("#4", anchor="w", width=200, stretch=False)
+    trv.column("#5", anchor="w", width=110, stretch=False)
+    trv.column("#6", anchor="w", width=110, stretch=False)
 
+    # Read the Image
+    image = Image.open("images/impactxs.png")
+    # Resize the image using resize() method
+    resize_impactxs = image.resize((930, 150))
+    img2 = ImageTk.PhotoImage(resize_impactxs)
+    # create label and add resize image
+    label2 = Label(footer_frame, image=img2)
+    label2.image = img2
+    label2.grid(row=0, column=0, padx=5, pady=5)
+    #label1.pack()
 
     def load_trv_with_json():
 
@@ -150,17 +172,19 @@ def load_all_shooters_scores(main_window):
         rowIndex = 1
 
         for key in settings.my_shooter_list:
-            guid_value  = key["id"]
-            first_name  = key["first_name"]
-            last_name   = key["last_name"]
-            id_number   = key["id_number"]
-            cell_phone  = key["cell_phone"]
-            email       = key["email"]
-            team        = key["team"]
-            spotter     = key["spotter"]
+
+            equipment           = key["equipment"]                          # Structure with equipment
+            rifle               = equipment['rifle']                        # sub structure with rifle information
+            scores              = key["scores"]                             # structure with scores
 
             trv.insert('', index='end', iid=rowIndex, text="",
-                       values=('edit', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter))
+                       values=(rowIndex,
+                               key["first_name"].strip() + " " + key["last_name"].strip(),
+                               key["spotter"],
+                               rifle["caliber"],
+                               scores['qualifying_score'],
+                               scores['final_score']))
+
             rowIndex = rowIndex + 1
 
         if debuglevel >= 2:
