@@ -111,7 +111,7 @@
             },
             "scores": {
                 "qualifying_score": 400,
-                "final_score": 500,
+                "final_score": 560,
                 "qualifying": [
                     {
                         "target_number": 0,
@@ -214,7 +214,7 @@
                 }
             },
             "scores": {
-                "qualifying_score": 400,
+                "qualifying_score": 420,
                 "final_score": 500,
                 "qualifying": [
                     {
@@ -274,6 +274,110 @@
                         "hit_miss": "True",
                         "inspect": "True",
                         "score": 111
+                    }
+                ]
+            }
+        },
+        {
+            "id": "07d12652-2d6a-11ed-a038-0242fc120002",
+            "first_name": "Charl",
+            "last_name": "Gous",
+            "id_number": "7010105127085",
+            "cell_phone": "0826552324",
+            "email": "charl@gmail.com",
+            "team": "sendit",
+            "spotter": "Tony",
+            "equipment": {
+                "rifle": {
+                    "make": "Savage",
+                    "model": "Elite Precision 110",
+                    "caliber": "300 RUM",
+                    "chassis": "MDT ACC",
+                    "trigger": "Timmey",
+                    "break": "",
+                    "supressor": "Gun Warrior",
+                    "weight": "20",
+                    "bipod": "Accu-Tac",
+                    "software": "Kestrel"
+                },
+                "scope": {
+                    "make": "Kahles",
+                    "model": "5-25x56",
+                    "rings": "Spuhr 1.26",
+                    "moa_rise": "20 MOA"
+                },
+                "cartridge": {
+                    "brass_make": "Peterson",
+                    "bullet_make": "Hornady",
+                    "bullet_model": "A-Tip",
+                    "bullet_weight": "250gr",
+                    "primer_make": "CCI",
+                    "primer_model": "Magnum-Large Rifle",
+                    "powder_make": "Hodgdon",
+                    "powder_model": "Retumbo"
+                }
+            },
+            "scores": {
+                "qualifying_score": 531,
+                "final_score": 490,
+                "qualifying": [
+                    {
+                        "target_Number": 0,
+                        "time": 25,
+                        "hit_miss": "True",
+                        "inspect": "False",
+                        "score": 254
+                    },
+                    {
+                        "target_number": 1,
+                        "time": 55,
+                        "hit_miss": "False",
+                        "inspect": "True",
+                        "score": 111
+                    },
+                    {
+                        "target_number": 2,
+                        "time": 185,
+                        "hit_miss": "True",
+                        "inspect": "False",
+                        "score": 321
+                    },
+                    {
+                        "target_number": 3,
+                        "time": 225,
+                        "hit_miss": "True",
+                        "inspect": "False",
+                        "score": 444
+                    }
+                ],
+                "final": [
+                    {
+                        "target_number": 0,
+                        "time": 24,
+                        "hit_miss": "True",
+                        "inspect": "False",
+                        "score": 543
+                    },
+                    {
+                        "target_number": 1,
+                        "time": 44,
+                        "hit_miss": "True",
+                        "inspect": "False",
+                        "score": 222
+                    },
+                    {
+                        "target_number": 2,
+                        "time": 86,
+                        "hit_miss": "True",
+                        "inspect": "False",
+                        "score": 112
+                    },
+                    {
+                        "target_number": 3,
+                        "time": 129,
+                        "hit_miss": "True",
+                        "inspect": "True",
+                        "score": 321
                     }
                 ]
             }

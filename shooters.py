@@ -24,6 +24,7 @@ __version__ = "0.0.1"
 from tkinter import *
 from tkinter import ttk
 from datetime import datetime
+from tkinter import messagebox
 
 import uuid
 import json
@@ -506,11 +507,23 @@ def load_all_shooters(main_window):
             equipment   = ""
             scores      = ""
 
-            process_request('_DELETE_', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter, equipment, scores)
-            reload_main_form()
-            child.grab_release()
-            child.destroy()
-            child.update()
+            # Confirm Deletion
+            if messagebox.askyesno("Confirm Delete", "Are you sure you want to delete this Shooter?"):
+
+                my_logger.info('{time}, shooters.load_all_shooters.delete_record Confirmed'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+
+                process_request('_DELETE_', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter, equipment, scores)
+                reload_main_form()
+                child.grab_release()
+                child.destroy()
+                child.update()
+
+            else:
+                my_logger.info('{time}, shooters.load_all_shooters.delete_record Cancelled'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
 
             if debuglevel >= 2:
                 my_logger.info('{time}, shooters.load_all_shooters.delete_record Completed'.format(

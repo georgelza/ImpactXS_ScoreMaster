@@ -7,7 +7,7 @@
 #                   :   Bredan Fike
 #   eMail           :   brendan@impactxs.co.za
 #
-#   File            :   shooter.py
+#   File            :   shooter_scores.py
 #
 #	By              :   George Leonard ( georgelza@gmail.com )
 #
@@ -35,4 +35,4 @@ my_logger       = settings.my_logger
 debuglevel      = settings.debuglevel
 
 
-###### Move the individual shooter maintenance here, come here frm the shooters treeview
+###### Move the individual shooter score maintenance here, come here frm the score treeview

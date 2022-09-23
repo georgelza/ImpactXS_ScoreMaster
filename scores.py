@@ -132,7 +132,6 @@ def load_all_shooters_scores(main_window):
 
     trv = ttk.Treeview(tree_frame, columns=(1, 2, 3, 4, 5, 6), show="headings", height="20")
     trv.grid(row=0, column=0, rowspan=20, columnspan=6, sticky=E+W)
-    #trv.pack()
 
     trv.heading(1, text="Place",        anchor="w")
     trv.heading(2, text="Shooter",      anchor="center")
@@ -145,8 +144,8 @@ def load_all_shooters_scores(main_window):
     trv.column("#2", anchor="w", width=250, stretch=True)
     trv.column("#3", anchor="w", width=250, stretch=True)
     trv.column("#4", anchor="w", width=200, stretch=False)
-    trv.column("#5", anchor="w", width=110, stretch=False)
-    trv.column("#6", anchor="w", width=110, stretch=False)
+    trv.column("#5", anchor="w", width=113, stretch=False)
+    trv.column("#6", anchor="w", width=113, stretch=False)
 
     # Read the Image
     image = Image.open("images/impactxs.png")
@@ -157,7 +156,6 @@ def load_all_shooters_scores(main_window):
     label2 = Label(footer_frame, image=img2)
     label2.image = img2
     label2.grid(row=0, column=0, padx=5, pady=5)
-    #label1.pack()
 
     def load_trv_with_json():
 
