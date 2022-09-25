@@ -256,6 +256,9 @@ def file_dialog(mode):
             title='Save file As',
             initialdir=directory + '/events',
             filetypes=filetypes)
+
+        filename = filename.name
+
     else:
         #we're opening a previous defined event, so lets show saved events from ./events folder as default.
         filename = fd.askopenfilename(
@@ -269,6 +272,7 @@ def file_dialog(mode):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
                 file=filename
             ))
+
         return filename
     else:
         if debuglevel >= 1:
@@ -285,6 +289,8 @@ def save_json_to_file(myfile):
     global my_qualifying_list
     global my_final_list
     global my_shooter_list
+    global event_mode
+    global filename
 
     if debuglevel >= 2:
         my_logger.info('{time}, settings.save_json_to_file Called'.format(
@@ -292,8 +298,10 @@ def save_json_to_file(myfile):
         ))
 
     if event_mode == "Initial_Event_Save":
-        myfile = file_dialog("Initial_Event_Save")
-        event_mode == "Load_Event"
+        filename    = file_dialog("Initial_Event_Save")
+        event_mode  = "Load_Event"
+        print("filename: ", filename)
+        myfile      = filename
 
     if myfile:
         with open(myfile, "w") as file_handler:

@@ -204,8 +204,8 @@ def open_event_screen(root):
                 trv_finals.delete(item)
 
             for key in my_finals["target_list"]:
-                target_no = key["target_no"]
-                distance = key["distance"]
+                target_no   = key["target_no"]
+                distance    = key["distance"]
                 target_size = key["target_size"]
 
                 trv_finals.insert('', index='end', iid=rowIndex, text="", values=(target_no, distance, target_size))
@@ -331,10 +331,10 @@ def open_event_screen(root):
         }
 
         # Save - Main Event structures
-        settings.my_event_list      = my_event
-        settings.my_qualifying_target_list = my_qualifying
+        settings.my_event_list              = my_event
+        settings.my_qualifying_target_list  = my_qualifying
         settings.my_finals_target_list      = my_final
-        settings.my_shooter_list    = my_shooters
+        settings.my_shooter_list            = my_shooters
 
         if debuglevel >= 2:
             my_logger.info('{time}, event.open_event_screen.save_Main_Event_json_data_to_file Writing JSON to even file '.format(

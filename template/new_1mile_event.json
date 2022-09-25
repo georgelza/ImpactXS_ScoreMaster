@@ -7,172 +7,62 @@
     "image": "1mile.png",
     "qualifying": {
         "no_of_targets": "5",
-        "no_of_shots": "4",
+        "no_of_shots": "3",
         "time_limit": "600",
         "target_list": [
             {
                 "target_no": 0,
                 "qb": 1,
-                "distance": 925,
+                "distance": 1050,
                 "target_size": "300x300"
             },
             {
                 "target_no": 1,
                 "qb": 0,
-                "distance": 1000,
+                "distance": 600,
                 "target_size": "300x350"
             },
             {
                 "target_no": 2,
                 "qb": 0,
-                "distance": 1300,
+                "distance": 800,
                 "target_size": "400x500"
             },
             {
                 "target_no": 3,
                 "qb": 0,
-                "distance": 1600,
+                "distance": 1000,
                 "target_size": "520x520"
             },
             {
                 "target_no": 4,
                 "qb": 0,
-                "distance": 1800,
+                "distance": 1150,
                 "target_size": "550x550"
             }
         ]
     },
     "final": {
-        "no_of_targets": "4",
+        "no_of_targets": "3",
         "no_of_shots": "5",
         "time_limit": "600",
         "target_list": [
             {
                 "target_no": 0,
-                "distance": 1800,
+                "distance": 600,
                 "target_size": "300x350"
             },
             {
                 "target_no": 1,
-                "distance": 2500,
+                "distance": 800,
                 "target_size": "400x500"
             },
             {
                 "target_no": 2,
-                "distance": 3000,
+                "distance": 1000,
                 "target_size": "520x520"
-            },
-            {
-                "target_no": 3,
-                "distance": 3400,
-                "target_size": "550x550"
             }
         ]
     },
-    "shooters": [
-        {
-            "id": "",
-            "first_name": "",
-            "last_name": "",
-            "id_number": "",
-            "cell_phone": "",
-            "email": "",
-            "team": "",
-            "spotter": "",
-            "equipment": {
-                "rifle": {
-                    "make": "",
-                    "model": "",
-                    "caliber": "",
-                    "chassis": "",
-                    "trigger": "",
-                    "break": "",
-                    "supressor": "",
-                    "weight": "",
-                    "bipod": "",
-                    "software": ""
-                },
-                "scope": {
-                    "make": "",
-                    "model": "",
-                    "rings": "",
-                    "moa_rise": ""
-                },
-                "cartridge": {
-                    "brass_make": "",
-                    "bullet_make": "",
-                    "bullet_model": "",
-                    "bullet_weight": "",
-                    "primer_make": "",
-                    "primer_model": "",
-                    "powder_make": "",
-                    "powder_model": ""
-                }
-            },
-            "scores": {
-                "qualifying_score": 0,
-                "final_score": 0,
-                "qualifying": [
-                    {
-                        "target_number": 0,
-                        "time": 0,
-                        "hit_miss": "False",
-                        "inspect": "False",
-                        "score": 0
-                    },
-                    {
-                        "target_number": 1,
-                        "time": 0,
-                        "hit_miss": "False",
-                        "inspect": "False",
-                        "score": 0
-                    },
-                    {
-                        "target_number": 2,
-                        "time": 0,
-                        "hit_miss": "False",
-                        "inspect": "False",
-                        "score": 0
-                    },
-                    {
-                        "target_number": 3,
-                        "time": 0,
-                        "hit_miss": "False",
-                        "inspect": "False",
-                        "score": 100
-                    }
-                ],
-                "final": [
-                    {
-                        "target_number": 0,
-                        "time": 0,
-                        "hit_miss": "False",
-                        "inspect": "False",
-                        "score": 0
-                    },
-                    {
-                        "target_number": 1,
-                        "time": 0,
-                        "hit_miss": "False",
-                        "inspect": "False",
-                        "score": 0
-                    },
-                    {
-                        "target_number": 2,
-                        "time": 0,
-                        "hit_miss": "False",
-                        "inspect": "False",
-                        "score": 0
-                    },
-                    {
-                        "target_number": 3,
-                        "time": 0,
-                        "hit_miss": "False",
-                        "inspect": "False",
-                        "score": 0
-                    }
-                ]
-            }
-        }
-    ]
+    "shooters": []
 }

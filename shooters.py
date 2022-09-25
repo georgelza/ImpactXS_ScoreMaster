@@ -52,7 +52,12 @@ def load_shooter_json_from_file(myfile):
 
     file_handler.close
 
-    settings.pp_json(settings.my_shooter_list)
+    if debuglevel >= 1:
+        my_logger.info('{time}, shooters.load_shooter_scores_json_from_file my_shooter_list '.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+        settings.pp_json(settings.my_shooter_list)
 
     if debuglevel >= 1:
         my_logger.info('{time}, shooters.load_shooter_json_from_file.file has been read and closed '.format(
@@ -60,6 +65,87 @@ def load_shooter_json_from_file(myfile):
         ))
 
 # end load_shooter_json_from_file
+
+def build_new_qualifying_record_set(my_event):
+
+    qual_definition    = my_event["qualifying"]
+    no_of_targets      = int(qual_definition["no_of_targets"])
+    shots_per_target   = int(qual_definition["no_of_shots"])
+
+    my_logger.info('{time}, shooters.build_new_qualifying_record_set Called'.format(
+        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+    ))
+
+    qualifying_structure    = []
+    target_no               = 0
+    while target_no < no_of_targets:  # Targets
+
+        # Find out how many targets
+        # find out how many shots per target
+        shot_list   = []
+        if target_no == 0:  # Cold bore Target
+            shot_list = [{"shot_number":  0, "hit_miss": "", "inspect": ""}]
+
+        else:
+            shot_no     = 0
+            while shot_no < shots_per_target:
+
+                shots = {"shot_number": shot_no, "hit_miss": "", "inspect": ""}
+                shot_list.append(shots)
+                shot_no = shot_no + 1
+
+            # end while shot_no
+        qualifying_structure.append({"target_number": target_no, "shots": shot_list, "target_score": 0})
+        target_no = target_no + 1
+
+    # end while target_no
+
+    my_logger.info('{time}, shooters.build_new_qualifying_record_set Completed'.format(
+        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+    ))
+
+    settings.pp_json(qualifying_structure)
+
+    return qualifying_structure
+
+# end build_new_qualifying_record_set
+
+def build_new_finals_record_set(my_event):
+
+    finals_definition  = my_event["final"]
+    no_of_targets      = int(finals_definition["no_of_targets"])
+    shots_per_target   = int(finals_definition["no_of_shots"])
+
+    my_logger.info('{time}, shooters.build_new_finals_record_set Called'.format(
+        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+    ))
+
+    finals_structure    = []
+    target_no           = 0
+    while target_no < no_of_targets:  # Targets
+        shot_list   = []
+        shot_no     = 0
+        while shot_no < shots_per_target:
+            shots = {"shot_number": shot_no, "hit_miss": "", "inspect": ""}
+            shot_list.append(shots)
+            shot_no = shot_no + 1
+
+        # end while shot_no
+
+        finals_structure.append({"target_number": target_no, "shots": shot_list, "target_score": 0})
+        target_no = target_no + 1
+    # end while target_no
+
+    my_logger.info('{time}, shooters.build_new_qualifying_record_set Completed'.format(
+        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+    ))
+
+    settings.pp_json(finals_structure)
+
+    return finals_structure
+
+# end build_new_finals_record_set
+
 
 def find_rec_in_my_shooter_list(guid_value):
 
@@ -133,6 +219,7 @@ def load_all_shooters(main_window):
             directory=directory
         ))
 
+    # Add a new Shooter...
     def make_new_record():
 
         if debuglevel >= 2:
@@ -140,6 +227,7 @@ def load_all_shooters(main_window):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
+        # Create record from shooter-template
         emptyRecord = dict()
         open_popup('add', emptyRecord, tree_frame)
 
@@ -212,7 +300,16 @@ def load_all_shooters(main_window):
             spotter     = key["spotter"]
 
             trv.insert('', index='end', iid=rowIndex, text="",
-                       values=('edit', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter))
+                       values=('edit',
+                               guid_value,
+                               first_name,
+                               last_name,
+                               id_number,
+                               cell_phone,
+                               email,
+                               team,
+                               spotter))
+
             rowIndex = rowIndex + 1
 
         if debuglevel >= 2:
@@ -247,13 +344,24 @@ def load_all_shooters(main_window):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-    #end MouseButtonUpCallBack
+    # end MouseButtonUpCallBack
+
 
     # Lets design/pain the popup, this is what is opened when the user clicks on a shooter in the treeview.
     def open_popup(_mode, json_record, primary):
 
         if _mode == 'add':
-            scores = {}
+            # Dynamically build scores from whats defined in the events definition
+            #  - loop through qualifying
+            # -  loop through finals
+            qualifying_structure    = build_new_qualifying_record_set(settings.my_event_list)
+            finals_structure        = build_new_finals_record_set(settings.my_event_list)
+            scores = {"qualifying_score": 0,
+                      "final_score"     : 0,
+                      "qualifying"      : qualifying_structure,
+                      "finals"          : finals_structure
+                      }
+
         else:
             # json_record is the entire record of the current shooter,
             scores = json_record["scores"]
@@ -263,10 +371,11 @@ def load_all_shooters(main_window):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-            my_logger.info('{time}, shooters.load_all_shooters.open_popup Current Shooter'.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-            settings.pp_json(json_record)
+            if _mode != "add":
+                my_logger.info('{time}, shooters.load_all_shooters.open_popup Current Shooter'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+                settings.pp_json(json_record)
 
         child = Toplevel(primary)
         child.title('Shooter Maintenance')
@@ -496,16 +605,6 @@ def load_all_shooters(main_window):
                 ))
 
             guid_value  = id_value.get()
-            first_name  = crm_shooter_fn.get()
-            last_name   = crm_shooter_ln.get()
-            id_number   = crm_shooter_id_number.get()
-            cell_phone  = crm_shooter_cellphone.get()
-            email       = crm_shooter_email.get()
-            team        = crm_shooter_team.get()
-            spotter     = crm_shooter_spotter.get()
-
-            equipment   = ""
-            scores      = ""
 
             # Confirm Deletion
             if messagebox.askyesno("Confirm Delete", "Are you sure you want to delete this Shooter?"):
@@ -514,7 +613,7 @@ def load_all_shooters(main_window):
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
-                process_request('_DELETE_', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter, equipment, scores)
+                process_request('_DELETE_', guid_value, None, None, None, None, None, None, None, None, None)
                 reload_main_form()
                 child.grab_release()
                 child.destroy()
@@ -530,7 +629,7 @@ def load_all_shooters(main_window):
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
-        #end delete_record
+        # end delete_record
 
         def child_cancel():
 
@@ -673,15 +772,7 @@ def load_all_shooters(main_window):
                 "cartridge":    cartridge
             }
 
-            # scores
-            # Place a blank set of tags here for now, this is a new shooter so does not have any scores yet.
-            # will be populated via the scoring entry window
-            scores   = {
-                "qualifying_score": 0,
-                "final_score": 0,
-                "qualifying": "",
-                "final": ""
-            }
+            # scores JSON structure build above as a empty record already
 
             if len(first_name) == 0:
                 change_background_color("#FFB2AE")
@@ -697,7 +788,6 @@ def load_all_shooters(main_window):
         #end add_entry
 
         def update_entry():
-
 
             if debuglevel >= 2:
                 my_logger.info('{time}, shooters.load_all_shooters.update_entry Called'.format(
@@ -755,17 +845,9 @@ def load_all_shooters(main_window):
                 "cartridge":    cartridge
             }
 
-            # !!!!!!!!!!!!!!! PLACE HOLDER !!!!!!!!!!!!!!!!!!!!!!!!!!!!
-            #m_qual_scores = 0
-            #m_final_scores = 0
-            # scores
-            #scores = {
-            #    "qualifying_score": 0,
-            #    "final_score": 0,
-            #    "qualifying": [{"scores": m_qual_scores}],
-            #    "final": [{"scores": m_final_scores}]
-            #}
+            # scores are not modified via this interface so what the shooter had was saved above into "scores" variable
 
+            # to be saved back into shooter structure
             if len(first_name) == 0:
                 change_background_color("#FFB2AE")
                 return
@@ -793,7 +875,9 @@ def load_all_shooters(main_window):
             rifle       = equipment["rifle"]
             scope       = equipment["scope"]
             cartridge   = equipment["cartridge"]
-            scores      = json_record["scores"]
+
+            # current scores structure already saved above, to be saved back to user profile
+            # scores structure not modified via this screen/interface
 
             # shooter
             id_value.set(json_record["id"])
@@ -976,6 +1060,7 @@ def load_all_shooters(main_window):
             if load_form == False:
                 if _mode == "edit":
                     update_entry()
+
                 else:
                     add_entry()
 
@@ -1025,7 +1110,7 @@ def load_all_shooters(main_window):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-    #end open_popup
+    # end open_popup
 
     trv.bind("<ButtonRelease>", MouseButtonUpCallBack)
     load_shooter_json_from_file(settings.filename)
