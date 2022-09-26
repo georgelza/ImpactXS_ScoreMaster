@@ -186,13 +186,13 @@ def load_all_shooters_scores(main_window):
     label2.image = img2
     label2.grid(row=0, column=0, padx=5, pady=5)
 
-    def load_all_schooter_scores_trv_shooter_scores_with_json():
+    def load_scores_trv_with_json():
 
         for item in trv_shooter_scores.get_children():
             trv_shooter_scores.delete(item)
 
         if debuglevel >= 2:
-            my_logger.info('{time}, scores.load_all_shooters_scores.load_all_schooter_scores_trv_shooter_scores_with_json Called'.format(
+            my_logger.info('{time}, scores.load_all_shooters_scores.load_scores_trv_with_json Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -216,14 +216,11 @@ def load_all_shooters_scores(main_window):
             rowIndex = rowIndex + 1
 
         if debuglevel >= 2:
-            my_logger.info('{time}, scores.load_all_shooters_scores.load_all_schooter_scores_trv_shooter_scores_with_json Completed'.format(
+            my_logger.info('{time}, scores.load_all_shooters_scores.load_scores_trv_with_json Completed'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-    # end load_all_schooter_scores_trv_shooter_scores_with_json
-
-    load_all_schooter_scores_trv_shooter_scores_with_json()
-
+    # end load_scores_trv_with_json
 
     def MouseButtonUpCallBack(event):
         global trv_shooter_scores
@@ -244,7 +241,7 @@ def load_all_shooters_scores(main_window):
         # Get from my_shooter_list dictionary the entire record matching the lastTuple[1], this is the id column
         my_jsonrec = find_rec_in_my_shooter_list(lastTuple[1])
         # Lets edit/enter scores for selected shooter
-        open_popup('edit', my_jsonrec, tree_frame)
+        open_popup(my_jsonrec, tree_frame)
 
         if debuglevel >= 2:
             my_logger.info('{time}, scores.load_all_shooters.MouseButtonUpCallBack Completed'.format(
@@ -255,21 +252,118 @@ def load_all_shooters_scores(main_window):
 
 
     # Lets design/pain the popup, this is what is opened when the user clicks on a shooter in the treeview.
-    def open_popup(_mode, json_record, primary):
+    def open_popup(json_record, primary):
+
+        def load_qual_trv_with_json(array_of_qualifiying_targets, tree):
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores.load_all_shooters_scores.load_qual_trv_with_json Called'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+
+                settings.pp_json(array_of_qualifiying_targets)
+
+            target_no = 0
+            while target_no < len(array_of_qualifiying_targets):
+                target_array                = array_of_qualifiying_targets[target_no]
+                target_no                   = target_array["target_number"]
+                target_score                = target_array["target_score"]
+                array_of_qualifiying_shots  = target_array["shots"]
+                shot_no                     = 0
+                while shot_no < len(array_of_qualifiying_shots):
+                    shots = array_of_qualifiying_shots[shot_no]
+
+                    if target_no == 0:
+                        target_name = "CB"
+                    else:
+                        target_name = "T" + str(target_no)
+
+                    shot_name   = "S" + str( int(shots["shot_number"])+1)
+                    hitt_miss   = shots["hit_miss"]
+                    inspect     = shots["inspect"]
+
+                    tree.insert(parent="",
+                                index=tk.END,
+                                text="",
+                                values=(target_name, shot_name, hitt_miss, inspect))
+
+                    shot_no = shot_no + 1
+                target_no = target_no + 1
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores.load_all_shooters_scores.load_qual_trv_with_json Completed'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+
+        # end load_qual_trv_with_json
+
+
+        def load_final_trv_with_json(array_of_final_targets, tree):
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores.load_all_shooters_scores.load_final_trv_with_json Called'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+
+            target_no = 0
+            while target_no < len(array_of_final_targets):
+                target_array            = array_of_final_targets[target_no]
+                target_no               = target_array["target_number"]
+                target_score            = target_array["target_score"]
+                array_of_final_shots    = target_array["shots"]
+                shot_no = 0
+                while shot_no < len(array_of_final_shots):
+                    shots       = array_of_final_shots[shot_no]
+                    target_name = "T" + str(target_no)
+                    shot_name   = "S" + str(int(shots["shot_number"]) + 1)
+                    hitt_miss   = shots["hit_miss"]
+                    inspect     = shots["inspect"]
+
+                    tree.insert(parent="",
+                                index=tk.END,
+                                text="",
+                                values=(target_name, shot_name, hitt_miss, inspect))
+
+                    shot_no = shot_no + 1
+                target_no = target_no + 1
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores.load_all_shooters_scores.load_final_trv_with_json Completed'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+
+        # end load_final_trv_with_json
+
+        def save_score_to_file():
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores.load_all_shooters_scores.save_score_to_file Called'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores.load_all_shooters_scores.save_score_to_file Completed'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+
+        # end save_score_to_file
+
+        def discard_score():
+
+            return True
+
 
         # json_record is the entire record of the current shooter, lets get the scores only
-        all_scores          = json_record["scores"]
-        qualifying_scores   = all_scores["qualifying"]
-        finals_scores       = all_scores["finals"]
+        list_of_all_scores          = json_record["scores"]
+        list_of_qualifying_scores   = list_of_all_scores["qualifying"]
+        list_of_finals_scores       = list_of_all_scores["final"]
 
         if debuglevel >= 2:
             my_logger.info('{time}, scores.load_all_shooters.open_popup Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-            my_logger.info('{time}, scores.load_all_shooters.open_popup Current Shooter'.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
             settings.pp_json(json_record)
 
         child = Toplevel(primary)
@@ -280,253 +374,114 @@ def load_all_shooters_scores(main_window):
 
         load_form = True
 
-        shooter_frame               = Frame(child)
-        qualifications_score_frame  = Frame(child)
-        finals_score_frame          = Frame(child)
+        shooter_frame       = Frame(child)
+        scores_frame        = Frame(child)
+        cntrls_frame        = Frame(child)
 
-        cntrls_frame    = Frame(child)
+        shooter_frame.grid(row=0, column=0, sticky="W", pady=(1, 5))
+        scores_frame.grid(row=1, column=0,  sticky="W", padx=(1, 5))
+        cntrls_frame.grid(row=2, column=0,  sticky="W", pady=(5, 0))
 
         # Frame Layout
         shooter_lbframe = LabelFrame(shooter_frame, text='Shooter Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
         shooter_lbframe.grid()
-        shooter_frame.grid(row=0, rowspan=10, column=0, columnspan=4, sticky="W", pady=(1, 5))
 
-        # Qualifications frame to hold the Qual scores
-        qual_scores_lbframe = LabelFrame(qualifications_score_frame, text='Qualifications Scores', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-        qual_scores_lbframe.grid()
-        qualifications_score_frame.grid(row=0, rowspan=10, column=0, columnspan=4, sticky="W", pady=(1, 5))
+        # Frame Layout : Score Frame
+        score_lbframe = LabelFrame(scores_frame, text='Scores', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+        score_lbframe.grid()
 
-        # Finals frame to hold the Final scores
-        finals_scores_lbframe = LabelFrame(finals_score_frame, text='Finals Scores', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-        finals_scores_lbframe.grid()
-        finals_score_frame.grid(row=0, rowspan=10, column=0, columnspan=4, sticky="W", pady=(1, 5))
+        # Frame Layout : Qualifying Scores in score frame
+        qualifying_lbframe = LabelFrame(scores_frame, text='Qualifying Scores', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+        qualifying_lbframe.grid(row=0, column=0, sticky="W", padx=(1, 5))
 
-        # Frame Layout : Buttons
+        # Frame Layout : Final Scores in score frame
+        final_lbframe = LabelFrame(scores_frame, text='Final Scores', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+        final_lbframe.grid(row=0, column=1, sticky="W", padx=(1, 5))
+
+        # Frame Layout : Buttons in buttons frame
         cntrls_lbframe = LabelFrame(cntrls_frame, bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size), relief=RIDGE)
         cntrls_lbframe.grid()
-        cntrls_frame.grid(row=22, rowspan=4, column=0, columnspan=8, sticky="W", pady=(5, 0))
 
         # Shooter
-        lb_shooter1 = Label(shooter_lbframe, text="",               width=2, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
-        lb_shooter2 = Label(shooter_lbframe, text="First Name",    width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
-        lb_shooter3 = Label(shooter_lbframe, text="Last Name",     width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
-        lb_shooter4 = Label(shooter_lbframe, text="Spotter",       width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
+        lb_shooter1 = Label(shooter_lbframe, text="First Name", width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
+        lb_shooter2 = Label(shooter_lbframe, text="Last Name", width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
+        lb_shooter3 = Label(shooter_lbframe, text="Spotter", width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
 
         lb_shooter1.grid(row=1, column=0, padx=5, pady=0)
         lb_shooter2.grid(row=2, column=0, padx=5, pady=0)
         lb_shooter3.grid(row=3, column=0, padx=5, pady=0)
-        lb_shooter4.grid(row=4, column=0, padx=5, pady=0)
 
         id_value = StringVar()
-        id_value.set(uuid.uuid4())
+        id_value.set(json_record["id"])
+        fname_value = StringVar()
+        fname_value.set(json_record["first_name"])
+        lname_value = StringVar()
+        lname_value.set(json_record["last_name"])
+        spotter_value = StringVar()
+        spotter_value.set(json_record["spotter"])
 
         # Shooter
-        crm_shooter_id = Label(shooter_lbframe, anchor="w", height=1, relief="ridge", textvariable=id_value, font=(txtfont, txtfont_size))
-        crm_shooter_id.grid(row=1, column=1, padx=20)
+        crm_shooter_fname = Label(shooter_lbframe, anchor="w", height=1, textvariable=fname_value, font=(txtfont, txtfont_size))
+        crm_shooter_fname.grid(row=1, column=1, padx=20)
 
-        crm_shooter_fn = Entry(shooter_lbframe, width=30, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-        crm_shooter_fn.grid(row=2, column=1)
+        crm_shooter_lname = Label(shooter_lbframe, anchor="w", height=1, textvariable=lname_value, font=(txtfont, txtfont_size))
+        crm_shooter_lname.grid(row=2, column=1, padx=20)
 
-        crm_shooter_ln = Entry(shooter_lbframe, width=30, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-        crm_shooter_ln.grid(row=3, column=1)
+        crm_shooter_spotter = Label(shooter_lbframe, anchor="w", height=1, textvariable=spotter_value, font=(txtfont, txtfont_size))
+        crm_shooter_spotter.grid(row=3, column=1, padx=20)
 
-        crm_shooter_spotter = Entry(shooter_lbframe, width=30, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-        crm_shooter_spotter.grid(row=8, column=1)
 
-        # Qualifications
-        crm_qualification_score = Label(qualifications_score_frame, anchor="w", height=1, relief="ridge", textvariable=id_value, font=(txtfont, txtfont_size))
-        crm_qualification_score.grid(row=1, column=1, padx=20)
+        # Qualifications Score Layout
+        lb_crm_q_score = Label(qualifying_lbframe, text="Score", width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
+        lb_crm_q_score.grid(column=0, row=0, padx=1, pady=0)
+        crm_q_score   = Entry(qualifying_lbframe, width=20, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+        crm_q_score.grid(row=0, column=2)
 
-        # Finals
-        crm_final_score = Label(finals_score_frame, anchor="w", height=1, relief="ridge", textvariable=id_value, font=(txtfont, txtfont_size))
-        crm_final_score.grid(row=1, column=1, padx=20)
+        # Qual Score treeview
+        trv_qualification_scores = settings.TreeviewEdit(qualifying_lbframe, columns=(1, 2, 3, 4), show="headings", height="16")
+        trv_qualification_scores.grid(row=1, column=0, rowspan=16, columnspan=9)
 
-        # button
-        btnSave = Button(cntrls_lbframe, text="Save", padx=5, pady=10, command=lambda: determineAction())
+        trv_qualification_scores.heading(1, text="Target #", anchor="w")
+        trv_qualification_scores.heading(2, text="Shot #", anchor="center")
+        trv_qualification_scores.heading(3, text="Hitt/Miss", anchor="center")
+        trv_qualification_scores.heading(4, text="Inspect", anchor="center")
+        trv_qualification_scores.column("#1", anchor="w", width=60, stretch=True)
+        trv_qualification_scores.column("#2", anchor="w", width=100, stretch=True)
+        trv_qualification_scores.column("#3", anchor="w", width=100, stretch=True)
+        trv_qualification_scores.column("#4", anchor="w", width=100, stretch=True)
+        qualifying_lbframe.grid(row=2, column=0)
+
+
+        # Finals Score Layout
+        lb_crm_f_score = Label(final_lbframe, text="Score", width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
+        lb_crm_f_score.grid(column=0, row=0, padx=1, pady=0)
+        crm_f_score   = Entry(final_lbframe, width=20, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+        crm_f_score.grid(row=0, column=2)
+
+
+        # Finals Score treeview
+        trv_final_scores = settings.TreeviewEdit(final_lbframe, columns=(1, 2, 3, 4, 5), show="headings", height="16")
+        trv_final_scores.grid(row=1, column=0, rowspan=16, columnspan=9)
+
+        trv_final_scores.heading(1, text="Target #", anchor="w")
+        trv_final_scores.heading(2, text="Shot #", anchor="center")
+        trv_final_scores.heading(3, text="Hitt/Miss", anchor="center")
+        trv_final_scores.heading(4, text="Inspect", anchor="center")
+        trv_final_scores.column("#1", anchor="w", width=60, stretch=True)
+        trv_final_scores.column("#2", anchor="w", width=100, stretch=True)
+        trv_final_scores.column("#3", anchor="w", width=100, stretch=True)
+        trv_final_scores.column("#4", anchor="w", width=100, stretch=True)
+        final_lbframe.grid(row=2, column=1)
+
+        load_qual_trv_with_json(list_of_qualifying_scores, trv_qualification_scores)
+        load_final_trv_with_json(list_of_finals_scores, trv_final_scores)
+
+        # Add Buttons
+        btnSave = Button(cntrls_lbframe, text="Save", padx=5, pady=10, command=save_score_to_file)
         btnSave.grid(row=0, column=0)
 
-        btnCancel = Button(cntrls_lbframe, text="Cancel", padx=5, pady=10, command=lambda: child_cancel())
-        btnCancel.grid(row=0, column=1)
-
-        load_form = False
-
-        def child_cancel():
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.child_cancel Called'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-            child.grab_release()
-            child.destroy()
-            child.update()
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.child_cancel Completed'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-        # end child_cancel
-
-        def reload_main_form():
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.reload_main_form Called'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-            load_all_schooter_scores_trv_shooter_scores_with_json()
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.reload_main_form Completed'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-        # end reload_main_form
-
-        def change_background_color(new_color):
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.change_background_color Called'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-            # Shooter
-            crm_shooter_fn.config(bg=new_color)
-            crm_shooter_ln.config(bg=new_color)
-            crm_shooter_spotter.config(bg=new_color)
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.change_background_color Completed'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-        #end change_background_color
-
-
-        def update_entry():
-
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.update_entry Called'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-            # shooter
-
-
-
-            process_request('_UPDATE_', json_record, {})
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.update_entry Completed'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-        #end update_entry
-
-
-        def process_request(command_type, json_record, scores):
-            global dirty
-            dirty = True
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.process_request Called'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-            if command_type == "_UPDATE_":
-                guid_value  = json_record["id"]
-                row         = find_row_in_my_shooter_list(guid_value)
-                if row >= 0:
-
-                    json_record["scores"] = scores
-
-                    settings.my_shooter_list[row] = json_record
-
-                if debuglevel >= 2:
-                    my_logger.info('{time}, shooters.load_all_shooters.process_request _UPDATE_'.format(
-                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                    ))
-
-
-            settings.save_json_to_file(settings.filename)
-            clear_all_fields()
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.process_request Completed'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-        #end process_request
-
-
-        def find_row_in_my_shooter_list(guid_value):
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.find_row_in_my_shooter_list Called'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-            row = 0
-            found = False
-
-            for rec in settings.my_shooter_list:
-                if rec["id"] == guid_value:
-                    found = True
-                    break
-                row = row + 1
-
-            if (found == True):
-                return (row)
-
-            return (-1)
-
-        #end find_row_in_my_shooter_list
-
-
-        def determineAction():
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.determineAction Called'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-            if load_form == False:
-                if _mode == "edit":
-                    update_entry()
-
-            reload_main_form()
-            child.grab_release()
-            child.destroy()
-            child.update()
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.determineAction Completed'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-        #end determineAction
-
-
-        def clear_all_fields():
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.clear_all_fields Called'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-            crm_shooter_id.configure(text="")       # UUID
-            crm_shooter_fn.focus_set()
-            id_value.set(uuid.uuid4())
-            change_background_color("#FFFFFF")
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters.clear_all_fields Completed'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-        #end clear_all_fields
+        btnExit = Button(cntrls_lbframe, text="Exit", padx=5, pady=10, command=discard_score)
+        btnExit.grid(row=0, column=1)
 
 
         if debuglevel >= 2:
@@ -536,6 +491,10 @@ def load_all_shooters_scores(main_window):
 
     #end open_popup
 
+
+    trv_shooter_scores.bind("<ButtonRelease>", MouseButtonUpCallBack)
+    load_shooter_scores_json_from_file(settings.filename)
+    load_scores_trv_with_json()
 
     if debuglevel >= 2:
         my_logger.info('{time}, scores.load_all_shooters_scores Completed'.format(

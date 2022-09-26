@@ -233,7 +233,7 @@
                 "final_score": 500,
                 "qualifying": [
                     {
-                        "target_Number": 0,
+                        "target_number": 0,
                         "shots": [
                             {"shot_number":  0, "hit_miss": "0", "inspect": "True"}
                         ],
@@ -314,7 +314,7 @@
             }
         },
         {
-            "id": "07d12652-2d6a-11ed-a038-0242fc120002",
+            "id": "07d12652-2d6a-11ed-a038-0242fc120112",
             "first_name": "Charl",
             "last_name": "Gous",
             "id_number": "7010105127085",
@@ -357,7 +357,7 @@
                 "final_score": 490,
                 "qualifying": [
                     {
-                        "target_Number": 0,
+                        "target_number": 0,
                         "shots": [
                             {"shot_number":  0, "hit_miss": "0", "inspect": "True"}
                         ],
