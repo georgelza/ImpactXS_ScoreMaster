@@ -430,44 +430,31 @@ def load_event_json_from_file(filename):
 # Refresh data in memory from file (include updating global settings variable),
 # shooters include their personal data,
 # equipment and scores
-def load_all_shooter_scores_json_from_file(myfile):
+def load_all_shooter_scores_json_from_file(filename):
+
+    global my_event_list
 
     if debuglevel >= 1:
         my_logger.info('{time}, settings.load_all_shooter_scores_json_from_file Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-    try:
-        with open(myfile, "r") as file_handler:
-            my_event_list      = json.load(file_handler)
-            my_shooter_list    = my_event_list["shooters"]
+    # Refreshes my_event_list structure from file
+    load_event_json_from_file(filename)
 
-    except IOError:
-        my_logger.error('{time}, settings.load_all_shooter_scores_json_from_file.Could not read file: {file}"'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            file=filename
-        ))
+    # extract array for shooters data from larger my_event_list structure
+    my_shooter_list = my_event_list["shooters"]
 
-    except:  # handle other exceptions such as attribute errors
-        my_logger.error('{time}, settings.load_all_shooter_scores_json_from_file.Unexpected error: {file}, {error}"'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            file=filename,
-            error=sys.exc_info()[0]
-        ))
-
-    finally:
-        file_handler.close
-
-        if debuglevel >= 1:
-            if echojson == 1:
-                my_logger.info('{time}, settings.load_all_shooter_scores_json_from_file my_shooter_list '.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-                pp_json(my_shooter_list)
-
-            my_logger.info('{time}, settings.load_all_shooter_scores_json_from_file.file has been read and closed '.format(
+    if debuglevel >= 1:
+        if echojson == 1:
+            my_logger.info('{time}, settings.load_all_shooter_scores_json_from_file my_shooter_list '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
+            pp_json(my_shooter_list)
+
+        my_logger.info('{time}, settings.load_all_shooter_scores_json_from_file.file has been read and closed '.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
 
 # end load_all_shooter_scores_json_from_file
 
