@@ -34,7 +34,7 @@ import settings
 
 my_logger       = settings.my_logger
 debuglevel      = settings.debuglevel
-
+echojson        = settings.echojson
 
 # Refresh data in memory from file (include updating global settings variable),
 # shooters include their personal data,
@@ -52,12 +52,12 @@ def load_shooter_json_from_file(myfile):
 
     file_handler.close
 
-    if debuglevel >= 1:
-        my_logger.info('{time}, shooters.load_shooter_scores_json_from_file my_shooter_list '.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-        settings.pp_json(settings.my_shooter_list)
+    if echojson == 1:
+        if debuglevel >= 1:
+            my_logger.info('{time}, shooters.load_shooter_scores_json_from_file my_shooter_list '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+            settings.pp_json(settings.my_shooter_list)
 
     if debuglevel >= 1:
         my_logger.info('{time}, shooters.load_shooter_json_from_file.file has been read and closed '.format(
@@ -72,9 +72,10 @@ def build_new_qualifying_record_set(my_event):
     no_of_targets      = int(qual_definition["no_of_targets"])
     shots_per_target   = int(qual_definition["no_of_shots"])
 
-    my_logger.info('{time}, shooters.build_new_qualifying_record_set Called'.format(
-        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-    ))
+    if debuglevel >= 1:
+        my_logger.info('{time}, shooters.build_new_qualifying_record_set Called'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
 
     qualifying_structure    = []
     target_no               = 0
@@ -100,11 +101,13 @@ def build_new_qualifying_record_set(my_event):
 
     # end while target_no
 
-    my_logger.info('{time}, shooters.build_new_qualifying_record_set Completed'.format(
-        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-    ))
+    if debuglevel >= 1:
+        if echojson == 1:
+            settings.pp_json(qualifying_structure)
 
-    settings.pp_json(qualifying_structure)
+        my_logger.info('{time}, shooters.build_new_qualifying_record_set Completed'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
 
     return qualifying_structure
 
@@ -116,9 +119,10 @@ def build_new_finals_record_set(my_event):
     no_of_targets      = int(finals_definition["no_of_targets"])
     shots_per_target   = int(finals_definition["no_of_shots"])
 
-    my_logger.info('{time}, shooters.build_new_finals_record_set Called'.format(
-        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-    ))
+    if debuglevel >= 1:
+        my_logger.info('{time}, shooters.build_new_finals_record_set Called'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
 
     finals_structure    = []
     target_no           = 0
@@ -136,11 +140,13 @@ def build_new_finals_record_set(my_event):
         target_no = target_no + 1
     # end while target_no
 
-    my_logger.info('{time}, shooters.build_new_qualifying_record_set Completed'.format(
-        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-    ))
+    if debuglevel >= 1:
+        if echojson == 1:
+            settings.pp_json(finals_structure)
 
-    settings.pp_json(finals_structure)
+        my_logger.info('{time}, shooters.build_new_finals_record_set Completed'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
 
     return finals_structure
 
@@ -149,7 +155,7 @@ def build_new_finals_record_set(my_event):
 
 def find_rec_in_my_shooter_list(guid_value):
 
-    if debuglevel >= 2:
+    if debuglevel >= 1:
         my_logger.info('{time}, shooters.find_rec_in_my_shooter_list Called'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
@@ -371,7 +377,7 @@ def load_all_shooters(main_window):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-            if _mode != "add":
+            if _mode != "add" and echojson == 1:
                 my_logger.info('{time}, shooters.load_all_shooters.open_popup Current Shooter'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))

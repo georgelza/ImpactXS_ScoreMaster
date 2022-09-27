@@ -34,7 +34,7 @@ import settings
 
 my_logger       = settings.my_logger
 debuglevel      = settings.debuglevel
-
+echojson        = settings.echojson
 
 def open_event_screen(root):
 
@@ -101,7 +101,9 @@ def open_event_screen(root):
             my_logger.info('{time}, event.open_event_screen.remove_quals_record Update Qualifying Target List'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
-            settings.pp_json(my_qualifying_target_list)
+
+            if echojson == 1:
+                settings.pp_json(my_qualifying_target_list)
 
         # Update settings:
         settings.my_qualifying_target_list["target_list"]      = my_qualifying_target_list
@@ -158,7 +160,9 @@ def open_event_screen(root):
                 my_logger.info('{time}, event.open_event_screen.remove_finals_record Update Finals Target List'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
-                settings.pp_json(my_finals_target_list)
+
+                if echojson == 1:
+                    settings.pp_json(my_finals_target_list)
 
             # Update settings:
             settings.my_finals_target_list["target_list"]   = my_finals_target_list
@@ -178,10 +182,11 @@ def open_event_screen(root):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-            if mode == "quals":
-                settings.pp_json(settings.my_qualifying_target_list)
-            else:
-                settings.pp_json(settings.my_finals_target_list)
+            if echojson == 1:
+                if mode == "quals":
+                    settings.pp_json(settings.my_qualifying_target_list)
+                else:
+                    settings.pp_json(settings.my_finals_target_list)
 
         rowIndex = 1
         if mode == "quals":
@@ -341,20 +346,21 @@ def open_event_screen(root):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-            my_logger.info('{time}, event.open_event_screen.save_Main_Event_json_data_to_file Event Information '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-            settings.pp_json(my_event)
+            if echojson == 1:
+                my_logger.info('{time}, event.open_event_screen.save_Main_Event_json_data_to_file Event Information '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+                settings.pp_json(my_event)
 
-            my_logger.info('{time}, event.open_event_screen.save_Main_Event_json_data_to_file Qualifying Information '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-            settings.pp_json(my_qualifying)
+                my_logger.info('{time}, event.open_event_screen.save_Main_Event_json_data_to_file Qualifying Information '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+                settings.pp_json(my_qualifying)
 
-            my_logger.info('{time}, event.open_event_screen.save_Main_Event_json_data_to_file Finals Information '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-            settings.pp_json(my_final)
+                my_logger.info('{time}, event.open_event_screen.save_Main_Event_json_data_to_file Finals Information '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+                settings.pp_json(my_final)
 
         settings.save_json_to_file(settings.filename)
 
@@ -596,23 +602,25 @@ def load_event_json_from_file(file):
 
     fh.close
 
-    if debuglevel >= 2:
-        my_logger.info('{time}, event.load_event_json_from_file.Printing my_event_list'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-        print("------ my_event_list ------")
-        settings.pp_json(my_event_list)
+    if echojson == 1:
+        if debuglevel >= 2:
+            my_logger.info('{time}, event.load_event_json_from_file.Printing my_event_list'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
 
-        print("------ my_qualifying_target_list ------")
-        settings.pp_json(my_qualifying_target_list)
+            print("------ my_event_list ------")
+            settings.pp_json(my_event_list)
 
-        print("------ my_finals_target_list ------")
-        settings.pp_json(my_finals_target_list)
+            print("------ my_qualifying_target_list ------")
+            settings.pp_json(my_qualifying_target_list)
 
-        print("------ my_shooter_list ------")
-        settings.pp_json(my_shooter_list)
+            print("------ my_finals_target_list ------")
+            settings.pp_json(my_finals_target_list)
 
-        print("--------------------------------")
+            print("------ my_shooter_list ------")
+            settings.pp_json(my_shooter_list)
+
+            print("--------------------------------")
 
     if debuglevel >= 1:
         my_logger.info('{time}, event.load_event_json_from_file Completed '.format(

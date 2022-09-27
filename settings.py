@@ -39,10 +39,12 @@ def init():
     global my_finals_target_list
     global my_shooter_list
 
+    global appname
     global debuglevel
     global loglevel
-    global appname
+    global echojson
     global splashtime
+    global score_viewer
     global currentRowIndex
     global filename
     global my_event_image
@@ -69,14 +71,17 @@ def init():
     my_finals_target_list       = []
     my_shooter_list             = []
 
+    appname             = "ImpactXS - ScoreMaster"
+
     # Read/Define Environment variables
     config_params       = getAppEnvVariables()
     loglevel            = config_params["loglevel"]
+    echojson            = config_params['echojson']
     splashtime          = config_params["splashtime"]
     debuglevel          = config_params["debuglevel"]
-    appname             = "ImpactXS - ScoreMaster"
     my_event_image      = ""
     event_mode          = ""
+    score_viewer        = config_params["score_viewer"]
 
     # Global colors, to be moved to the environment variables, config_params
     frame_bg            = config_params["frame_bg"]
@@ -133,7 +138,9 @@ def getAppEnvVariables():
 
     Params['debuglevel']                = int(os.environ.get("DEBUGLEVEL"))
     Params['loglevel']                  = os.environ.get("LOGLEVEL")
+    Params['echojson']                  = int(os.environ.get("ECHOJSON"))
     Params['splashtime']                = int(os.environ.get("SPLASHTIME"))
+    Params['score_viewer']              = os.environ.get('SCORE_VIEWER')
 
     Params['frame_bg']                  = os.environ.get("frame_bg")
     Params['label_text_bg']             = os.environ.get("label_text_bg")
@@ -147,7 +154,6 @@ def getAppEnvVariables():
     Params['lblfont_size']              = os.environ.get("lblfont_size")
     Params['lblframefont']              = os.environ.get("lblframefont")
     Params['lblframefont_size']         = os.environ.get("lblframefont_size")
-
 
     return Params
 
@@ -200,7 +206,9 @@ def print_config(config_params):
         my_logger.info('**')
         my_logger.info('**    DEBUGLEVEL            : ' + str(config_params['debuglevel']))
         my_logger.info('**    LOGLEVEL              : ' + str(config_params['loglevel']))
+        my_logger.info('**    ECHOJSON              : ' + str(config_params['echojson']))
         my_logger.info('**    SPLASHTIME            : ' + str(config_params['splashtime']))
+        my_logger.info('**    SCORE_VIEWER          : ' + str(config_params['score_viewer']))
         my_logger.info('**')
         my_logger.info('**    frame_bg              : ' + str(config_params['frame_bg']))
         my_logger.info('**    label_text_bg         : ' + str(config_params['label_text_bg']))

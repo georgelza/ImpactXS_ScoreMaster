@@ -2,7 +2,11 @@
 
 export DEBUGLEVEL=2
 export LOGLEVEL=DEBUG
+export ECHOJSON=1
 export SPLASHTIME=1000
+
+# tree or flat
+export SCORE_VIEWER=tree
 
 # Colors
 export frame_bg=lightgray
