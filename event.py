@@ -178,8 +178,9 @@ def open_event_screen(root):
     def load_trv_with_json(treeview, mode):
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.load_trv_with_json Called '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            my_logger.info('{time}, event.open_event_screen.load_trv_with_json Called Mode: ({mode})'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                mode=mode
             ))
 
             if echojson == 1:
@@ -218,8 +219,9 @@ def open_event_screen(root):
 
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.load_trv_with_json Completed '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            my_logger.info('{time}, event.open_event_screen.load_trv_with_json Completed Mode: ({mode})'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                mode=mode
             ))
 
     # end load_trv_with_json
@@ -265,7 +267,7 @@ def open_event_screen(root):
         json_record = []
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.create_json_from_treeview Called Mode: {mode}'.format(
+            my_logger.info('{time}, event.open_event_screen.create_json_from_treeview Called Mode: ({mode})'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
                 mode=mode
             ))
@@ -286,7 +288,7 @@ def open_event_screen(root):
                                     "target_size":  values[2]})
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.create_json_from_treeview Completed Mode: {mode}'.format(
+            my_logger.info('{time}, event.open_event_screen.create_json_from_treeview Completed Mode: ({mode})'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
                 mode=mode
             ))
@@ -342,7 +344,7 @@ def open_event_screen(root):
         settings.my_shooter_list            = my_shooters
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.save_Main_Event_json_data_to_file Writing JSON to even file '.format(
+            my_logger.info('{time}, event.open_event_screen.save_Main_Event_json_data_to_file Writing JSON to event file '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 

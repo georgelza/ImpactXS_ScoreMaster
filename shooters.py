@@ -971,7 +971,7 @@ def load_all_shooters(main_window):
                 ))
 
             if command_type == "_UPDATE_":
-                row = find_row_in_my_shooter_list(guid_value)
+                row = settings.find_row_in_my_shooter_list(guid_value)
                 if row >= 0:
                     dict = {"id":           guid_value,
                             "first_name":   first_name,
@@ -1031,29 +1031,6 @@ def load_all_shooters(main_window):
                 ))
 
         #end process_request
-
-        def find_row_in_my_shooter_list(guid_value):
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.find_row_in_my_shooter_list Called'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-            row = 0
-            found = False
-
-            for rec in settings.my_shooter_list:
-                if rec["id"] == guid_value:
-                    found = True
-                    break
-                row = row + 1
-
-            if (found == True):
-                return (row)
-
-            return (-1)
-
-        #end find_row_in_my_shooter_list
 
 
         def determineAction():

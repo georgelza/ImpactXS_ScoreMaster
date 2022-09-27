@@ -143,10 +143,11 @@ def loadEvent(_mode):
         settings.event_mode = ""
 
     if settings.filename:
-        settings.my_event_list              = event.load_event_json_from_file(settings.filename)
+        settings.my_event_list              = settings.load_event_json_from_file(settings.filename)
         settings.my_qualifying_target_list  = settings.my_event_list["qualifying"]
         settings.my_finals_target_list      = settings.my_event_list["final"]
         settings.my_shooter_list            = settings.my_event_list["shooters"]
+        settings.my_event_image             = settings.my_event_list["image"]
 
     if _mode == "New_Event":
         settings.my_event_list["uuid"]  = str(uuid.uuid4())
