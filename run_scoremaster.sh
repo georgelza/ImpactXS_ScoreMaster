@@ -6,7 +6,7 @@ export ECHOJSON=1
 export SPLASHTIME=1000
 
 # tree or flat
-export SCORE_VIEWER=tree
+export SCORE_VIEWER=flat
 
 # Colors
 export frame_bg=lightgray
