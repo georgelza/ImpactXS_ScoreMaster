@@ -336,8 +336,16 @@ def load_all_shooters_scores(main_window):
                 ))
 
             # read Treeview
+            if score_viewer == "flat":
+                q_score = 0
+            else:
+                q_score = 1
+
             # save to file
+
             # reload treeview
+                # json_record
+                #
 
             qualification_score.set(list_of_all_scores["qualifying_score"])
             final_score.set(list_of_all_scores["final_score"])
