@@ -223,6 +223,8 @@ def load_all_shooters_scores(main_window):
             for item in tree.get_children():
                 tree.delete(item)
 
+            # end for item
+
             target_no = 0
             while target_no < len(array_of_targets):
 
@@ -236,6 +238,7 @@ def load_all_shooters_scores(main_window):
                         target_name = "T" + str(target_no)
                 else:
                     target_name = "T" + str(target_no)
+                # end if target_no
 
                 target_score    = target_array["target_score"]
                 array_of_shots  = target_array["shots"]
@@ -263,8 +266,13 @@ def load_all_shooters_scores(main_window):
                                     text=shot_name,
                                     values=("", "", shot_name, hitt_miss, inspect))
 
+                    # end if
                     shot_no = shot_no + 1
+
+                # end while shot_no
                 target_no = target_no + 1
+
+            # end while target_no
 
             if debuglevel >= 2:
                 my_logger.info('{time}, scores.load_all_shooters_scores.load_score_trv_with_json Completed'.format(
@@ -276,30 +284,16 @@ def load_all_shooters_scores(main_window):
 
         def save_score_to_file():
 
-            q_score = 0
-            f_score = 0
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters_scores.save_score_to_file Called'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-            # read (extract) Treeview scoring & push back into json structure
-            if score_viewer == "flat":
-                q_score = 0
-            else:
-                q_score = 1
-
-            # Recalculate scores, update jsn structure
-
+            q_score_json, q_score   = extract_score_from_trv(trv_qualification_scores, "qual")
+            f_score_json, f_score   = extract_score_from_trv(trv_final_scores, "final")
 
             # save json structure for specific shooter back to file
             my_row = settings.find_row_in_my_shooter_list(json_record["id"])
 
-            settings.my_shooter_list[my_row]["scores"]["qualifying_score"] = 242
-            settings.my_shooter_list[my_row]["scores"]["final_score"] = 424
-            settings.my_shooter_list[my_row]["scores"]["qualifying"] = {}
-            settings.my_shooter_list[my_row]["scores"]["final"] = {}
+            settings.my_shooter_list[my_row]["scores"]["qualifying_score"]  = q_score
+            settings.my_shooter_list[my_row]["scores"]["final_score"]       = f_score
+            settings.my_shooter_list[my_row]["scores"]["qualifying"]        = q_score_json
+            settings.my_shooter_list[my_row]["scores"]["final"]             = f_score_json
 
             # Push everything back/down to the physical file - this allows other viewers to get updates as the scorer
             # saves updates to file.
@@ -307,23 +301,26 @@ def load_all_shooters_scores(main_window):
 
             # reload/refresh json structures from file
             # everything
-            settings.my_event_list              = settings.load_event_json_from_file(settings.filename)
+            settings.my_event_list = settings.load_event_json_from_file(settings.filename)
             # all shooters
-            settings.my_shooter_list            = settings.my_event_list["shooters"]
-            settings.my_event_image             = settings.my_event_list["image"]
+            settings.my_shooter_list    = settings.my_event_list["shooters"]
+            settings.my_event_image     = settings.my_event_list["image"]
 
             # find specific shooter
-            my_row                              = settings.find_row_in_my_shooter_list(json_record["id"])
-            my_shooter                          = settings.my_shooter_list[my_row]
+            my_row      = settings.find_row_in_my_shooter_list(json_record["id"])
+            my_shooter  = settings.my_shooter_list[my_row]
             # get scores for specific shooter
-            list_of_all_scores_for_shooter      = my_shooter["scores"]
+            list_of_all_scores_for_shooter = my_shooter["scores"]
 
             if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters_scores.save_score_to_file Scores Reloaded from file'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
+                my_logger.info(
+                    '{time}, scores.load_all_shooters_scores.save_score_to_file Scores Reloaded from file'.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                    ))
                 if echojson == 1:
                     settings.pp_json(list_of_all_scores_for_shooter)
+
+            # end if
 
             # update displayed score: Qualification Round
             qualification_score.set(list_of_all_scores_for_shooter["qualifying_score"])
@@ -332,7 +329,7 @@ def load_all_shooters_scores(main_window):
 
             # reload treeviews
             load_score_trv_with_json(list_of_all_scores_for_shooter["qualifying"], trv_qualification_scores, "qual")
-            load_score_trv_with_json(list_of_all_scores_for_shooter["final"], trv_final_scores, "final")
+            load_score_trv_with_json(list_of_all_scores_for_shooter["final"], trv_qualification_scores, "final")
 
             if debuglevel >= 2:
                 my_logger.info('{time}, scores.load_all_shooters_scores.save_score_to_file Completed'.format(
@@ -340,6 +337,84 @@ def load_all_shooters_scores(main_window):
                 ))
 
         # end save_score_to_file
+
+
+        def extract_score_from_trv(tree, mode):
+
+            score       = 0
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores.load_all_shooters_scores.extract_score_from_trv Called, Mode: ({mode}) '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                    mode=mode
+                ))
+            # end if
+
+            if score_viewer == "flat":
+
+                targets = []
+                shots   = []
+                t_no    = 0
+                for line in tree.get_children():
+
+                    target_desc     = tree.item(line)['values'][0]
+                    if target_desc == "CB":
+                        target_number = 0
+                    else:
+                        target_number   = int(tree.item(line)['values'][0][1:])
+
+                    # No target_score in this view
+                    shot_no     = int(tree.item(line)['values'][1][1:])
+                    hit_miss    = tree.item(line)['values'][2]
+                    inspect     = tree.item(line)['values'][3]
+
+                    # First time we get in here is on the 2nd loop, at which point we append the T=0 aka CB
+                    if t_no + 1 == target_number:
+                        # Append
+                        dict = {"target_number" : t_no,     # t_no is the working target,
+                                "target_score"  : 321,
+                                "shots"         : shots
+                                }
+                        # Append list of shots
+                        targets.append(dict)
+
+                        print("Target: ", t_no)
+                        settings.pp_json(targets)
+
+                        # Reset the target we're working on
+                        t_no = target_number
+                        shots = []
+
+                    shot = {"shot_number"   : shot_no,
+                            "hit_miss"      : hit_miss,
+                            "inspect"       : inspect}
+
+                    shots.append(shot)
+
+                # end for line
+
+                # End list, we're completed the loop, lets add the last shots for the last target
+                dict = {"target_number" : t_no,
+                        "target_score"  : 321,
+                        "shots"         : shots
+                        }
+                targets.append(dict)
+
+            else:
+                pass
+
+            # end if score_viewer
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores.load_all_shooters_scores.extract_score_from_trv Completed, Mode: ({mode})'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                    mode=mode
+                ))
+
+            # end if
+            return targets, score
+
+        # end extract_score_from_trv
 
 
         def discard_score():
@@ -450,19 +525,21 @@ def load_all_shooters_scores(main_window):
 
         # Qualification Scores treeview
         if score_viewer == "flat":
-            trv_qualification_scores = settings.TreeviewEdit(qualifying_lbframe, columns=(1, 2, 3, 4), show="headings", height="16")
+            trv_qualification_scores = settings.TreeviewEdit(qualifying_lbframe, columns=(1, 2, 3, 4), show="headings", height="18")
             trv_qualification_scores.grid(row=1, column=0, rowspan=16, columnspan=9)
 
-            trv_qualification_scores.heading("#0", text="Target #",    anchor="w")
-            trv_qualification_scores.heading("#1", text="Shot #",      anchor="center")
-            trv_qualification_scores.heading("#2", text="Hitt/Miss",   anchor="center")
-            trv_qualification_scores.heading("#3", text="Inspect",     anchor="center")
+            trv_qualification_scores.heading("#0", text="",             anchor="w")
+            trv_qualification_scores.heading("#1", text="Target #",     anchor="center")
+            trv_qualification_scores.heading("#2", text="Shot #",       anchor="center")
+            trv_qualification_scores.heading("#3", text="Hitt/Miss",    anchor="center")
+            trv_qualification_scores.heading("#4", text="Inspect",      anchor="center")
             trv_qualification_scores.column("#0", anchor="w", width=60,     stretch=True)
             trv_qualification_scores.column("#1", anchor="w", width=100,    stretch=True)
             trv_qualification_scores.column("#2", anchor="w", width=100,    stretch=True)
             trv_qualification_scores.column("#3", anchor="w", width=100,    stretch=True)
+            trv_qualification_scores.column("#4", anchor="w", width=100,    stretch=True)
         else:
-            trv_qualification_scores = settings.TreeviewEdit(qualifying_lbframe, columns=(1, 2, 3, 4, 6), show="headings", height="19")
+            trv_qualification_scores = settings.TreeviewEdit(qualifying_lbframe, columns=(1, 2, 3, 4, 6), show="headings", height="21")
             trv_qualification_scores.grid(row=1, column=0, rowspan=19, columnspan=9)
 
             trv_qualification_scores.heading("#0", text="",             anchor="w")
@@ -490,19 +567,21 @@ def load_all_shooters_scores(main_window):
 
         # Finals Score treeview
         if score_viewer == "flat":
-            trv_final_scores = settings.TreeviewEdit(final_lbframe, columns=(1, 2, 3, 4), show="headings", height="16")
+            trv_final_scores = settings.TreeviewEdit(final_lbframe, columns=(1, 2, 3, 4), show="headings", height="18")
             trv_final_scores.grid(row=1, column=0, rowspan=16, columnspan=9)
 
-            trv_final_scores.heading("#0", text="Target #",    anchor="w")
-            trv_final_scores.heading("#1", text="Shot #",      anchor="center")
-            trv_final_scores.heading("#2", text="Hitt/Miss",   anchor="center")
-            trv_final_scores.heading("#3", text="Inspect",     anchor="center")
+            trv_final_scores.heading("#0", text="",             anchor="w")
+            trv_final_scores.heading("#1", text="Target #",     anchor="center")
+            trv_final_scores.heading("#2", text="Shot #",       anchor="center")
+            trv_final_scores.heading("#3", text="Hitt/Miss",    anchor="center")
+            trv_final_scores.heading("#4", text="Inspect",      anchor="center")
             trv_final_scores.column("#0", anchor="w", width=60,     stretch=True)
             trv_final_scores.column("#1", anchor="w", width=100,    stretch=True)
             trv_final_scores.column("#2", anchor="w", width=100,    stretch=True)
             trv_final_scores.column("#3", anchor="w", width=100,    stretch=True)
+            trv_final_scores.column("#4", anchor="w", width=100,    stretch=True)
         else:
-            trv_final_scores = settings.TreeviewEdit(final_lbframe, columns=(1, 2, 3, 4, 5), show="headings", height="19")
+            trv_final_scores = settings.TreeviewEdit(final_lbframe, columns=(1, 2, 3, 4, 5), show="headings", height="21")
             trv_final_scores.grid(row=1, column=0, rowspan=19, columnspan=9)
 
             trv_final_scores.heading("#0", text="",             anchor="w")

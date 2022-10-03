@@ -378,8 +378,9 @@ def load_all_shooters(main_window):
             ))
 
             if _mode != "add" and echojson == 1:
-                my_logger.info('{time}, shooters.load_all_shooters.open_popup Current Shooter'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                my_logger.info('{time}, shooters.load_all_shooters.open_popup Current Shooter, Mode: ({mode})'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                    mode=_mode
                 ))
                 settings.pp_json(json_record)
 
