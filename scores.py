@@ -355,9 +355,10 @@ def load_all_shooters_scores(main_window):
             # If we're using the flat display structure
             if score_viewer == "flat":
 
-                targets = []
-                shots   = []
-                t_no    = 0
+                targets         = []
+                shots           = []
+                target_score    = 0
+
                 for line in tree.get_children():
 
                     target_desc     = tree.item(line)['values'][0]
@@ -372,8 +373,12 @@ def load_all_shooters_scores(main_window):
                     hit_miss    = tree.item(line)['values'][2]
                     inspect     = tree.item(line)['values'][3]
 
+                    # Cold Bore
                     if target_number == 0:
-                        # Cold Bore
+
+                        # Calculate score
+                        target_score = 323
+
                         shot = {"shot_number"   : shot_no,
                                 "hit_miss"      : str(hit_miss),
                                 "inspect"       : inspect}
@@ -382,7 +387,7 @@ def load_all_shooters_scores(main_window):
 
                         # Append
                         dict = {"target_number" : 0,     # t_no is the working target,
-                                "target_score"  : 321,
+                                "target_score"  : target_score,
                                 "shots"         : shots
                                 }
                         # Append list of shots
@@ -391,20 +396,23 @@ def load_all_shooters_scores(main_window):
                         # Lets prep for the next T1 Target
                         shots         = []
                         cur_target    = 1
-
+                        target_score  = 0
                     else:
 
                         if cur_target != target_number:
+                            # If this happens then it implies we've ticket over to the next started so lets append the shots and score...
                             # Append
                             dict = {"target_number" : cur_target,  # t_no is the working target,
-                                    "target_score"  : 321,
+                                    "target_score"  : target_score,
                                     "shots"         : shots
                                     }
                             # Append list of shots
                             targets.append(dict)
-                            cur_target  = target_number
-                            shots       = []
+                            cur_target   = target_number
+                            shots        = []
+                            target_score = 0
 
+                            # Calculate/Update score
                             shot = {"shot_number"   : shot_no,
                                     "hit_miss"      : str(hit_miss),
                                     "inspect"       : inspect}
@@ -412,6 +420,9 @@ def load_all_shooters_scores(main_window):
                             shots.append(shot)
 
                         else:
+                            # Calculate/Update score
+                            target_score = 321
+
                             shot = {"shot_number"   : shot_no,
                                     "hit_miss"      : str(hit_miss),
                                     "inspect"       : inspect}
@@ -423,7 +434,7 @@ def load_all_shooters_scores(main_window):
 
                 # End list, we're completed the loop, lets add the last shots for the last target
                 dict = {"target_number" : cur_target,  # t_no is the working target,
-                        "target_score"  : 321,
+                        "target_score"  : target_score,
                         "shots"         : shots
                         }
                 targets.append(dict)
