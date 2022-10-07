@@ -339,6 +339,8 @@ def load_all_shooters_scores(main_window):
         # end save_score_to_file
 
 
+        # Extract the structure and hit/miss and inspects out from the TreeView back into a JSON structure, to be
+        # saved back for the current shooter.
         def extract_score_from_trv(tree, mode):
 
             score       = 0
@@ -350,6 +352,7 @@ def load_all_shooters_scores(main_window):
                 ))
             # end if
 
+            # If we're using the flat display structure
             if score_viewer == "flat":
 
                 targets = []
@@ -360,46 +363,72 @@ def load_all_shooters_scores(main_window):
                     target_desc     = tree.item(line)['values'][0]
                     if target_desc == "CB":
                         target_number = 0
+
                     else:
                         target_number   = int(tree.item(line)['values'][0][1:])
 
                     # No target_score in this view
-                    shot_no     = int(tree.item(line)['values'][1][1:])
+                    shot_no     = int(tree.item(line)['values'][1][1:]) - 1
                     hit_miss    = tree.item(line)['values'][2]
                     inspect     = tree.item(line)['values'][3]
 
-                    # First time we get in here is on the 2nd loop, at which point we append the T=0 aka CB
-                    if t_no + 1 == target_number:
+                    if target_number == 0:
+                        # Cold Bore
+                        shot = {"shot_number"   : shot_no,
+                                "hit_miss"      : str(hit_miss),
+                                "inspect"       : inspect}
+
+                        shots.append(shot)
+
                         # Append
-                        dict = {"target_number" : t_no,     # t_no is the working target,
+                        dict = {"target_number" : 0,     # t_no is the working target,
                                 "target_score"  : 321,
                                 "shots"         : shots
                                 }
                         # Append list of shots
                         targets.append(dict)
 
-                        print("Target: ", t_no)
-                        settings.pp_json(targets)
+                        # Lets prep for the next T1 Target
+                        shots         = []
+                        cur_target    = 1
 
-                        # Reset the target we're working on
-                        t_no = target_number
-                        shots = []
+                    else:
 
-                    shot = {"shot_number"   : shot_no,
-                            "hit_miss"      : hit_miss,
-                            "inspect"       : inspect}
+                        if cur_target != target_number:
+                            # Append
+                            dict = {"target_number" : cur_target,  # t_no is the working target,
+                                    "target_score"  : 321,
+                                    "shots"         : shots
+                                    }
+                            # Append list of shots
+                            targets.append(dict)
+                            cur_target  = target_number
+                            shots       = []
 
-                    shots.append(shot)
+                            shot = {"shot_number"   : shot_no,
+                                    "hit_miss"      : str(hit_miss),
+                                    "inspect"       : inspect}
 
+                            shots.append(shot)
+
+                        else:
+                            shot = {"shot_number"   : shot_no,
+                                    "hit_miss"      : str(hit_miss),
+                                    "inspect"       : inspect}
+
+                            shots.append(shot)
+
+                    # end target_desc == 0
                 # end for line
 
                 # End list, we're completed the loop, lets add the last shots for the last target
-                dict = {"target_number" : t_no,
+                dict = {"target_number" : cur_target,  # t_no is the working target,
                         "target_score"  : 321,
                         "shots"         : shots
                         }
                 targets.append(dict)
 
+            # If we're using the Parent/Child Treeview display structure
             else:
                 pass
 
@@ -412,6 +441,7 @@ def load_all_shooters_scores(main_window):
                 ))
 
             # end if
+
             return targets, score
 
         # end extract_score_from_trv

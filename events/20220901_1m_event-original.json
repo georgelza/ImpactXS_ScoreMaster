@@ -110,19 +110,35 @@
                 "qualifying": [
                     {
                         "target_number": 0,
+                        "target_score": 20,
                         "shots": [
-                            {"shot_number":  0, "hit_miss": "1", "inspect": "False"}
-                        ],
-                        "target_score": 20
+                            {
+                                "shot_number":  0,
+                                "hit_miss": "1",
+                                "inspect": "False"
+                            }
+                        ]
                     },
                     {
                         "target_number": 1,
+                        "target_score": 20,
                         "shots": [
-                            {"shot_number":  0, "hit_miss": "1", "inspect": "True"},
-                            {"shot_number":  1, "hit_miss": "0", "inspect": "False"},
-                            {"shot_number":  2, "hit_miss": "0", "inspect": "False"}
-                        ],
-                        "target_score": 20
+                            {
+                                "shot_number":  0,
+                                "hit_miss": "1",
+                                "inspect": "True"
+                            },
+                            {
+                                "shot_number":  1,
+                                "hit_miss": "0",
+                                "inspect": "False"
+                            },
+                            {
+                                "shot_number":  2,
+                                "hit_miss": "0",
+                                "inspect": "False"
+                            }
+                        ]
                     },
                     {
                         "target_number": 2,
