@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export DEBUGLEVEL=2
+export DEBUGLEVEL=3
 export LOGLEVEL=DEBUG
 export ECHOJSON=0
 export SPLASHTIME=1000

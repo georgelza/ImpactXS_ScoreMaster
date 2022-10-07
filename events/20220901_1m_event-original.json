@@ -200,12 +200,8 @@
                                 "shot_number":  2,
                                 "hit_miss": "0",
                                 "inspect": "False"
-                            },
-                            {
-                                "shot_number":  3,
-                                "hit_miss": "0",
-                                "inspect": "False"
                             }
+
                         ]
                     }
                 ],

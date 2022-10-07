@@ -173,6 +173,7 @@ def load_all_shooters_scores(main_window):
 
     # end load_all_shooter_scores_trv_with_json
 
+
     def MouseButtonUpCallBack(event):
         global trv_all_shooter_scores
 
@@ -212,18 +213,26 @@ def load_all_shooters_scores(main_window):
         def load_score_trv_with_json(array_of_targets, tree, _mode):
 
             if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters_scores.load_score_trv_with_json Called'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.load_score_trv_with_json Called ({mode})'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                    mode=_mode
                 ))
 
                 if echojson == 1:
                     settings.pp_json(array_of_targets)
+            # end debuglevel
 
             # clear out current treeview definition
             for item in tree.get_children():
                 tree.delete(item)
 
             # end for item
+
+            if debuglevel >= 3:
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.load_score_trv_with_json Treeview cleaned ({mode})'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                    mode=_mode
+                ))
 
             target_no = 0
             while target_no < len(array_of_targets):
@@ -234,11 +243,14 @@ def load_all_shooters_scores(main_window):
                 if target_no == 0:
                     if _mode == "qual":
                         target_name = "CB"
+
                     else:
                         target_name = "T" + str(target_no)
+
                 else:
                     target_name = "T" + str(target_no)
-                # end if target_no
+
+                # end if target_no == 0
 
                 target_score    = target_array["target_score"]
                 array_of_shots  = target_array["shots"]
@@ -252,19 +264,19 @@ def load_all_shooters_scores(main_window):
                     shots = array_of_shots[shot_no]
 
                     shot_name   = "S" + str( int(shots["shot_number"])+1)
-                    hitt_miss   = shots["hit_miss"]
+                    hit_miss   = shots["hit_miss"]
                     inspect     = shots["inspect"]
 
                     if score_viewer == "flat":
                         tree.insert(parent="",
                                     index=tk.END,
                                     text="",
-                                    values=(target_name, shot_name, hitt_miss, inspect))
+                                    values=(target_name, shot_name, hit_miss, inspect))
                     else:
                         tree.insert(parent=target_name,
                                     index=tk.END,
                                     text=shot_name,
-                                    values=("", "", shot_name, hitt_miss, inspect))
+                                    values=("", "", shot_name, hit_miss, inspect))
 
                     # end if
                     shot_no = shot_no + 1
@@ -275,46 +287,109 @@ def load_all_shooters_scores(main_window):
             # end while target_no
 
             if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters_scores.load_score_trv_with_json Completed'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.load_score_trv_with_json Completed ({mode})'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                    mode=_mode
                 ))
 
         # end load_score_trv_with_json
 
 
-        def save_score_to_file():
+        # Lets first extract and push the values back to the settings.* arrays
+        def update_scores_to_my_shooter_list():
 
-            q_score_json, q_score   = extract_score_from_trv(trv_qualification_scores, "qual")
-            f_score_json, f_score   = extract_score_from_trv(trv_final_scores, "final")
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.update_scores_to_my_shooter_list Called '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+            # end if
+
+            q_score_json, q_score = extract_score_from_trv(trv_qualification_scores, "qual")
+            f_score_json, f_score = extract_score_from_trv(trv_final_scores, "final")
+
+            if debuglevel >= 3:
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.update_scores_to_my_shooter_list Scores Extracted '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+            # end if
 
             # save json structure for specific shooter back to file
             my_row = settings.find_row_in_my_shooter_list(json_record["id"])
 
-            settings.my_shooter_list[my_row]["scores"]["qualifying_score"]  = q_score
-            settings.my_shooter_list[my_row]["scores"]["final_score"]       = f_score
-            settings.my_shooter_list[my_row]["scores"]["qualifying"]        = q_score_json
-            settings.my_shooter_list[my_row]["scores"]["final"]             = f_score_json
+            if debuglevel >= 3:
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.update_scores_to_my_shooter_list Locate array position of shooter '.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                    ))
+            # end if
 
-            # Push everything back/down to the physical file - this allows other viewers to get updates as the scorer
-            # saves updates to file.
-            settings.save_json_to_file(settings.filename)
+            settings.my_shooter_list[my_row]["scores"]["qualifying_score"] = q_score
+            settings.my_shooter_list[my_row]["scores"]["final_score"] = f_score
+            settings.my_shooter_list[my_row]["scores"]["qualifying"] = q_score_json
+            settings.my_shooter_list[my_row]["scores"]["final"] = f_score_json
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.update_scores_to_my_shooter_list Completed '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+            # end if
+
+        # end update_scores_to_my_shooter_list
+
+        def refresh_scores():
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.refresh_scores Called '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+            # end if
 
             # reload/refresh json structures from file
             # everything
             settings.my_event_list = settings.load_event_json_from_file(settings.filename)
+
+            if debuglevel >= 3:
+                my_logger.info(
+                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores Reloaded My_event_list '.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                    ))
+            # end if
+
             # all shooters
-            settings.my_shooter_list    = settings.my_event_list["shooters"]
-            settings.my_event_image     = settings.my_event_list["image"]
+            settings.my_shooter_list = settings.my_event_list["shooters"]
+
+            if debuglevel >= 3:
+                my_logger.info(
+                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores Re-extract my_shooter_list from my_event_list'.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                    ))
+            # end if
+
+            settings.my_event_image = settings.my_event_list["image"]
 
             # find specific shooter
-            my_row      = settings.find_row_in_my_shooter_list(json_record["id"])
-            my_shooter  = settings.my_shooter_list[my_row]
+            my_row = settings.find_row_in_my_shooter_list(json_record["id"])
+            my_shooter = settings.my_shooter_list[my_row]
+
+            if debuglevel >= 3:
+                my_logger.info(
+                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores relocate shooter record - find_row_in_my_shooter_list'.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                    ))
+            # end if
+
             # get scores for specific shooter
             list_of_all_scores_for_shooter = my_shooter["scores"]
 
-            if debuglevel >= 2:
+            if debuglevel >= 3:
                 my_logger.info(
-                    '{time}, scores.load_all_shooters_scores.save_score_to_file Scores Reloaded from file'.format(
+                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores list_of_all_scores_for_shooter'.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                    ))
+            # end if
+
+            if debuglevel >= 3:
+                my_logger.info(
+                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores Scores Reloaded from file'.format(
                         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                     ))
                 if echojson == 1:
@@ -324,29 +399,86 @@ def load_all_shooters_scores(main_window):
 
             # update displayed score: Qualification Round
             qualification_score.set(list_of_all_scores_for_shooter["qualifying_score"])
+
+            if debuglevel >= 3:
+                my_logger.info(
+                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores update displayed score: Qualification Round '.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                    ))
+            # end if
+
             # update displayed score: Final Round
             final_score.set(list_of_all_scores_for_shooter["final_score"])
+
+            if debuglevel >= 3:
+                my_logger.info(
+                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores update displayed score: Final Round '.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                    ))
+            # end if
 
             # reload treeviews
             load_score_trv_with_json(list_of_all_scores_for_shooter["qualifying"], trv_qualification_scores, "qual")
             load_score_trv_with_json(list_of_all_scores_for_shooter["final"], trv_qualification_scores, "final")
 
+            if debuglevel >= 3:
+                my_logger.info(
+                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores load_score_trv_with_json '.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                    ))
+            # end if
+
             if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters_scores.save_score_to_file Completed'.format(
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.refresh_scores Completed '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+            # end if
+
+        # end refresh_scores
+
+        def save_and_refresh_scores():
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.save_and_refresh_scores Called '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+            # end if
+
+            # First we push the scores back to the settings.* arrays
+            update_scores_to_my_shooter_list()
+
+            # Push everything back/down to the physical file - this allows other viewers to get updates as the scorer
+            # saves updates to file.
+            settings.save_json_to_file(settings.filename)
+
+            if debuglevel >= 3:
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.save_and_refresh_scores.save_json_to_file Completed '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+            # end if
+
+            refresh_scores()
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.save_and_refresh_scores Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
-        # end save_score_to_file
+        # end save_and_refresh_scores
 
 
-        # Extract the structure and hit/miss and inspects out from the TreeView back into a JSON structure, to be
-        # saved back for the current shooter.
+
+        # Extract the structure and hit/miss and inspects results entered from the TreeView back into the JSON structure for the score,
+        # to be saved back for the current shooter.
         def extract_score_from_trv(tree, mode):
 
-            score       = 0
+            targets         = []
+            shots           = []
+            target_score    = 0
+            round_score     = 0
 
             if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters_scores.extract_score_from_trv Called, Mode: ({mode}) '.format(
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.extract_score_from_trv Called, Mode: ({mode}) '.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
                     mode=mode
                 ))
@@ -355,9 +487,13 @@ def load_all_shooters_scores(main_window):
             # If we're using the flat display structure
             if score_viewer == "flat":
 
-                targets         = []
-                shots           = []
-                target_score    = 0
+                if debuglevel >= 2:
+                    my_logger.info(
+                        '{time}, scores.load_all_shooters_scores.open_popup.extract_score_from_trv Entering Flat Extract '.format(
+                            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                            mode=mode
+                        ))
+                # end if
 
                 for line in tree.get_children():
 
@@ -376,14 +512,17 @@ def load_all_shooters_scores(main_window):
                     # Cold Bore
                     if target_number == 0:
 
-                        # Calculate score
-                        target_score = 323
-
                         shot = {"shot_number"   : shot_no,
                                 "hit_miss"      : str(hit_miss),
                                 "inspect"       : inspect}
 
                         shots.append(shot)
+
+                        # Calculate/Update score
+                        shot_score = 222
+
+                        # Add shot score to target score
+                        target_score = target_score + shot_score
 
                         # Append
                         dict = {"target_number" : 0,     # t_no is the working target,
@@ -393,10 +532,14 @@ def load_all_shooters_scores(main_window):
                         # Append list of shots
                         targets.append(dict)
 
+                        # Add target score to round score
+                        round_score = round_score + target_score
+
                         # Lets prep for the next T1 Target
                         shots         = []
                         cur_target    = 1
                         target_score  = 0
+
                     else:
 
                         if cur_target != target_number:
@@ -408,20 +551,27 @@ def load_all_shooters_scores(main_window):
                                     }
                             # Append list of shots
                             targets.append(dict)
-                            cur_target   = target_number
-                            shots        = []
-                            target_score = 0
 
-                            # Calculate/Update score
+                            # Add target score to round score
+                            round_score = round_score + target_score
+
+                            shots           = []
+                            cur_target      = target_number
+                            target_score    = 0
+
                             shot = {"shot_number"   : shot_no,
                                     "hit_miss"      : str(hit_miss),
                                     "inspect"       : inspect}
 
                             shots.append(shot)
+
+                            # Calculate/Update score
+                            shot_score = 222
+
+                            # Add shot score to target score
+                            target_score = target_score + shot_score
 
                         else:
-                            # Calculate/Update score
-                            target_score = 321
 
                             shot = {"shot_number"   : shot_no,
                                     "hit_miss"      : str(hit_miss),
@@ -429,31 +579,52 @@ def load_all_shooters_scores(main_window):
 
                             shots.append(shot)
 
+                            # Calculate/Update score
+                            shot_score = 222
+
+                            # Add shot score to target score
+                            target_score = target_score + shot_score
+
                     # end target_desc == 0
-                # end for line
+                # end for line in tree.get_children()
+
+                print(" --  line in tree.get_children() ")
 
                 # End list, we're completed the loop, lets add the last shots for the last target
                 dict = {"target_number" : cur_target,  # t_no is the working target,
                         "target_score"  : target_score,
                         "shots"         : shots
                         }
+                # Append list of shots
                 targets.append(dict)
+
+                # Add target score to round score
+                round_score = round_score + target_score
+
+                print(" -- End if Flat Tree Extraction ")
 
             # If we're using the Parent/Child Treeview display structure
             else:
-                pass
+                if debuglevel >= 2:
+                    my_logger.info(
+                        '{time}, scores.load_all_shooters_scores.open_popup.extract_score_from_trv Entering Tree Extract '.format(
+                            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                            mode=mode
+                        ))
+                # end if
 
             # end if score_viewer
 
+
             if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters_scores.extract_score_from_trv Completed, Mode: ({mode})'.format(
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.extract_score_from_trv Completed, Mode: ({mode})'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
                     mode=mode
                 ))
 
             # end if
 
-            return targets, score
+            return targets, round_score
 
         # end extract_score_from_trv
 
@@ -461,7 +632,7 @@ def load_all_shooters_scores(main_window):
         def discard_score():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, score.load_all_shooters_scores.open_popup.discard_score Called '.format(
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.discard_score Called '.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -469,7 +640,7 @@ def load_all_shooters_scores(main_window):
             child.destroy()
 
             if debuglevel >= 2:
-                my_logger.info('{time}, score.load_all_shooters_scores.open_popup.discard_score Completed '.format(
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.discard_score Completed '.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -483,7 +654,7 @@ def load_all_shooters_scores(main_window):
         list_of_finals_scores       = list_of_all_scores["final"]
 
         if debuglevel >= 2:
-            my_logger.info('{time}, scores.load_all_shooters.open_popup Called'.format(
+            my_logger.info('{time}, scores.load_all_shooters_scores.open_popup. Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -644,7 +815,7 @@ def load_all_shooters_scores(main_window):
         load_score_trv_with_json(list_of_finals_scores, trv_final_scores, "finals")
 
         # Add Buttons
-        btnSave = Button(cntrls_lbframe, text="Save", padx=5, pady=10, command=save_score_to_file)
+        btnSave = Button(cntrls_lbframe, text="Save", padx=5, pady=10, command=save_and_refresh_scores)
         btnSave.grid(row=0, column=0)
 
         btnExit = Button(cntrls_lbframe, text="Exit", padx=5, pady=10, command=discard_score)
@@ -652,7 +823,7 @@ def load_all_shooters_scores(main_window):
 
 
         if debuglevel >= 2:
-            my_logger.info('{time}, scores.load_all_shooters.open_popup Completed'.format(
+            my_logger.info('{time}, scores.load_all_shooters_scores.open_popup Completed'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
