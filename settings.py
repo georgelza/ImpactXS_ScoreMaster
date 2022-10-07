@@ -249,6 +249,12 @@ def find_row_in_my_shooter_list(guid_value):
         row = row + 1
 
     if (found == True):
+        if debuglevel >= 2:
+            my_logger.info('{time}, settings.find_row_in_my_shooter_list Shooter= ({row}) Completed'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                row=row
+            ))
+
         return (row)
 
     return (-1)

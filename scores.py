@@ -234,23 +234,21 @@ def load_all_shooters_scores(main_window):
                     mode=_mode
                 ))
 
+            # REMOVE !!!!
+            settings.pp_json(array_of_targets)
+
             target_no = 0
             while target_no < len(array_of_targets):
 
                 target_array    = array_of_targets[target_no]
-                target_no       = target_array["target_number"]
 
-                if target_no == 0:
-                    if _mode == "qual":
-                        target_name = "CB"
-
-                    else:
-                        target_name = "T" + str(target_no)
+                if target_no == 0 and _mode == "qual":
+                    target_name = "CB"
 
                 else:
-                    target_name = "T" + str(target_no)
+                    target_name = "T" + str(target_array["target_number"])
 
-                # end if target_no == 0
+                # end if
 
                 target_score    = target_array["target_score"]
                 array_of_shots  = target_array["shots"]
@@ -261,22 +259,22 @@ def load_all_shooters_scores(main_window):
                     tree.insert("", "end", target_name, text=target_name, values=(target_name, target_score))
 
                 while shot_no < len(array_of_shots):
-                    shots = array_of_shots[shot_no]
 
-                    shot_name   = "S" + str( int(shots["shot_number"])+1)
-                    hit_miss   = shots["hit_miss"]
-                    inspect     = shots["inspect"]
+                    current_shot    = array_of_shots[shot_no]
+                    shot_name       = "S" + str( int(current_shot["shot_number"])+1)
+                    hit_miss        = current_shot["hit_miss"]
+                    inspect         = current_shot["inspect"]
 
                     if score_viewer == "flat":
-                        tree.insert(parent="",
-                                    index=tk.END,
-                                    text="",
-                                    values=(target_name, shot_name, hit_miss, inspect))
+                        tree.insert(parent  = "",
+                                    index   = tk.END,
+                                    text    = "",
+                                    values  = (target_name, shot_name, hit_miss, inspect))
                     else:
-                        tree.insert(parent=target_name,
-                                    index=tk.END,
-                                    text=shot_name,
-                                    values=("", "", shot_name, hit_miss, inspect))
+                        tree.insert(parent  = target_name,
+                                    index   = tk.END,
+                                    text    = shot_name,
+                                    values  = ("", "", shot_name, hit_miss, inspect))
 
                     # end if
                     shot_no = shot_no + 1
@@ -335,61 +333,44 @@ def load_all_shooters_scores(main_window):
 
         # end update_scores_to_my_shooter_list
 
-        def refresh_scores():
+        def refresh_trv_scores():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.refresh_scores Called '.format(
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.refresh_trv_scores Called '.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
             # end if
 
-            # reload/refresh json structures from file
-            # everything
-            settings.my_event_list = settings.load_event_json_from_file(settings.filename)
+            # Refresh settings.[arrays]
+            settings.my_event_list      = settings.load_event_json_from_file(settings.filename)
+            settings.my_event_image     = settings.my_event_list["image"]
+            settings.my_shooter_list    = settings.my_event_list["shooters"]
+            my_row                      = settings.find_row_in_my_shooter_list(json_record["id"])
 
-            if debuglevel >= 3:
-                my_logger.info(
-                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores Reloaded My_event_list '.format(
-                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                    ))
-            # end if
+            if my_row != -1:
+                # This is my specific shooter
+                my_shooter  = settings.my_shooter_list[my_row]
 
-            # all shooters
-            settings.my_shooter_list = settings.my_event_list["shooters"]
+                if debuglevel >= 3:
+                    my_logger.info(
+                        '{time}, scores.load_all_shooters_scores.open_popup.refresh_trv_scores find_row_in_my_shooter_list Row: {row}'.format(
+                            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                            row=my_row
+                        ))
+                    if echojson == 1:
+                        settings.pp_json(my_shooter)
 
-            if debuglevel >= 3:
-                my_logger.info(
-                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores Re-extract my_shooter_list from my_event_list'.format(
-                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                    ))
-            # end if
-
-            settings.my_event_image = settings.my_event_list["image"]
-
-            # find specific shooter
-            my_row = settings.find_row_in_my_shooter_list(json_record["id"])
-            my_shooter = settings.my_shooter_list[my_row]
-
-            if debuglevel >= 3:
-                my_logger.info(
-                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores relocate shooter record - find_row_in_my_shooter_list'.format(
-                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                    ))
-            # end if
+                # end if
+            else:
+                # We need to figure out how to exit now... this implies we could not find our shooter in the array of shooters
+                pass
 
             # get scores for specific shooter
             list_of_all_scores_for_shooter = my_shooter["scores"]
 
             if debuglevel >= 3:
                 my_logger.info(
-                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores list_of_all_scores_for_shooter'.format(
-                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                    ))
-            # end if
-
-            if debuglevel >= 3:
-                my_logger.info(
-                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores Scores Reloaded from file'.format(
+                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_trv_scores list_of_all_scores_for_shooter'.format(
                         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                     ))
                 if echojson == 1:
@@ -401,9 +382,9 @@ def load_all_shooters_scores(main_window):
             qualification_score.set(list_of_all_scores_for_shooter["qualifying_score"])
 
             if debuglevel >= 3:
-                my_logger.info(
-                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores update displayed score: Qualification Round '.format(
-                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.refresh_trv_scores Qualification Round: {qscore} '.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                        qscore=qualification_score.get()
                     ))
             # end if
 
@@ -411,30 +392,38 @@ def load_all_shooters_scores(main_window):
             final_score.set(list_of_all_scores_for_shooter["final_score"])
 
             if debuglevel >= 3:
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.refresh_trv_scores Final Round: {fscore} '.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                        fscore=final_score.get()
+                    ))
+            # end if
+
+            # reload the 2 treeviews with new data
+            load_score_trv_with_json(list_of_all_scores_for_shooter["qualifying"], trv_qualification_scores, "qual")
+            if debuglevel >= 3:
                 my_logger.info(
-                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores update displayed score: Final Round '.format(
+                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_trv_scores Qual trv reloaded '.format(
                         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                     ))
             # end if
 
-            # reload treeviews
-            load_score_trv_with_json(list_of_all_scores_for_shooter["qualifying"], trv_qualification_scores, "qual")
             load_score_trv_with_json(list_of_all_scores_for_shooter["final"], trv_qualification_scores, "final")
 
             if debuglevel >= 3:
                 my_logger.info(
-                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_scores load_score_trv_with_json '.format(
+                    '{time}, scores.load_all_shooters_scores.open_popup.refresh_trv_scores Final trv reloaded '.format(
                         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                     ))
             # end if
 
             if debuglevel >= 2:
-                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.refresh_scores Completed '.format(
+                my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.refresh_trv_scores Completed '.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
             # end if
 
         # end refresh_scores
+
 
         def save_and_refresh_scores():
 
@@ -457,7 +446,7 @@ def load_all_shooters_scores(main_window):
                 ))
             # end if
 
-            refresh_scores()
+            refresh_trv_scores()
 
             if debuglevel >= 2:
                 my_logger.info('{time}, scores.load_all_shooters_scores.open_popup.save_and_refresh_scores Completed'.format(

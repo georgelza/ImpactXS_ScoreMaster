@@ -105,15 +105,15 @@
                 }
             },
             "scores": {
-                "qualifying_score": 2886,
-                "final_score": 3330,
+                "qualifying_score": 400,
+                "final_score": 560,
                 "qualifying": [
                     {
                         "target_number": 0,
-                        "target_score": 222,
+                        "target_score": 20,
                         "shots": [
                             {
-                                "shot_number": 0,
+                                "shot_number":  0,
                                 "hit_miss": "1",
                                 "inspect": "False"
                             }
@@ -121,20 +121,20 @@
                     },
                     {
                         "target_number": 1,
-                        "target_score": 666,
+                        "target_score": 20,
                         "shots": [
                             {
-                                "shot_number": 0,
-                                "hit_miss": "0",
+                                "shot_number":  0,
+                                "hit_miss": "1",
                                 "inspect": "True"
                             },
                             {
-                                "shot_number": 1,
+                                "shot_number":  1,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             },
                             {
-                                "shot_number": 2,
+                                "shot_number":  2,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             }
@@ -142,20 +142,20 @@
                     },
                     {
                         "target_number": 2,
-                        "target_score": 666,
+                        "target_score": 50,
                         "shots": [
                             {
-                                "shot_number": 0,
+                                "shot_number":  0,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             },
                             {
-                                "shot_number": 1,
+                                "shot_number":  1,
                                 "hit_miss": "1",
                                 "inspect": "False"
                             },
                             {
-                                "shot_number": 2,
+                                "shot_number":  2,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             }
@@ -163,20 +163,20 @@
                     },
                     {
                         "target_number": 3,
-                        "target_score": 666,
+                        "target_score": 100,
                         "shots": [
                             {
-                                "shot_number": 0,
+                                "shot_number":  0,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             },
                             {
-                                "shot_number": 1,
+                                "shot_number":  1,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             },
                             {
-                                "shot_number": 2,
+                                "shot_number":  2,
                                 "hit_miss": "1",
                                 "inspect": "False"
                             }
@@ -184,33 +184,54 @@
                     },
                     {
                         "target_number": 4,
-                        "target_score": 666,
+                        "target_score": 120,
                         "shots": [
                             {
-                                "shot_number": 0,
+                                "shot_number":  0,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             },
                             {
-                                "shot_number": 1,
+                                "shot_number":  1,
                                 "hit_miss": "1",
                                 "inspect": "True"
                             },
                             {
-                                "shot_number": 2,
+                                "shot_number":  2,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             }
+
                         ]
                     }
                 ],
                 "final": [
                     {
                         "target_number": 0,
-                        "target_score": 222,
+                        "target_score": 110,
                         "shots": [
                             {
-                                "shot_number": 0,
+                                "shot_number":  0,
+                                "hit_miss": "0",
+                                "inspect": "False"
+                            },
+                            {
+                                "shot_number":  1,
+                                "hit_miss": "0",
+                                "inspect": "False"
+                            },
+                            {
+                                "shot_number":  2,
+                                "hit_miss": "0",
+                                "inspect": "False"
+                            },
+                            {
+                                "shot_number":  3,
+                                "hit_miss": "1",
+                                "inspect": "False"
+                            },
+                            {
+                                "shot_number":  4,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             }
@@ -218,30 +239,30 @@
                     },
                     {
                         "target_number": 1,
-                        "target_score": 1110,
+                        "target_score": 200,
                         "shots": [
                             {
-                                "shot_number": 0,
+                                "shot_number":  0,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             },
                             {
-                                "shot_number": 1,
+                                "shot_number":  1,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             },
                             {
-                                "shot_number": 2,
+                                "shot_number":  2,
                                 "hit_miss": "1",
                                 "inspect": "False"
                             },
                             {
-                                "shot_number": 3,
+                                "shot_number":  3,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             },
                             {
-                                "shot_number": 4,
+                                "shot_number":  4,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             }
@@ -249,61 +270,30 @@
                     },
                     {
                         "target_number": 2,
-                        "target_score": 1110,
+                        "target_score": 120,
                         "shots": [
                             {
-                                "shot_number": 0,
+                                "shot_number":  0,
                                 "hit_miss": "1",
                                 "inspect": "True"
                             },
                             {
-                                "shot_number": 1,
+                                "shot_number":  1,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             },
                             {
-                                "shot_number": 2,
+                                "shot_number":  2,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             },
                             {
-                                "shot_number": 3,
+                                "shot_number":  3,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             },
                             {
-                                "shot_number": 4,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            }
-                        ]
-                    },
-                    {
-                        "target_number": 3,
-                        "target_score": 1110,
-                        "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "1",
-                                "inspect": "True"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 3,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 4,
+                                "shot_number":  4,
                                 "hit_miss": "0",
                                 "inspect": "False"
                             }
@@ -314,12 +304,12 @@
         },
         {
             "id": "07d12652-2d6a-11ed-a038-0242fc120002",
-            "first_name": "Edgar11",
+            "first_name": "Edgar",
             "last_name": "Doubell",
             "id_number": "7004105127085",
             "cell_phone": "0826552446",
             "email": "edgar@gmail.com",
-            "team": "lovestock",
+            "team": "LiveWise",
             "spotter": "Pine Louw",
             "equipment": {
                 "rifle": {
@@ -358,95 +348,43 @@
                     {
                         "target_number": 0,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "True"
-                            }
+                            {"shot_number":  0, "hit_miss": "0", "inspect": "True"}
                         ],
                         "target_score": 300
                     },
                     {
                         "target_number": 1,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "1",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            }
+                            {"shot_number":  0, "hit_miss": "1", "inspect": "False"},
+                            {"shot_number":  1, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  2, "hit_miss": "0", "inspect": "False"}
                         ],
                         "target_score": 153
                     },
                     {
                         "target_number": 2,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "1",
-                                "inspect": "True"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            }
+                            {"shot_number":  0, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  1, "hit_miss": "1", "inspect": "True"},
+                            {"shot_number":  2, "hit_miss": "0", "inspect": "False"}
                         ],
                         "target_score": 421
                     },
                     {
                         "target_number": 3,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "1",
-                                "inspect": "False"
-                            }
+                            {"shot_number":  0, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  1, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  2, "hit_miss": "1", "inspect": "False"}
                         ],
                         "target_score": 111
                     },
                     {
                         "target_number": 4,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "True"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "1",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            }
+                            {"shot_number":  0, "hit_miss": "0", "inspect": "True"},
+                            {"shot_number":  1, "hit_miss": "1", "inspect": "False"},
+                            {"shot_number":  2, "hit_miss": "0", "inspect": "False"}
                         ],
                         "target_score": 111
                     }
@@ -455,93 +393,33 @@
                     {
                         "target_number": 0,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "1",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 3,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 4,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            }
+                            {"shot_number":  0, "hit_miss": "1", "inspect": "False"},
+                            {"shot_number":  1, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  2, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  3, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  4, "hit_miss": "0", "inspect": "False"}
                         ],
                         "target_score": 422
                     },
                     {
                         "target_number": 1,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "1",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 3,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 4,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            }
+                            {"shot_number":  0, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  1, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  2, "hit_miss": "1", "inspect": "False"},
+                            {"shot_number":  3, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  4, "hit_miss": "0", "inspect": "False"}
                         ],
                         "target_score": 111
                     },
                     {
                         "target_number": 2,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 3,
-                                "hit_miss": "1",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 4,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            }
+                            {"shot_number":  0, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  1, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  2, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  3, "hit_miss": "1", "inspect": "False"},
+                            {"shot_number":  4, "hit_miss": "0", "inspect": "False"}
                         ],
                         "target_score": 311
                     }
@@ -555,7 +433,7 @@
             "id_number": "7010105127085",
             "cell_phone": "0826552324",
             "email": "charl@gmail.com",
-            "team": "sendit",
+            "team": "SendIT",
             "spotter": "Tony",
             "equipment": {
                 "rifle": {
@@ -594,95 +472,43 @@
                     {
                         "target_number": 0,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "True"
-                            }
+                            {"shot_number":  0, "hit_miss": "0", "inspect": "True"}
                         ],
                         "target_score": 254
                     },
                     {
                         "target_number": 1,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "1",
-                                "inspect": "True"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            }
+                            {"shot_number":  0, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  1, "hit_miss": "1", "inspect": "True"},
+                            {"shot_number":  2, "hit_miss": "0", "inspect": "False"}
                         ],
                         "target_score": 111
                     },
                     {
                         "target_number": 2,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "1",
-                                "inspect": "True"
-                            }
+                            {"shot_number":  0, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  1, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  2, "hit_miss": "1", "inspect": "True"}
                         ],
                         "target_score": 111
                     },
                     {
                         "target_number": 3,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "True"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "1",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            }
+                            {"shot_number":  0, "hit_miss": "0", "inspect": "True"},
+                            {"shot_number":  1, "hit_miss": "1", "inspect": "False"},
+                            {"shot_number":  2, "hit_miss": "0", "inspect": "False"}
                         ],
                         "target_score": 111
                     },
                     {
                         "target_number": 4,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "1",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            }
+                            {"shot_number":  0, "hit_miss": "1", "inspect": "False"},
+                            {"shot_number":  1, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  2, "hit_miss": "0", "inspect": "False"}
                         ],
                         "target_score": 124
                     }
@@ -691,93 +517,33 @@
                     {
                         "target_number": 0,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "True"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "1",
-                                "inspect": "True"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 3,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 4,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            }
+                            {"shot_number":  0, "hit_miss": "0", "inspect": "True"},
+                            {"shot_number":  1, "hit_miss": "1", "inspect": "True"},
+                            {"shot_number":  2, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  3, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  4, "hit_miss": "0", "inspect": "False"}
                         ],
                         "target_score": 111
                     },
                     {
                         "target_number": 1,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "True"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "1",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 3,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 4,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            }
+                            {"shot_number":  0, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  1, "hit_miss": "0", "inspect": "True"},
+                            {"shot_number":  2, "hit_miss": "1", "inspect": "False"},
+                            {"shot_number":  3, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  4, "hit_miss": "0", "inspect": "False"}
                         ],
                         "target_score": 111
                     },
                     {
                         "target_number": 2,
                         "shots": [
-                            {
-                                "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "True"
-                            },
-                            {
-                                "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 3,
-                                "hit_miss": "1",
-                                "inspect": "False"
-                            },
-                            {
-                                "shot_number": 4,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            }
+                            {"shot_number":  0, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  1, "hit_miss": "0", "inspect": "True"},
+                            {"shot_number":  2, "hit_miss": "0", "inspect": "False"},
+                            {"shot_number":  3, "hit_miss": "1", "inspect": "False"},
+                            {"shot_number":  4, "hit_miss": "0", "inspect": "False"}
                         ],
                         "target_score": 111
                     }
