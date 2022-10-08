@@ -184,7 +184,7 @@ def load_all_shooters_scores(main_window):
 
         currentRowIndex = trv_all_shooter_scores.selection()[0]
 
-        my_logger.info('{time}, scores.load_all_shooters_scores.MouseButtonUpCallBack Called Cur Row Index: {currentRowIndex}'.format(
+        my_logger.info('{time}, scores.load_all_shooters_scores.MouseButtonUpCallBack Called Cur Row Index:{currentRowIndex}'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
             currentRowIndex=currentRowIndex
         ))
@@ -192,9 +192,10 @@ def load_all_shooters_scores(main_window):
         lastTuple = (trv_all_shooter_scores.item(currentRowIndex, 'values'))
         # Get from my_shooter_list dictionary the entire record matching the lastTuple[1], this is the id column
         my_row      = settings.find_row_in_my_shooter_list(lastTuple[1])
-        my_jsonrec  = settings.my_shooter_list[my_row]
+        my_shooter  = settings.my_shooter_list[my_row]
+
         # Lets edit/enter scores for selected shooter
-        open_popup(my_jsonrec, tree_frame)
+        open_popup(my_shooter, tree_frame)
 
         if debuglevel >= 2:
             my_logger.info('{time}, scores.load_all_shooters.MouseButtonUpCallBack Completed'.format(
@@ -347,13 +348,17 @@ def load_all_shooters_scores(main_window):
             settings.my_shooter_list    = settings.my_event_list["shooters"]
             my_row                      = settings.find_row_in_my_shooter_list(json_record["id"])
 
+            print("-- my_row ", my_row)
+
             if my_row != -1:
                 # This is my specific shooter
-                my_shooter  = settings.my_shooter_list[my_row]
+                my_shooter = settings.my_shooter_list[my_row]
+                print("-- my_shooter --" )
+                settings.pp_json(my_shooter)
 
                 if debuglevel >= 3:
                     my_logger.info(
-                        '{time}, scores.load_all_shooters_scores.open_popup.refresh_trv_scores find_row_in_my_shooter_list Row: {row}'.format(
+                        '{time}, scores.load_all_shooters_scores.open_popup.refresh_trv_scores find_row_in_my_shooter_list Row:{row}'.format(
                             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
                             row=my_row
                         ))
@@ -400,6 +405,7 @@ def load_all_shooters_scores(main_window):
 
             # reload the 2 treeviews with new data
             load_score_trv_with_json(list_of_all_scores_for_shooter["qualifying"], trv_qualification_scores, "qual")
+
             if debuglevel >= 3:
                 my_logger.info(
                     '{time}, scores.load_all_shooters_scores.open_popup.refresh_trv_scores Qual trv reloaded '.format(
@@ -407,7 +413,7 @@ def load_all_shooters_scores(main_window):
                     ))
             # end if
 
-            load_score_trv_with_json(list_of_all_scores_for_shooter["final"], trv_qualification_scores, "final")
+            load_score_trv_with_json(list_of_all_scores_for_shooter["final"], trv_final_scores, "final")
 
             if debuglevel >= 3:
                 my_logger.info(
@@ -446,6 +452,7 @@ def load_all_shooters_scores(main_window):
                 ))
             # end if
 
+            # Refresh/Repaint the Qual and Final Treeviews
             refresh_trv_scores()
 
             if debuglevel >= 2:
@@ -454,7 +461,6 @@ def load_all_shooters_scores(main_window):
                 ))
 
         # end save_and_refresh_scores
-
 
 
         # Extract the structure and hit/miss and inspects results entered from the TreeView back into the JSON structure for the score,

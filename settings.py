@@ -250,12 +250,17 @@ def find_row_in_my_shooter_list(guid_value):
 
     if (found == True):
         if debuglevel >= 2:
-            my_logger.info('{time}, settings.find_row_in_my_shooter_list Shooter= ({row}) Completed'.format(
+            my_logger.info('{time}, settings.find_row_in_my_shooter_list Completed Shooter:{row} '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
                 row=row
             ))
 
         return (row)
+
+    if debuglevel >= 2:
+        my_logger.info('{time}, settings.find_row_in_my_shooter_list Completed Shooter:NOT FOUND '.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
 
     return (-1)
 
