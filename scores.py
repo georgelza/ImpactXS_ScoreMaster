@@ -498,16 +498,16 @@ def load_all_shooters_scores(main_window):
                     inspect     = tree.item(line)['values'][3]
 
                     # Lets make sure we understand what was entered and try and correct to what we really wanted - Data Quality
-                    if hit_miss == "y" or hit_miss == "Y" or hit_miss == "Yes" or hit_miss == "YES":
+                    if hit_miss == "y" or hit_miss == "Y" or hit_miss == "Yes" or hit_miss == "YES" or hit_miss == "True" or hit_miss == "TRUE" or hit_miss == "T":
                         hit_miss = "1"
-                    elif hit_miss == "n" or hit_miss == "N" or hit_miss == "No" or hit_miss == "NO":
+                    elif hit_miss == "n" or hit_miss == "N" or hit_miss == "No" or hit_miss == "NO" or hit_miss == "False" or hit_miss == "FALSE" or hit_miss == "F":
                         hit_miss =  "0"
                     elif hit_miss != "0" and hit_miss != "1":
                         hit_miss = "0"
 
-                    if inspect == "true" or inspect == "TRUE" or inspect == "T" or inspect == "Y" or inspect == "Yes" or inspect == "YES":
+                    if inspect == "true" or inspect == "TRUE" or inspect == "T" or inspect == "Y" or inspect == "Yes" or inspect == "YES" or inspect == "1":
                         inspect = "True"
-                    elif inspect == "false" or inspect == "FALSE" or inspect == "F" or inspect == "N" or inspect == "No" or inspect == "NO":
+                    elif inspect == "false" or inspect == "FALSE" or inspect == "F" or inspect == "N" or inspect == "No" or inspect == "NO" or inspect == "0":
                         inspect = "False"
                     elif inspect != "True" and inspect != "False":
                         inspect = "False"
@@ -764,7 +764,7 @@ def load_all_shooters_scores(main_window):
 
 
         else:
-            trv_qualification_scores = settings.TreeviewEdit(qualifying_lbframe, columns=(1, 2, 3, 4, 6), show="headings", height="21")
+            trv_qualification_scores = settings.TreeviewEdit(qualifying_lbframe, columns=(1, 2, 3, 4, 5), show="headings", height="21")
             trv_qualification_scores.grid(row=1, column=0, rowspan=19, columnspan=9)
 
             trv_qualification_scores.heading("#0", text="",                         anchor="w")
