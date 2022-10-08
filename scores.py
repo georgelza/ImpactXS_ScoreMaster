@@ -674,38 +674,38 @@ def load_all_shooters_scores(main_window):
 
         child = Toplevel(primary)
         child.title('Shooter Score Maintenance')
-        child.geometry("1100x825")
+        child.geometry("825x625")
         child.configure(bg=frame_bg)
         child.grab_set()  # allow it to receive events
 
         load_form = True
 
         shooter_frame       = Frame(child)
-        scores_frame        = Frame(child)
+        scores_frame        = Frame(child, bg=frame_bg)
         cntrls_frame        = Frame(child)
 
         shooter_frame.grid(row=0, column=0, sticky="W", pady=(1, 5))
         scores_frame.grid(row=1, column=0,  sticky="W", padx=(1, 5))
-        cntrls_frame.grid(row=2, column=0,  sticky="W", pady=(5, 0))
+        cntrls_frame.grid(row=2, column=0,  sticky="NS", pady=(5, 5), padx=(1, 25))
 
         # Frame Layout
         shooter_lbframe = LabelFrame(shooter_frame, text='Shooter Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
         shooter_lbframe.grid()
 
         # Frame Layout : Score Frame
-        score_lbframe = LabelFrame(scores_frame, text='Scores', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+        score_lbframe = LabelFrame(scores_frame, text='Scores', bg=frame_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
         score_lbframe.grid()
 
         # Frame Layout : Qualifying Scores in score frame
-        qualifying_lbframe = LabelFrame(scores_frame, text='Qualifying Scores', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+        qualifying_lbframe = LabelFrame(scores_frame, text='Qualifying Scores', bg=frame_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
         qualifying_lbframe.grid(row=0, column=0, sticky="W", padx=(1, 5))
 
         # Frame Layout : Final Scores in score frame
-        final_lbframe = LabelFrame(scores_frame, text='Final Scores', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+        final_lbframe = LabelFrame(scores_frame, text='Final Scores', bg=frame_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
         final_lbframe.grid(row=0, column=1, sticky="W", padx=(1, 5))
 
         # Frame Layout : Buttons in buttons frame
-        cntrls_lbframe = LabelFrame(cntrls_frame, bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size), relief=RIDGE)
+        cntrls_lbframe = LabelFrame(cntrls_frame, bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size), relief=GROOVE)
         cntrls_lbframe.grid()
 
         # Shooter

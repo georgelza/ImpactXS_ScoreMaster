@@ -394,10 +394,10 @@ def open_event_screen(root):
 
     load_form = True
 
-    input_frame = Frame(child)
-    qual_frame  = Frame(child)
-    final_frame = Frame(child)
-    crtls_frame = Frame(child)
+    input_frame = Frame(child, relief=GROOVE)
+    qual_frame  = Frame(child, bg="lightgray", relief=GROOVE)
+    final_frame = Frame(child, bg="lightgray", relief=GROOVE)
+    crtls_frame = Frame(child, relief=GROOVE)
 
     # Main Event Frame Layout
     input_lbframe = LabelFrame(input_frame, text='Event Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
@@ -418,7 +418,7 @@ def open_event_screen(root):
     # Controlling Buttons
     crtls_lbframe = LabelFrame(crtls_frame, bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
     crtls_lbframe.grid()
-    crtls_frame.grid(row=12, rowspan=4, column=0, sticky="W", pady=(5,0))
+    crtls_frame.grid(row=12, rowspan=4, column=0, columnspan=8, sticky="NS", pady=(5,0))
 
 
     # Main Event Frame Layout
