@@ -394,31 +394,32 @@ def open_event_screen(root):
 
     load_form = True
 
-    input_frame = Frame(child, relief=GROOVE)
-    qual_frame  = Frame(child, bg="lightgray", relief=GROOVE)
-    final_frame = Frame(child, bg="lightgray", relief=GROOVE)
-    crtls_frame = Frame(child, relief=GROOVE)
+    input_frame     = Frame(child, bg="lightgray", relief=GROOVE)
+    score_frame     = Frame(child, bg="lightgray", relief=GROOVE)
+    crtls_frame     = Frame(child, bg="lightgray", relief=GROOVE)
+
+    qual_frame      = Frame(score_frame, bg="lightgray", relief=GROOVE)
+    final_frame     = Frame(score_frame, bg="lightgray", relief=GROOVE)
+
+    input_frame.grid(row=0, column=0, sticky="W", pady=(1, 5))
+    score_frame.grid(row=1, column=0, sticky="W", pady=(1, 5))
+    crtls_frame.grid(row=2, column=0, sticky="NS", pady=(5,0))
 
     # Main Event Frame Layout
     input_lbframe = LabelFrame(input_frame, text='Event Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-    input_lbframe.grid()
-    input_frame.grid(row=0, rowspan=6, column=0, columnspan=12, sticky="W", pady=(1,5))
+    input_lbframe.grid(row=0, column=0,  sticky="W", padx=(0, 5))
 
     # Qualifications Event Layout
-    qual_lbframe = LabelFrame(qual_frame, text='Qualifying Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-    qual_lbframe.grid()
-    qual_frame.grid(row=6, rowspan=5, column=0, columnspan=3, sticky="W", padx=(0,5))
+    qual_lbframe = LabelFrame(score_frame, text='Qualifying Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+    qual_lbframe.grid(row=0, column=0,  sticky="W", padx=(0, 5))
 
     # Finals Event Layout
-    final_lbframe = LabelFrame(final_frame, text='Final Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-    final_lbframe.grid()
-    final_frame.grid(row=6, rowspan=5, column=3, columnspan=3, sticky="W")
-
+    final_lbframe = LabelFrame(score_frame, text='Final Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
+    final_lbframe.grid(row=0, column=1, sticky="W", padx=(0, 5))
 
     # Controlling Buttons
     crtls_lbframe = LabelFrame(crtls_frame, bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-    crtls_lbframe.grid()
-    crtls_frame.grid(row=12, rowspan=4, column=0, columnspan=8, sticky="NS", pady=(5,0))
+    crtls_lbframe.grid(row=0, column=1, sticky="W", padx=(0, 5))
 
 
     # Main Event Frame Layout
@@ -483,7 +484,8 @@ def open_event_screen(root):
 
     # Lets add some Treeviews
     # Qualifications
-    tree_qualframe  = Frame(qual_frame, bg=label_text_bg)
+    tree_qualframe  = Frame(qual_lbframe, bg=label_text_bg)
+    tree_qualframe.grid(row=4, column=0, rowspan=5, columnspan=9)
 
     btnQualNewRecord = Button(tree_qualframe, text="Add", bg="#34d2eb", padx=2, pady=3, command=lambda: make_new_quals_record())
     btnQualNewRecord.grid(row=0, column=0, sticky="w")
@@ -507,7 +509,8 @@ def open_event_screen(root):
 
 
     # Finals shots
-    tree_finalframe = Frame(final_frame, bg=label_text_bg)
+    tree_finalframe = Frame(final_lbframe, bg=label_text_bg)
+    tree_finalframe.grid(row=4, column=0, rowspan=5, columnspan=9)
 
     btnFinalsNewRecord = Button(tree_finalframe, text="Add", bg="#34d2eb", padx=2, pady=3, command=lambda: make_new_finals_record())
     btnFinalsNewRecord.grid(row=0, column=0, sticky="w")

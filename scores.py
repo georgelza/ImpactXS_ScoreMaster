@@ -730,15 +730,14 @@ def load_all_shooters_scores(main_window):
         final_score.set(list_of_all_scores["final_score"])
 
         # Shooter
-        crm_shooter_fname = Label(shooter_lbframe, anchor="w", height=1, textvariable=fname_value, font=(txtfont, txtfont_size))
+        crm_shooter_fname = Entry(shooter_lbframe, textvariable=fname_value, width=30, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
         crm_shooter_fname.grid(row=1, column=1, padx=20)
 
-        crm_shooter_lname = Label(shooter_lbframe, anchor="w", height=1, textvariable=lname_value, font=(txtfont, txtfont_size))
+        crm_shooter_lname = Entry(shooter_lbframe, textvariable=lname_value, width=30, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
         crm_shooter_lname.grid(row=2, column=1, padx=20)
 
-        crm_shooter_spotter = Label(shooter_lbframe, anchor="w", height=1, textvariable=spotter_value, font=(txtfont, txtfont_size))
+        crm_shooter_spotter = Entry(shooter_lbframe, textvariable=spotter_value, width=30, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
         crm_shooter_spotter.grid(row=3, column=1, padx=20)
-
 
         # Qualifications Score Layout
         lb_crm_q_score = Label(qualifying_lbframe, text="Score", width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(lblfont, lblfont_size))
