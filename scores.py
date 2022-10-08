@@ -235,9 +235,6 @@ def load_all_shooters_scores(main_window):
                     mode=_mode
                 ))
 
-            # REMOVE !!!!
-            settings.pp_json(array_of_targets)
-
             target_no = 0
             while target_no < len(array_of_targets):
 
@@ -497,8 +494,23 @@ def load_all_shooters_scores(main_window):
 
                     # No target_score in this view
                     shot_no     = int(tree.item(line)['values'][1][1:]) - 1
-                    hit_miss    = tree.item(line)['values'][2]
+                    hit_miss    = str(tree.item(line)['values'][2])
                     inspect     = tree.item(line)['values'][3]
+
+                    # Lets make sure we understand what was entered and try and correct to what we really wanted - Data Quality
+                    if hit_miss == "y" or hit_miss == "Y" or hit_miss == "Yes" or hit_miss == "YES":
+                        hit_miss = "1"
+                    elif hit_miss == "n" or hit_miss == "N" or hit_miss == "No" or hit_miss == "NO":
+                        hit_miss =  "0"
+                    elif hit_miss != "0" and hit_miss != "1":
+                        hit_miss = "0"
+
+                    if inspect == "true" or inspect == "TRUE" or inspect == "T" or inspect == "Y" or inspect == "Yes" or inspect == "YES":
+                        inspect = "True"
+                    elif inspect == "false" or inspect == "FALSE" or inspect == "F" or inspect == "N" or inspect == "No" or inspect == "NO":
+                        inspect = "False"
+                    elif inspect != "True" and inspect != "False":
+                        inspect = "False"
 
                     # Cold Bore
                     if target_number == 0:
@@ -510,7 +522,7 @@ def load_all_shooters_scores(main_window):
                         shots.append(shot)
 
                         # Calculate/Update score
-                        if hit_miss == 1:
+                        if hit_miss == "1":
                             shot_score = 111
 
                         else:
@@ -561,7 +573,7 @@ def load_all_shooters_scores(main_window):
                             shots.append(shot)
 
                             # Calculate/Update score
-                            if hit_miss == 1:
+                            if hit_miss == "1":
                                 shot_score = 111
 
                             else:
@@ -579,7 +591,7 @@ def load_all_shooters_scores(main_window):
                             shots.append(shot)
 
                             # Calculate/Update score
-                            if hit_miss == 1:
+                            if hit_miss == "1":
                                 shot_score = 111
 
                             else:
@@ -739,32 +751,36 @@ def load_all_shooters_scores(main_window):
             trv_qualification_scores = settings.TreeviewEdit(qualifying_lbframe, columns=(1, 2, 3, 4), show="headings", height="18")
             trv_qualification_scores.grid(row=1, column=0, rowspan=16, columnspan=9)
 
-            trv_qualification_scores.heading("#0", text="",             anchor="w")
-            trv_qualification_scores.heading("#1", text="Target #",     anchor="center")
-            trv_qualification_scores.heading("#2", text="Shot #",       anchor="center")
-            trv_qualification_scores.heading("#3", text="Hitt/Miss",    anchor="center")
-            trv_qualification_scores.heading("#4", text="Inspect",      anchor="center")
-            trv_qualification_scores.column("#0", anchor="w", width=60,     stretch=True)
-            trv_qualification_scores.column("#1", anchor="w", width=100,    stretch=True)
-            trv_qualification_scores.column("#2", anchor="w", width=100,    stretch=True)
-            trv_qualification_scores.column("#3", anchor="w", width=100,    stretch=True)
-            trv_qualification_scores.column("#4", anchor="w", width=100,    stretch=True)
+            trv_qualification_scores.heading("#0", text="",                     anchor="w")
+            trv_qualification_scores.heading("#1", text="Target #",             anchor="center")
+            trv_qualification_scores.heading("#2", text="Shot #",               anchor="center")
+            trv_qualification_scores.heading("#3", text="Hitt/Miss (0 or 1)",   anchor="center")
+            trv_qualification_scores.heading("#4", text="Inspect (True or False)", anchor="center")
+            trv_qualification_scores.column("#0", anchor="w", width=50,     stretch=True)
+            trv_qualification_scores.column("#1", anchor="w", width=80,     stretch=True)
+            trv_qualification_scores.column("#2", anchor="w", width=80,     stretch=True)
+            trv_qualification_scores.column("#3", anchor="w", width=120,    stretch=True)
+            trv_qualification_scores.column("#4", anchor="w", width=120,    stretch=True)
+
+
         else:
             trv_qualification_scores = settings.TreeviewEdit(qualifying_lbframe, columns=(1, 2, 3, 4, 6), show="headings", height="21")
             trv_qualification_scores.grid(row=1, column=0, rowspan=19, columnspan=9)
 
-            trv_qualification_scores.heading("#0", text="",             anchor="w")
-            trv_qualification_scores.heading("#1", text="Target #",     anchor="center")
-            trv_qualification_scores.heading("#2", text="Target Score", anchor="center")
-            trv_qualification_scores.heading("#3", text="Shot #",       anchor="center")
-            trv_qualification_scores.heading("#4", text="Hitt/Miss",    anchor="center")
-            trv_qualification_scores.heading("#5", text="Inspect",      anchor="center")
+            trv_qualification_scores.heading("#0", text="",                         anchor="w")
+            trv_qualification_scores.heading("#1", text="Target #",                 anchor="center")
+            trv_qualification_scores.heading("#2", text="Target Score",             anchor="center")
+            trv_qualification_scores.heading("#3", text="Shot #",                   anchor="center")
+            trv_qualification_scores.heading("#4", text="Hitt/Miss (0 or 1)",       anchor="center")
+            trv_qualification_scores.heading("#5", text="Inspect (True or False)",  anchor="center")
+
             trv_qualification_scores.column("#0", anchor="w", width=60,     stretch=True)
-            trv_qualification_scores.column("#1", anchor="w", width=100,    stretch=True)
+            trv_qualification_scores.column("#1", anchor="w", width=80,     stretch=True)
             trv_qualification_scores.column("#2", anchor="w", width=100,    stretch=True)
-            trv_qualification_scores.column("#3", anchor="w", width=100,    stretch=True)
-            trv_qualification_scores.column("#4", anchor="w", width=100,    stretch=True)
-            trv_qualification_scores.column("#5", anchor="w", width=100,    stretch=True)
+            trv_qualification_scores.column("#3", anchor="w", width=80,     stretch=True)
+            trv_qualification_scores.column("#4", anchor="w", width=120,    stretch=True)
+            trv_qualification_scores.column("#5", anchor="w", width=120,    stretch=True)
+
 
         qualifying_lbframe.grid(row=2, column=0)
 
@@ -781,32 +797,32 @@ def load_all_shooters_scores(main_window):
             trv_final_scores = settings.TreeviewEdit(final_lbframe, columns=(1, 2, 3, 4), show="headings", height="18")
             trv_final_scores.grid(row=1, column=0, rowspan=16, columnspan=9)
 
-            trv_final_scores.heading("#0", text="",             anchor="w")
-            trv_final_scores.heading("#1", text="Target #",     anchor="center")
-            trv_final_scores.heading("#2", text="Shot #",       anchor="center")
-            trv_final_scores.heading("#3", text="Hitt/Miss",    anchor="center")
-            trv_final_scores.heading("#4", text="Inspect",      anchor="center")
-            trv_final_scores.column("#0", anchor="w", width=60,     stretch=True)
-            trv_final_scores.column("#1", anchor="w", width=100,    stretch=True)
-            trv_final_scores.column("#2", anchor="w", width=100,    stretch=True)
-            trv_final_scores.column("#3", anchor="w", width=100,    stretch=True)
-            trv_final_scores.column("#4", anchor="w", width=100,    stretch=True)
+            trv_final_scores.heading("#0", text="",                         anchor="w")
+            trv_final_scores.heading("#1", text="Target #",                 anchor="center")
+            trv_final_scores.heading("#2", text="Shot #",                   anchor="center")
+            trv_final_scores.heading("#3", text="Hitt/Miss (0 or 1)",       anchor="center")
+            trv_final_scores.heading("#4", text="Inspect (True or False)",  anchor="center")
+            trv_final_scores.column("#0", anchor="w", width=50,     stretch=True)
+            trv_final_scores.column("#1", anchor="w", width=80,     stretch=True)
+            trv_final_scores.column("#2", anchor="w", width=80,     stretch=True)
+            trv_final_scores.column("#3", anchor="w", width=120,    stretch=True)
+            trv_final_scores.column("#4", anchor="w", width=120,    stretch=True)
         else:
             trv_final_scores = settings.TreeviewEdit(final_lbframe, columns=(1, 2, 3, 4, 5), show="headings", height="21")
             trv_final_scores.grid(row=1, column=0, rowspan=19, columnspan=9)
 
-            trv_final_scores.heading("#0", text="",             anchor="w")
-            trv_final_scores.heading("#1", text="Target #",     anchor="center")
-            trv_final_scores.heading("#2", text="Target Score", anchor="center")
-            trv_final_scores.heading("#3", text="Shot #",       anchor="center")
-            trv_final_scores.heading("#4", text="Hitt/Miss",    anchor="center")
-            trv_final_scores.heading("#5", text="Inspect",      anchor="center")
+            trv_final_scores.heading("#0", text="",                         anchor="w")
+            trv_final_scores.heading("#1", text="Target #",                 anchor="center")
+            trv_final_scores.heading("#2", text="Target Score",             anchor="center")
+            trv_final_scores.heading("#3", text="Shot #",                   anchor="center")
+            trv_final_scores.heading("#4", text="Hitt/Miss (0 or 1)",       anchor="center")
+            trv_final_scores.heading("#5", text="Inspect (True or False)",  anchor="center")
             trv_final_scores.column("#0", anchor="w", width=60,     stretch=True)
-            trv_final_scores.column("#1", anchor="w", width=100,    stretch=True)
+            trv_final_scores.column("#1", anchor="w", width=80,     stretch=True)
             trv_final_scores.column("#2", anchor="w", width=100,    stretch=True)
-            trv_final_scores.column("#3", anchor="w", width=100,    stretch=True)
-            trv_final_scores.column("#4", anchor="w", width=100,    stretch=True)
-            trv_final_scores.column("#5", anchor="w", width=100,    stretch=True)
+            trv_final_scores.column("#3", anchor="w", width=80,     stretch=True)
+            trv_final_scores.column("#4", anchor="w", width=120,    stretch=True)
+            trv_final_scores.column("#5", anchor="w", width=120,    stretch=True)
 
         final_lbframe.grid(row=2, column=1)
 
