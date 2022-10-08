@@ -348,13 +348,9 @@ def load_all_shooters_scores(main_window):
             settings.my_shooter_list    = settings.my_event_list["shooters"]
             my_row                      = settings.find_row_in_my_shooter_list(json_record["id"])
 
-            print("-- my_row ", my_row)
-
             if my_row != -1:
                 # This is my specific shooter
                 my_shooter = settings.my_shooter_list[my_row]
-                print("-- my_shooter --" )
-                settings.pp_json(my_shooter)
 
                 if debuglevel >= 3:
                     my_logger.info(
@@ -514,7 +510,11 @@ def load_all_shooters_scores(main_window):
                         shots.append(shot)
 
                         # Calculate/Update score
-                        shot_score = 222
+                        if hit_miss == 1:
+                            shot_score = 111
+
+                        else:
+                            shot_score = 0
 
                         # Add shot score to target score
                         target_score = target_score + shot_score
@@ -561,7 +561,11 @@ def load_all_shooters_scores(main_window):
                             shots.append(shot)
 
                             # Calculate/Update score
-                            shot_score = 222
+                            if hit_miss == 1:
+                                shot_score = 111
+
+                            else:
+                                shot_score = 0
 
                             # Add shot score to target score
                             target_score = target_score + shot_score
@@ -575,15 +579,17 @@ def load_all_shooters_scores(main_window):
                             shots.append(shot)
 
                             # Calculate/Update score
-                            shot_score = 222
+                            if hit_miss == 1:
+                                shot_score = 111
+
+                            else:
+                                shot_score = 0
 
                             # Add shot score to target score
                             target_score = target_score + shot_score
 
                     # end target_desc == 0
                 # end for line in tree.get_children()
-
-                print(" --  line in tree.get_children() ")
 
                 # End list, we're completed the loop, lets add the last shots for the last target
                 dict = {"target_number" : cur_target,  # t_no is the working target,
@@ -595,8 +601,6 @@ def load_all_shooters_scores(main_window):
 
                 # Add target score to round score
                 round_score = round_score + target_score
-
-                print(" -- End if Flat Tree Extraction ")
 
             # If we're using the Parent/Child Treeview display structure
             else:
