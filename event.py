@@ -398,12 +398,9 @@ def open_event_screen(root):
     score_frame     = Frame(child, bg="lightgray", relief=GROOVE)
     crtls_frame     = Frame(child, bg="lightgray", relief=GROOVE)
 
-    qual_frame      = Frame(score_frame, bg="lightgray", relief=GROOVE)
-    final_frame     = Frame(score_frame, bg="lightgray", relief=GROOVE)
-
     input_frame.grid(row=0, column=0, sticky="W", pady=(1, 5))
     score_frame.grid(row=1, column=0, sticky="W", pady=(1, 5))
-    crtls_frame.grid(row=2, column=0, sticky="NS", pady=(5,0))
+    crtls_frame.grid(row=2, column=0, sticky="NS", pady=(5, 0))
 
     # Main Event Frame Layout
     input_lbframe = LabelFrame(input_frame, text='Event Profile', bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
@@ -419,7 +416,7 @@ def open_event_screen(root):
 
     # Controlling Buttons
     crtls_lbframe = LabelFrame(crtls_frame, bg=label_text_bg, fg=label_text_fg, font=(lblframefont, lblframefont_size))
-    crtls_lbframe.grid(row=0, column=1, sticky="W", padx=(0, 5))
+    crtls_lbframe.grid(row=0, column=0, sticky="NS", padx=(0, 5))
 
 
     # Main Event Frame Layout
@@ -435,11 +432,11 @@ def open_event_screen(root):
     lb_crm_End_Date.grid    (column=0, row=3, padx=1, pady=0)
     lb_crm_Distance.grid    (column=0, row=4, padx=1, pady=0)
 
-    crm_eventname   = Entry(input_lbframe, width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-    crm_Location    = Entry(input_lbframe, width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-    crm_Start_Date  = DateEntry(input_lbframe, width=39, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yy', selectmode='day')
-    crm_End_Date    = DateEntry(input_lbframe, width=39, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yy', selectmode='day')
-    crm_Distance    = Entry(input_lbframe, width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_eventname   = Entry(input_lbframe,      width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_Location    = Entry(input_lbframe,      width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+    crm_Start_Date  = DateEntry(input_lbframe,  width=39, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yy', selectmode='day')
+    crm_End_Date    = DateEntry(input_lbframe,  width=39, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yy', selectmode='day')
+    crm_Distance    = Entry(input_lbframe,      width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
 
     crm_eventname.grid  (column=1, row=0)
     crm_Location.grid   (column=1, row=1)
@@ -525,8 +522,8 @@ def open_event_screen(root):
     trv_finals.heading(2, text="Distance (m)",  anchor="center")
     trv_finals.heading(3, text="Target Size",   anchor="center")
     trv_finals.column("#1", anchor="w", width=60, stretch=True)
-    trv_finals.column("#2", anchor="w", width=100, stretch=True)
-    trv_finals.column("#3", anchor="w", width=100, stretch=True)
+    trv_finals.column("#2", anchor="w", width=150, stretch=True)
+    trv_finals.column("#3", anchor="w", width=150, stretch=True)
 
     tree_finalframe.grid(row=4, column=0)
     load_trv_with_json(trv_finals, "finals")

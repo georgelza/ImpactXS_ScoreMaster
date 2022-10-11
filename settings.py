@@ -45,6 +45,7 @@ def init():
     global echojson
     global splashtime
     global score_viewer
+    global auto_refresh
     global currentRowIndex
     global filename
     global my_event_image
@@ -82,6 +83,7 @@ def init():
     my_event_image      = ""
     event_mode          = ""
     score_viewer        = config_params["score_viewer"]
+    auto_refresh        = config_params["auto_refresh"]
 
     # Global colors, to be moved to the environment variables, config_params
     frame_bg            = config_params["frame_bg"]
@@ -141,6 +143,7 @@ def getAppEnvVariables():
     Params['echojson']                  = int(os.environ.get("ECHOJSON"))
     Params['splashtime']                = int(os.environ.get("SPLASHTIME"))
     Params['score_viewer']              = os.environ.get('SCORE_VIEWER')
+    Params["auto_refresh"]              = int(os.environ.get("AUTOREFRESH"))
 
     Params['frame_bg']                  = os.environ.get("frame_bg")
     Params['label_text_bg']             = os.environ.get("label_text_bg")
@@ -209,6 +212,7 @@ def print_config(config_params):
         my_logger.info('**    ECHOJSON              : ' + str(config_params['echojson']))
         my_logger.info('**    SPLASHTIME            : ' + str(config_params['splashtime']))
         my_logger.info('**    SCORE_VIEWER          : ' + str(config_params['score_viewer']))
+        my_logger.info('**    AUTO_REFRESH          : ' + str(config_params['auto_refresh']))
         my_logger.info('**')
         my_logger.info('**    frame_bg              : ' + str(config_params['frame_bg']))
         my_logger.info('**    label_text_bg         : ' + str(config_params['label_text_bg']))

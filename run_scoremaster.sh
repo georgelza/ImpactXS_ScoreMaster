@@ -4,6 +4,7 @@ export DEBUGLEVEL=3
 export LOGLEVEL=DEBUG
 export ECHOJSON=0
 export SPLASHTIME=1000
+export AUTOREFRESH=5
 
 # tree or flat
 export SCORE_VIEWER=flat

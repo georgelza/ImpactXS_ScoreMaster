@@ -21,6 +21,7 @@ __author__ = "George Leonard"
 __email__ = "georgelza@gmail.com"
 __version__ = "0.0.1"
 
+import time
 from tkinter import *
 from tkinter import ttk
 import tkinter as tk
@@ -57,6 +58,7 @@ def load_all_shooters_scores(main_window):
     global lblframefont_size
 
     score_viewer        = settings.score_viewer
+    auto_refresh        = settings.auto_refresh
     frame_bg            = settings.frame_bg
     label_text_bg       = settings.label_text_bg
     label_text_fg       = settings.label_text_fg
@@ -779,7 +781,6 @@ def load_all_shooters_scores(main_window):
             trv_qualification_scores.column("#3", anchor="w", width=80,     stretch=True)
             trv_qualification_scores.column("#4", anchor="w", width=120,    stretch=True)
             trv_qualification_scores.column("#5", anchor="w", width=120,    stretch=True)
-
 
         qualifying_lbframe.grid(row=2, column=0)
 
