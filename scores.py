@@ -237,6 +237,12 @@ def load_all_shooters_scores(main_window):
                     mode=_mode
                 ))
 
+            my_logger.info(
+                '{time}, scores.load_all_shooters_scores.open_popup.load_score_trv_with_json Treeview mode ({score_viewer})'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                    score_viewer=score_viewer
+                ))
+
             target_no = 0
             while target_no < len(array_of_targets):
 
@@ -261,7 +267,7 @@ def load_all_shooters_scores(main_window):
                 while shot_no < len(array_of_shots):
 
                     current_shot    = array_of_shots[shot_no]
-                    shot_name       = "S" + str( int(current_shot["shot_number"])+1)
+                    shot_name       = "S" + str( current_shot["shot_number"]+1)
                     hit_miss        = current_shot["hit_miss"]
                     inspect         = current_shot["inspect"]
 
@@ -270,7 +276,18 @@ def load_all_shooters_scores(main_window):
                                     index   = tk.END,
                                     text    = "",
                                     values  = (target_name, shot_name, hit_miss, inspect))
-                    else:
+                    else:  # tree
+
+                        if debuglevel >= 3:
+                            my_logger.info(
+                                '{time}, scores.load_all_shooters_scores.open_popup.load_score_trv_with_json Treeview Insert Child to ({target_name}), ({shot_name}), ({hit_miss}), ({inspect})'.format(
+                                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                                    target_name=target_name,
+                                    shot_name=shot_name,
+                                    hit_miss=hit_miss,
+                                    inspect=inspect
+                                ))
+
                         tree.insert(parent  = target_name,
                                     index   = tk.END,
                                     text    = shot_name,
@@ -676,7 +693,11 @@ def load_all_shooters_scores(main_window):
 
         child = Toplevel(primary)
         child.title('Shooter Score Maintenance')
-        child.geometry("825x625")
+        if score_viewer == "flat":
+            child.geometry("825x625")
+        else:
+            child.geometry("1025x625")
+
         child.configure(bg=frame_bg)
         child.grab_set()  # allow it to receive events
 

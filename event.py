@@ -434,9 +434,13 @@ def open_event_screen(root):
 
     crm_eventname   = Entry(input_lbframe,      width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
     crm_Location    = Entry(input_lbframe,      width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
-    crm_Start_Date  = DateEntry(input_lbframe,  width=39, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yy', selectmode='day')
-    crm_End_Date    = DateEntry(input_lbframe,  width=39, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yy', selectmode='day')
+
+    crm_Start_Date  = DateEntry(input_lbframe,  width=39, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yyyy', selectmode='day')
+    crm_End_Date    = DateEntry(input_lbframe,  width=39, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yyyy', selectmode='day')
     crm_Distance    = Entry(input_lbframe,      width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
+
+    crm_Start_Date._top_cal.overrideredirect(False)
+    crm_End_Date._top_cal.overrideredirect(False)
 
     crm_eventname.grid  (column=1, row=0)
     crm_Location.grid   (column=1, row=1)

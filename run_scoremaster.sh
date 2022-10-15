@@ -7,7 +7,7 @@ export SPLASHTIME=1000
 export AUTOREFRESH=5
 
 # tree or flat
-export SCORE_VIEWER=flat
+export SCORE_VIEWER=tree
 
 # Colors
 export frame_bg=lightgray
