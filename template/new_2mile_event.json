@@ -8,36 +8,36 @@
     "qualifying": {
         "no_of_targets": "5",
         "no_of_shots": "3",
-        "time_limit": "600",
+        "time_limit": "9",
         "target_list": [
             {
                 "target_no": 0,
                 "qb": 1,
-                "distance": 925,
+                "distance": 1587,
                 "target_size": "300x300"
             },
             {
                 "target_no": 1,
                 "qb": 0,
-                "distance": 1000,
+                "distance": 1532,
                 "target_size": "300x350"
             },
             {
                 "target_no": 2,
                 "qb": 0,
-                "distance": 1300,
+                "distance": 1816,
                 "target_size": "400x500"
             },
             {
                 "target_no": 3,
                 "qb": 0,
-                "distance": 1600,
+                "distance": 2188,
                 "target_size": "520x520"
             },
             {
                 "target_no": 4,
                 "qb": 0,
-                "distance": 1800,
+                "distance": 2468,
                 "target_size": "550x550"
             }
         ]
@@ -45,22 +45,22 @@
     "final": {
         "no_of_targets": "3",
         "no_of_shots": "5",
-        "time_limit": "600",
+        "time_limit": "9",
         "target_list": [
             {
                 "target_no": 0,
-                "distance": 1800,
-                "target_size" : "300x350"
+                "distance": 2735,
+                "target_size": "950x1200"
             },
             {
                 "target_no": 1,
-                "distance": 2500,
-                "target_size": "400x500"
+                "distance": 3122,
+                "target_size": "1100x1300"
             },
             {
                 "target_no": 2,
-                "distance": 3000,
-                "target_size": "520x520"
+                "distance": 3578,
+                "target_size": "1250x1500"
             }
         ]
     },
