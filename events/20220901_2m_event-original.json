@@ -3,8 +3,8 @@
     "location": "Hanover",
     "start_date": "22/08/2022",
     "end_date": "25/08/2022",
-    "distance": "1-Mile",
-    "image": "1mile.png",
+    "distance": "2-Mile",
+    "image": "2mile.png",
     "qualifying": {
         "no_of_targets": "5",
         "no_of_shots": "3",
@@ -13,31 +13,31 @@
             {
                 "target_no": 0,
                 "qb": 1,
-                "distance": 1148,
+                "distance": 1587,
                 "target_size": "300x300"
             },
             {
                 "target_no": 1,
                 "qb": 0,
-                "distance": 656,
+                "distance": 1532,
                 "target_size": "300x350"
             },
             {
                 "target_no": 2,
                 "qb": 0,
-                "distance": 875,
+                "distance": 1816,
                 "target_size": "400x500"
             },
             {
                 "target_no": 3,
                 "qb": 0,
-                "distance": 1094,
+                "distance": 2188,
                 "target_size": "520x520"
             },
             {
                 "target_no": 4,
                 "qb": 0,
-                "distance": 1258,
+                "distance": 2468,
                 "target_size": "550x550"
             }
         ]
@@ -49,18 +49,18 @@
         "target_list": [
             {
                 "target_no": 0,
-                "distance": 1367,
-                "target_size": "500x700"
+                "distance": 2735,
+                "target_size": "950x1200"
             },
             {
                 "target_no": 1,
-                "distance": 1532,
-                "target_size": "600x800"
+                "distance": 3122,
+                "target_size": "1100x1300"
             },
             {
                 "target_no": 2,
-                "distance": 1816,
-                "target_size": "650x900"
+                "distance": 3578,
+                "target_size": "1250x1500"
             }
         ]
     },

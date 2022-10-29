@@ -34,13 +34,14 @@ from datetime import datetime
 
 import uuid
 import settings
+import pymsgbox
 
 # Initialize Global Variables
 settings.init()
 
 import event
 import shooters
-import scores
+import scores_editor
 
 global main_window
 
@@ -130,7 +131,7 @@ def loadEvent(_mode):
     global main_window
 
     if debuglevel >= 1:
-        my_logger.info('{time}, main.loadEvent Called '.format(
+        my_logger.info('{time}, main.loadEvent.Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -143,11 +144,7 @@ def loadEvent(_mode):
         settings.event_mode = ""
 
     if settings.filename:
-        settings.my_event_list              = settings.load_event_json_from_file(settings.filename)
-        settings.my_qualifying_target_list  = settings.my_event_list["qualifying"]
-        settings.my_finals_target_list      = settings.my_event_list["final"]
-        settings.my_shooter_list            = settings.my_event_list["shooters"]
-        settings.my_event_image             = settings.my_event_list["image"]
+        settings.load_event_json_from_file(settings.filename)
 
     if _mode == "New_Event":
         settings.my_event_list["uuid"]  = str(uuid.uuid4())
@@ -155,7 +152,7 @@ def loadEvent(_mode):
     event.open_event_screen(main_window)
 
     if debuglevel >= 1:
-        my_logger.info('{time}, main.loadEvent Completed '.format(
+        my_logger.info('{time}, main.loadEvent.Completed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -167,45 +164,92 @@ def load_all_shooters():
     global main_window
 
     if debuglevel >= 1:
-        my_logger.info('{time}, main.load_all_shooters Called '.format(
+        my_logger.info('{time}, main.load_all_shooters.Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-    shooters.load_all_shooters(main_window)
+    if settings.first_start_mode == False:
+        shooters.load_all_shooters(main_window)
+
+    else:
+        # popup message
+        pymsgbox.alert('Please load an Event first', 'Error')
+
+        if debuglevel >= 1:
+            my_logger.info('{time}, main.load_all_shooters.Bypassing, no event loaded yet!!!'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
 
     if debuglevel >= 1:
-        my_logger.info('{time}, main.load_all_shooters Completed '.format(
+        my_logger.info('{time}, main.load_all_shooters.Completed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
 # end load_all_shooters
 
 
-def load_all_scores():
-
-    global myevent_list
+def shooter_score_editor():
 
     if debuglevel >= 1:
-        my_logger.info('{time}, main.load_all_scores Called '.format(
+        my_logger.info('{time}, main.load_all_scores.Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-    scores.load_all_shooters_scores(main_window)
+    if settings.first_start_mode == False:
+        scores_editor.load_all_shooters_scores(main_window)
+
+    else:
+        # popup message
+        pymsgbox.alert('Please load an Event first', 'Error')
+
+        if debuglevel >= 1:
+            my_logger.info('{time}, main.load_all_scores.Bypassing, no event loaded yet!!!'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
 
     if debuglevel >= 1:
-        my_logger.info('{time}, main.load_all_scores Completed '.format(
+        my_logger.info('{time}, main.load_all_scores.Completed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-# end load_all_shooters
+# end shooter_score_editor
 
+def shooter_score_displayer():
+
+    if debuglevel >= 1:
+        my_logger.info('{time}, main.shooter_score_displayer.Called '.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+    if settings.first_start_mode == False:
+        # Place code for Score Displayer here...
+        # allow user to order by qualifying and final score...
+        # find out from Brendon if file is a sum of qual and final...!!!
+
+        pass
+
+    else:
+        # popup message
+        pymsgbox.alert('Please load an Event first', 'Error')
+
+        if debuglevel >= 1:
+            my_logger.info('{time}, main.shooter_score_displayer.Bypassing, no event loaded yet!!!'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+    if debuglevel >= 1:
+        my_logger.info('{time}, main.shooter_score_displayer.Completed '.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+# end shooter_score_displayer
 
 def main():
 
     global main_window
 
     if debuglevel >= 1:
-        my_logger.info('{time}, Main Called '.format(
+        my_logger.info('{time}, Main.Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -239,10 +283,12 @@ def main():
     # empty treeview, with only Add button enabled
     fileMenu.add_command(label="Shooters...", command=load_all_shooters)
 
-    # #1 Load the shooters and scores into treeview
-    # #2 if auto update is selected, disable edit mode, allow user to select Qualify or Final as the order, initiate
-    # auto refresh, for now every 10 seconds, change to refresh when shooter score is updated,
-    fileMenu.add_command(label="Scores...", command=load_all_scores)
+    # Load the shooters and scores into treeview, when a record is clicked we allowed the operator to edit the
+    # individual scores for the shooter selected
+    fileMenu.add_command(label="Scores Editor", command=shooter_score_editor)
+
+    # display all the scores, allow the operator to select the display order, ranked by qualifying or finals or total
+    fileMenu.add_command(label="Scores Displayer", command=shooter_score_displayer)
 
     fileMenu.add_separator()
     fileMenu.add_command(label="Exit", command=exitProgram)
@@ -257,7 +303,7 @@ def main():
     fileMenu.bind("")
 
     if debuglevel >= 1:
-        my_logger.info('{time}, Main Completed '.format(
+        my_logger.info('{time}, Main.Completed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 

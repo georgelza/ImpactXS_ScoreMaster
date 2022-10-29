@@ -17,8 +17,8 @@
 #
 #   Notes       	:
 ########################################################################################################################
-__author__ = "George Leonard"
-__email__ = "georgelza@gmail.com"
+__author__  = "George Leonard"
+__email__   = "georgelza@gmail.com"
 __version__ = "0.0.1"
 
 from datetime import datetime
@@ -34,6 +34,7 @@ def init():
 
     global my_logger
 
+    global first_start_mode
     global my_event_list
     global my_qualifying_target_list
     global my_finals_target_list
@@ -67,6 +68,7 @@ def init():
     # Our Lists of fields for the event, qualifying round setup and final round setup and then a
     # lists of shooters...
     # all collapsed into one json structure when written to a file.
+    first_start_mode            = True
     my_event_list               = []
     my_qualifying_target_list   = []
     my_finals_target_list       = []
@@ -134,6 +136,90 @@ def init():
 
 #end init
 
+
+def load_event_json_from_file(file):
+    global my_event_list
+    global my_event_image
+    global my_qualifying_target_list
+    global my_finals_target_list
+    global my_shooter_list
+    global first_start_mode
+
+    if debuglevel >= 1:
+        my_logger.info('{time}, event.load_event_json_from_file.Called '.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+        my_logger.info('{time}, event.load_event_json_from_file.Loading file: {file}'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+            file=file
+        ))
+
+    try:
+        with open(file, "r") as fh:
+            my_event_list               = json.load(fh)
+            my_event_image              = my_event_list["image"]
+            my_qualifying_target_list   = my_event_list["qualifying"]
+            my_finals_target_list       = my_event_list["final"]
+            my_shooter_list             = my_event_list["shooters"]
+            first_start_mode            = False
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, event.load_event_json_from_file.File Loaded, global variables refreshed '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+    except IOError as e:
+        my_logger.error('{time}, settings.load_event_json_from_file.I/O error: {file}, {errno}, {strerror}"'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+            file=filename,
+            errno=e.errno,
+            strerror=e.strerror
+        ))
+
+    except:  # handle other exceptions such as attribute errors
+        my_logger.error('{time}, settings.load_event_json_from_file.Unexpected error: {file}, {error}"'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+            file=filename,
+            error=sys.exc_info()[0]
+        ))
+
+    finally:
+        fh.close
+        if debuglevel >= 1:
+            my_logger.info('{time}, event.load_event_json_from_file.File Closed '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+        if debuglevel >= 2 and echojson == 1:
+            my_logger.info('{time}, event.load_event_json_from_file.Printing global dictionaries'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+            print("------ Event                 ------")
+            pp_json(my_event_list)
+
+            print("------ Qualifying Target's   ------")
+            pp_json(my_qualifying_target_list)
+
+            print("------ Finals Target's       ------")
+            pp_json(my_finals_target_list)
+
+            print("------ Shooters              ------")
+            pp_json(my_shooter_list)
+
+            print("-----------------------------------")
+
+        if debuglevel >= 1:
+            my_logger.info('{time}, event.load_event_json_from_file.Completed '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+        return my_event_list
+
+# end load_event_json_from_file
+
+
 def getAppEnvVariables():
 
     Params = dict()
@@ -162,6 +248,7 @@ def getAppEnvVariables():
 
 # end getAppEnvVariables():
 
+
 #
 # Lets get the Hostname and IP address so that we can include this into the Log stream
 #
@@ -186,6 +273,7 @@ def get_system_info():
     return IP, HOSTNAME
 
 #end get_system_info
+
 
 def pp_json(json_thing, sort=True, indents=4):
     if type(json_thing) is str:
@@ -234,17 +322,18 @@ def print_config(config_params):
 #end print_config()
 
 
+# Find shooter in array of shooters (my_shooter_list) based on guid_value
 def find_row_in_my_shooter_list(guid_value):
 
-    global my_shooter_list
+    global my_shooter_list      # Global variable, list of shooters
 
     if debuglevel >= 2:
         my_logger.info('{time}, settings.find_row_in_my_shooter_list Called'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-    row = 0
-    found = False
+    row     = 0
+    found   = False
 
     for rec in my_shooter_list:
         if rec["id"] == guid_value:
@@ -254,21 +343,165 @@ def find_row_in_my_shooter_list(guid_value):
 
     if (found == True):
         if debuglevel >= 2:
-            my_logger.info('{time}, settings.find_row_in_my_shooter_list Completed Shooter:{row} '.format(
+            my_logger.info('{time}, settings.find_row_in_my_shooter_list.Completed Shooter:{row} '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
                 row=row
             ))
 
         return (row)
 
+    else:
+        if debuglevel >= 2:
+            my_logger.info('{time}, settings.find_row_in_my_shooter_list.Completed Shooter:NOT FOUND '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+        return (-1)
+
+#end find_row_in_my_shooter_list
+
+
+def update_shooter(myfile, my_shooter):
+
     if debuglevel >= 2:
-        my_logger.info('{time}, settings.find_row_in_my_shooter_list Completed Shooter:NOT FOUND '.format(
+        my_logger.info('{time}, settings.update_shooter.Called'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-    return (-1)
+    row                     = find_row_in_my_shooter_list(my_shooter["id"])
+    my_shooter_list[row]    = my_shooter
+    save_event(myfile)
 
-#end find_row_in_my_shooter_list
+    if debuglevel >= 2:
+        my_logger.info('{time}, settings.update_shooter.Completed'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+# end save_shooter
+
+
+def save_event(myfile):
+
+    global my_event_list
+    global my_qualifying_list
+    global my_final_list
+    global my_shooter_list
+    global event_mode
+
+    if debuglevel >= 2:
+        my_logger.info('{time}, settings.save_event.Called'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+    if event_mode == "Initial_Event_Save":
+        myfile      = file_dialog("Initial_Event_Save")
+        event_mode  = "Load_Event"
+
+    my_event_list["qualifying"] = my_qualifying_target_list
+    my_event_list["final"]      = my_finals_target_list
+    my_event_list["shooters"]   = my_shooter_list
+
+    if debuglevel >= 2:
+        my_logger.info('{time}, settings.save_event.Event data reassembled'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+    save_json_to_file(myfile, my_event_list)
+
+    if debuglevel >= 2:
+        my_logger.info('{time}, settings.save_event.Completed'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+# end save_event
+
+
+def save_json_to_file(myfile, my_event):
+
+    if debuglevel >= 2:
+        my_logger.info('{time}, settings.save_json_to_file.Called'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+    try:
+        if myfile:
+            with open(myfile, "w") as file_handler:
+
+                json.dump(my_event, file_handler, indent=4)
+
+                if debuglevel >= 2:
+                    my_logger.info('{time}, settings.save_json_to_file.File Saved'.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                    ))
+        else:
+            if debuglevel >= 2:
+                my_logger.info('{time}, settings.save_json_to_file.No target file defined. File Save Aborted!!! '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+
+    except IOError as e:
+        my_logger.error('{time}, settings.save_json_to_file.I/O error: {file}, {errno}, {strerror}"'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+            file=filename,
+            errno=e.errno,
+            strerror=e.strerror
+        ))
+
+    except:  # handle other exceptions such as attribute errors
+        my_logger.error('{time}, settings.save_json_to_file.Unexpected error: {file}, {error}"'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+            file=filename,
+            error=sys.exc_info()[0]
+        ))
+
+
+    finally:
+        try:
+            file_handler.close
+            if debuglevel >= 2:
+                my_logger.info('{time}, settings.save_json_to_file.File closed'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+        finally:
+            if debuglevel >= 2:
+                my_logger.info('{time}, settings.save_json_to_file.Completed'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+
+#end save_json_to_file
+
+
+# Refresh data in memory from file (include updating global settings variable),
+# shooters include their personal data,
+# equipment and scores
+def load_all_shooter_scores_json_from_file(filename):
+
+    global my_event_list
+    global my_shooter_list
+
+    if debuglevel >= 1:
+        my_logger.info('{time}, settings.load_all_shooter_scores_json_from_file.Called '.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+    # Refreshes my_event_list structure from file
+    my_event_list = load_event_json_from_file(filename)
+
+    # extract array for shooters data from larger my_event_list structure
+    my_shooter_list = my_event_list["shooters"]
+
+    if debuglevel >= 1:
+        if echojson == 1:
+            my_logger.info('{time}, settings.load_all_shooter_scores_json_from_file my_shooter_list '.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+            pp_json(my_shooter_list)
+
+        my_logger.info('{time}, settings.load_all_shooter_scores_json_from_file.file has been read and closed '.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+# end load_all_shooter_scores_json_from_file
+
 
 # Open/Select file dialog box
 def file_dialog(mode):
@@ -279,7 +512,7 @@ def file_dialog(mode):
     )
 
     if debuglevel >= 1:
-        my_logger.info('{time}, settings.file_dialog Called, Mode: ({mode})'.format(
+        my_logger.info('{time}, settings.file_dialog.Called, Mode: ({mode})'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
             mode=mode
         ))
@@ -316,7 +549,7 @@ def file_dialog(mode):
 
     if filename:
         if debuglevel >= 1:
-            my_logger.info('{time}, settings.file_dialog.File: {file}'.format(
+            my_logger.info('{time}, settings.file_dialog.Completed File: {file}'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
                 file=filename
             ))
@@ -331,148 +564,36 @@ def file_dialog(mode):
 
 # end file_dialog
 
-def save_json_to_file(myfile):
+def get_target_distance(target_number, mode):
 
-    global my_event_list
-    global my_qualifying_list
-    global my_final_list
-    global my_shooter_list
-    global event_mode
+    if debuglevel >= 1:
+        my_logger.info('{time}, settings.get_target_distance.Called'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+    if mode == "qual":
+        target_list = my_qualifying_target_list["target_list"]
+
+    else:
+        target_list = my_finals_target_list["target_list"]
+
+    distance = target_list[target_number]["distance"]
 
     if debuglevel >= 2:
-        my_logger.info('{time}, settings.save_json_to_file Called'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-    if event_mode == "Initial_Event_Save":
-        myfile      = file_dialog("Initial_Event_Save")
-        event_mode  = "Load_Event"
-
-    try:
-        if myfile:
-            with open(myfile, "w") as file_handler:
-                my_event_list["qualifying"] = my_qualifying_target_list
-                my_event_list["final"]      = my_finals_target_list
-                my_event_list["shooters"]   = my_shooter_list
-
-                json.dump(my_event_list, file_handler, indent=4)
-        else:
-            if debuglevel >= 2:
-                my_logger.info('{time}, settings.save_json_to_file.No target file defined. File Save Aborted!!! '.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-
-    except IOError as e:
-        my_logger.error('{time}, settings.load_event_json_from_file.I/O error: {file}, {errno}, {strerror}"'.format(
+        my_logger.info('{time}, settings.get_target_distance Mode: {mode}, Distance: {distance}'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            file=filename,
-            errno=e.errno,
-            strerror=e.strerror
+            mode=mode,
+            distance=distance
         ))
-
-    except:  # handle other exceptions such as attribute errors
-        my_logger.error('{time}, settings.load_event_json_from_file.Unexpected error: {file}, {error}"'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            file=filename,
-            error=sys.exc_info()[0]
-        ))
-
-
-    finally:
-        file_handler.close
-
-        if debuglevel >= 2:
-            my_logger.info('{time}, settings.save_json_to_file.file has been written to and closed '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-
-#end save_json_to_file
-
-
-def load_event_json_from_file(filename):
 
     if debuglevel >= 1:
-        my_logger.info('{time}, settings.load_event_json_from_file Called '.format(
+        my_logger.info('{time}, settings.get_target_distance.Completed'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-        my_logger.info('{time}, settings.load_event_json_from_file.Loading file: {file}'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            file=filename
-        ))
+    return distance
 
-    try:
-        with open(filename, "r") as file_handler:
-            my_event   = json.load(file_handler)
-
-        if echojson == 1:
-            if debuglevel >= 2:
-                my_logger.info('{time}, settings.load_event_json_from_file.Printing my_event_list'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-                print("------ my_event_list ------")
-                pp_json(my_event)
-
-                print("--------------------------------")
-
-    except IOError:
-        my_logger.error('{time}, settings.load_event_json_from_file.Could not read file: {file}"'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            file=filename
-        ))
-
-    except:  # handle other exceptions such as attribute errors
-        my_logger.error('{time}, settings.load_event_json_from_file.Unexpected error: {file}, {error}"'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            file=filename,
-            error=sys.exc_info()[0]
-        ))
-
-    finally:
-        file_handler.close
-
-        if debuglevel >= 1:
-            my_logger.info('{time}, settings.load_event_json_from_file Completed '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-
-        return my_event
-
-# end load_event_json_from_file
-
-# Refresh data in memory from file (include updating global settings variable),
-# shooters include their personal data,
-# equipment and scores
-def load_all_shooter_scores_json_from_file(filename):
-
-    global my_event_list
-
-    if debuglevel >= 1:
-        my_logger.info('{time}, settings.load_all_shooter_scores_json_from_file Called '.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-    # Refreshes my_event_list structure from file
-    load_event_json_from_file(filename)
-
-    # extract array for shooters data from larger my_event_list structure
-    my_shooter_list = my_event_list["shooters"]
-
-    if debuglevel >= 1:
-        if echojson == 1:
-            my_logger.info('{time}, settings.load_all_shooter_scores_json_from_file my_shooter_list '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-            pp_json(my_shooter_list)
-
-        my_logger.info('{time}, settings.load_all_shooter_scores_json_from_file.file has been read and closed '.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-# end load_all_shooter_scores_json_from_file
-
+# end get_target_distance
 
 # Our special Treeview class that allows us to edit cells in place
 class TreeviewEdit(ttk.Treeview):

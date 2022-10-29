@@ -17,8 +17,8 @@
 #
 #   Notes       	:
 ########################################################################################################################
-__author__ = "George Leonard"
-__email__ = "georgelza@gmail.com"
+__author__  = "George Leonard"
+__email__   = "georgelza@gmail.com"
 __version__ = "0.0.1"
 
 from tkinter import *
@@ -36,35 +36,6 @@ my_logger       = settings.my_logger
 debuglevel      = settings.debuglevel
 echojson        = settings.echojson
 
-# Refresh data in memory from file (include updating global settings variable),
-# shooters include their personal data,
-# equipment and scores
-def load_shooter_json_from_file(myfile):
-
-    if debuglevel >= 1:
-        my_logger.info('{time}, shooters.load_shooter_json_from_file Called '.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-    with open(myfile, "r") as file_handler:
-        settings.my_event_list = json.load(file_handler)
-        settings.my_shooter_list = settings.my_event_list["shooters"]
-
-    file_handler.close
-
-    if echojson == 1:
-        if debuglevel >= 1:
-            my_logger.info('{time}, shooters.load_shooter_scores_json_from_file my_shooter_list '.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-            settings.pp_json(settings.my_shooter_list)
-
-    if debuglevel >= 1:
-        my_logger.info('{time}, shooters.load_shooter_json_from_file.file has been read and closed '.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-# end load_shooter_json_from_file
 
 def build_new_qualifying_record_set(my_event):
 
@@ -73,7 +44,7 @@ def build_new_qualifying_record_set(my_event):
     shots_per_target   = int(qual_definition["no_of_shots"])
 
     if debuglevel >= 1:
-        my_logger.info('{time}, shooters.build_new_qualifying_record_set Called'.format(
+        my_logger.info('{time}, shooters.build_new_qualifying_record_set.Called'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -85,13 +56,13 @@ def build_new_qualifying_record_set(my_event):
         # find out how many shots per target
         shot_list   = []
         if target_no == 0:  # Cold bore Target
-            shot_list = [{"shot_number":  0, "hit_miss": "", "inspect": ""}]
+            shot_list = [{"shot_number":  0, "hit_miss": "", "inspect": "", "score": 0}]
 
         else:
             shot_no     = 0
             while shot_no < shots_per_target:
 
-                shots = {"shot_number": shot_no, "hit_miss": "", "inspect": ""}
+                shots = {"shot_number": shot_no, "hit_miss": "", "inspect": "", "score": 0}
                 shot_list.append(shots)
                 shot_no = shot_no + 1
 
@@ -105,13 +76,14 @@ def build_new_qualifying_record_set(my_event):
         if echojson == 1:
             settings.pp_json(qualifying_structure)
 
-        my_logger.info('{time}, shooters.build_new_qualifying_record_set Completed'.format(
+        my_logger.info('{time}, shooters.build_new_qualifying_record_set.Completed'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
     return qualifying_structure
 
 # end build_new_qualifying_record_set
+
 
 def build_new_finals_record_set(my_event):
 
@@ -120,7 +92,7 @@ def build_new_finals_record_set(my_event):
     shots_per_target   = int(finals_definition["no_of_shots"])
 
     if debuglevel >= 1:
-        my_logger.info('{time}, shooters.build_new_finals_record_set Called'.format(
+        my_logger.info('{time}, shooters.build_new_finals_record_set.Called'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -130,7 +102,7 @@ def build_new_finals_record_set(my_event):
         shot_list   = []
         shot_no     = 0
         while shot_no < shots_per_target:
-            shots = {"shot_number": shot_no, "hit_miss": "", "inspect": ""}
+            shots = {"shot_number": shot_no, "hit_miss": "", "inspect": "", "score": 0}
             shot_list.append(shots)
             shot_no = shot_no + 1
 
@@ -144,7 +116,7 @@ def build_new_finals_record_set(my_event):
         if echojson == 1:
             settings.pp_json(finals_structure)
 
-        my_logger.info('{time}, shooters.build_new_finals_record_set Completed'.format(
+        my_logger.info('{time}, shooters.build_new_finals_record_set.Completed'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -153,34 +125,10 @@ def build_new_finals_record_set(my_event):
 # end build_new_finals_record_set
 
 
-def find_rec_in_my_shooter_list(guid_value):
-
-    if debuglevel >= 1:
-        my_logger.info('{time}, shooters.find_rec_in_my_shooter_list Called'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-    row = 0
-    found = False
-
-    for rec in settings.my_shooter_list:
-        if rec["id"] == guid_value:
-            found = True
-            break
-
-    if (found == True):
-        return (rec)
-
-    return (-1)
-
-#end find_rec_in_my_shooter_list
-
-
 # We will add the scores via the File/scores menu.
 # For now ust build Scott's Treeview and user editor, then replace with my data.
 def load_all_shooters(main_window):
 
-    global trv
     global label_text_bg
     global label_text_fg
     global entry_text_bg
@@ -205,7 +153,7 @@ def load_all_shooters(main_window):
     lblframefont_size   = settings.lblframefont_size
 
     if debuglevel >= 1:
-        my_logger.info('{time}, shooters.load_all_shooters Called '.format(
+        my_logger.info('{time}, shooters.load_all_shooters.Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -226,72 +174,75 @@ def load_all_shooters(main_window):
         ))
 
     # Add a new Shooter...
-    def make_new_record():
+    def make_new_shooter_record():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, shooters.load_all_shooters.make_new_record Called'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.make_new_shooter_record.Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
         # Create record from shooter-template
         emptyRecord = dict()
-        open_popup('add', emptyRecord, tree_frame)
+        open_shooter_popup('add', emptyRecord, tree_frame)
 
-    #end make_new_record
+    #end make_new_shooter_record
 
-    btnNewRecord = Button(tree_frame, text="Add New", bg="#34d2eb", padx=2, pady=3, command=lambda: make_new_record())
+    btnNewRecord = Button(tree_frame, text="Add New", bg="#34d2eb", padx=2, pady=3, command=lambda: make_new_shooter_record())
     btnNewRecord.grid(row=0, column=0, sticky="w")
 
-    trv = ttk.Treeview(tree_frame, columns=(1, 2, 3, 4, 5, 6, 7, 8, 9), show="headings", height="16")
-    trv.grid(row=1, column=0, rowspan=16, columnspan=9)
+    trv_shooters = ttk.Treeview(tree_frame, columns=(1, 2, 3, 4, 5, 6, 7, 8, 9), show="headings", height="16")
+    trv_shooters.grid(row=1, column=0, rowspan=16, columnspan=9)
 
-    trv.heading(1, text="Action",       anchor="w")
-    trv.heading(2, text="ID",           anchor="center")
-    trv.heading(3, text="First Name",   anchor="center")
-    trv.heading(4, text="Last Name",    anchor="center")
-    trv.heading(5, text="ID Number",    anchor="center")
-    trv.heading(6, text="Cell Phone",   anchor="center")
-    trv.heading(7, text="eMail",        anchor="center")
-    trv.heading(8, text="Team",         anchor="center")
-    trv.heading(9, text="Spotter",      anchor="center")
+    trv_shooters.heading(1, text="Action",       anchor="w")
+    trv_shooters.heading(2, text="ID",           anchor="center")
+    trv_shooters.heading(3, text="First Name",   anchor="center")
+    trv_shooters.heading(4, text="Last Name",    anchor="center")
+    trv_shooters.heading(5, text="ID Number",    anchor="center")
+    trv_shooters.heading(6, text="Cell Phone",   anchor="center")
+    trv_shooters.heading(7, text="eMail",        anchor="center")
+    trv_shooters.heading(8, text="Team",         anchor="center")
+    trv_shooters.heading(9, text="Spotter",      anchor="center")
 
-    trv.column("#1", anchor="w", width=100, stretch=True)
-    trv.column("#2", anchor="w", width=270, stretch=True)
-    trv.column("#3", anchor="w", width=140, stretch=False)
-    trv.column("#4", anchor="w", width=140, stretch=False)
-    trv.column("#5", anchor="w", width=140, stretch=False)
-    trv.column("#6", anchor="w", width=140, stretch=False)
-    trv.column("#7", anchor="w", width=140, stretch=False)
-    trv.column("#8", anchor="w", width=140, stretch=False)
-    trv.column("#9", anchor="w", width=140, stretch=False)
+    trv_shooters.column("#1", anchor="w", width=100, stretch=True)
+    trv_shooters.column("#2", anchor="w", width=270, stretch=True)
+    trv_shooters.column("#3", anchor="w", width=140, stretch=False)
+    trv_shooters.column("#4", anchor="w", width=140, stretch=False)
+    trv_shooters.column("#5", anchor="w", width=140, stretch=False)
+    trv_shooters.column("#6", anchor="w", width=140, stretch=False)
+    trv_shooters.column("#7", anchor="w", width=140, stretch=False)
+    trv_shooters.column("#8", anchor="w", width=140, stretch=False)
+    trv_shooters.column("#9", anchor="w", width=140, stretch=False)
 
     tree_frame.grid(row=0, column=0)
 
-    def remove_all_data_from_trv():
+    def remove_all_data_from_trv_shooter():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, shooters.load_all_shooters.remove_all_data_from_trv Called'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.remove_all_data_from_trv_shooter.Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-        for item in trv.get_children():
-            trv.delete(item)
+        for item in trv_shooters.get_children():
+            trv_shooters.delete(item)
 
         if debuglevel >= 2:
-            my_logger.info('{time}, shooters.load_all_shooters.remove_all_data_from_trv Completed'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.remove_all_data_from_trv_shooter.Completed'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-    # Reload trv with all shooters data
+    # remove_all_data_from_trv_shooter
 
-    def load_trv_with_json():
+
+    # Populate shooter TRV with shooter records.
+    def load_trv_shooter_with_json():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, shooters.load_all_shooters.load_trv_with_json Called'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.load_trv_shooter_with_json.Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-        remove_all_data_from_trv()
+        # First clean out the TRV structure, whipe it...
+        remove_all_data_from_trv_shooter()
 
         rowIndex = 1
 
@@ -305,7 +256,7 @@ def load_all_shooters(main_window):
             team        = key["team"]
             spotter     = key["spotter"]
 
-            trv.insert('', index='end', iid=rowIndex, text="",
+            trv_shooters.insert('', index='end', iid=rowIndex, text="",
                        values=('edit',
                                guid_value,
                                first_name,
@@ -319,70 +270,77 @@ def load_all_shooters(main_window):
             rowIndex = rowIndex + 1
 
         if debuglevel >= 2:
-            my_logger.info('{time}, shooters.load_all_shooters.load_trv_with_json Completed'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.load_trv_shooter_with_json.Completed'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-    # end load_trv_with_json
+    # end load_trv_shooter_with_json
 
     def MouseButtonUpCallBack(event):
-        global trv
 
         if debuglevel >= 2:
-            my_logger.info('{time}, shooters.load_all_shooters.MouseButtonUpCallBack Called'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.MouseButtonUpCallBack.Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-        currentRowIndex = trv.selection()[0]
+        try:
+            currentRowIndex = trv_shooters.selection()[0]
 
-        my_logger.info('{time}, shooters.load_all_shooters.MouseButtonUpCallBack Called Cur Row Index: {currentRowIndex}'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            currentRowIndex=currentRowIndex
-        ))
-
-        lastTuple = (trv.item(currentRowIndex, 'values'))
-        # Get from my_shooter_list dictionary the entire record matching the lastTuple[1], this is the id column
-        my_jsonrec = find_rec_in_my_shooter_list(lastTuple[1])
-        open_popup('edit', my_jsonrec, tree_frame)
-
-        if debuglevel >= 2:
-            my_logger.info('{time}, shooters.load_all_shooters.MouseButtonUpCallBack Completed'.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            my_logger.info('{time}, shooters.load_all_shooters.MouseButtonUpCallBack.Cur Row Index: {currentRowIndex}'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                currentRowIndex=currentRowIndex
             ))
+
+            lastTuple   = trv_shooters.item(currentRowIndex, 'values')
+            # Get from my_shooter_list dictionary the entire record matching the lastTuple[1], this is the id column
+            row         = settings.find_row_in_my_shooter_list(lastTuple[1])
+
+            open_shooter_popup('edit', settings.my_shooter_list[row], tree_frame)
+
+        except:
+            pass
+
+        finally:
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, shooters.load_all_shooters.MouseButtonUpCallBack.Completed'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
 
     # end MouseButtonUpCallBack
 
-
     # Lets design/pain the popup, this is what is opened when the user clicks on a shooter in the treeview.
-    def open_popup(_mode, json_record, primary):
+    def open_shooter_popup(_mode, json_record, primary):
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.Called'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+            if _mode != "add" and echojson == 1:
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup Current Shooter & Mode: ({mode})'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                    mode=_mode
+                ))
+                settings.pp_json(json_record)
 
         if _mode == 'add':
             # Dynamically build scores from whats defined in the events definition
             #  - loop through qualifying
             # -  loop through finals
-            qualifying_structure    = build_new_qualifying_record_set(settings.my_event_list)
-            finals_structure        = build_new_finals_record_set(settings.my_event_list)
+            new_shooter_qualifying_structure    = build_new_qualifying_record_set(settings.my_event_list)
+            new_shooter_finals_structure        = build_new_finals_record_set(settings.my_event_list)
+
             scores = {"qualifying_score": 0,
                       "final_score"     : 0,
-                      "qualifying"      : qualifying_structure,
-                      "finals"          : finals_structure
+                      "qualifying"      : new_shooter_qualifying_structure,
+                      "finals"          : new_shooter_finals_structure
                       }
 
         else:
-            # json_record is the entire record of the current shooter,
+            # this json_record returns the entire scores array of the current shooter,
             scores = json_record["scores"]
 
-        if debuglevel >= 2:
-            my_logger.info('{time}, shooters.load_all_shooters.open_popup Called'.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-
-            if _mode != "add" and echojson == 1:
-                my_logger.info('{time}, shooters.load_all_shooters.open_popup Current Shooter, Mode: ({mode})'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-                    mode=_mode
-                ))
-                settings.pp_json(json_record)
 
         child = Toplevel(primary)
         child.title('Shooter Maintenance')
@@ -460,26 +418,26 @@ def load_all_shooters(main_window):
 
 
         # Rifle
-        lb_rifle1 = Label(rifle_frame, text="Make",         width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
-        lb_rifle2 = Label(rifle_frame, text="Model",        width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
-        lb_rifle3 = Label(rifle_frame, text="Caliber",      width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
-        lb_rifle4 = Label(rifle_frame, text="Chassis",      width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
-        lb_rifle5 = Label(rifle_frame, text="Trigger",      width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
-        lb_rifle6 = Label(rifle_frame, text="Break",        width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
-        lb_rifle7 = Label(rifle_frame, text="Supressor",    width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
-        lb_rifle8 = Label(rifle_frame, text="Weight (lb)",  width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
-        lb_rifle9 = Label(rifle_frame, text="Bipod",        width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
-        lb_rifle10 = Label(rifle_frame, text="Software",    width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
+        lb_rifle1 = Label(rifle_frame,  text="Make",         width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
+        lb_rifle2 = Label(rifle_frame,  text="Model",        width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
+        lb_rifle3 = Label(rifle_frame,  text="Caliber",      width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
+        lb_rifle4 = Label(rifle_frame,  text="Chassis",      width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
+        lb_rifle5 = Label(rifle_frame,  text="Trigger",      width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
+        lb_rifle6 = Label(rifle_frame,  text="Break",        width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
+        lb_rifle7 = Label(rifle_frame,  text="Supressor",    width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
+        lb_rifle8 = Label(rifle_frame,  text="Weight (lb)",  width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
+        lb_rifle9 = Label(rifle_frame,  text="Bipod",        width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
+        lb_rifle10 = Label(rifle_frame, text="Software",     width=25, height=2, anchor="w", bg=label_text_bg, fg=label_text_fg, font=(txtfont, txtfont_size))
 
-        lb_rifle1.grid(row=1, column=0, padx=5, pady=0)
-        lb_rifle2.grid(row=2, column=0, padx=5, pady=0)
-        lb_rifle3.grid(row=3, column=0, padx=5, pady=0)
-        lb_rifle4.grid(row=4, column=0, padx=5, pady=0)
-        lb_rifle5.grid(row=5, column=0, padx=5, pady=0)
-        lb_rifle6.grid(row=6, column=0, padx=5, pady=0)
-        lb_rifle7.grid(row=7, column=0, padx=5, pady=0)
-        lb_rifle8.grid(row=8, column=0, padx=5, pady=0)
-        lb_rifle9.grid(row=9, column=0, padx=5, pady=0)
+        lb_rifle1.grid(row=1,   column=0, padx=5, pady=0)
+        lb_rifle2.grid(row=2,   column=0, padx=5, pady=0)
+        lb_rifle3.grid(row=3,   column=0, padx=5, pady=0)
+        lb_rifle4.grid(row=4,   column=0, padx=5, pady=0)
+        lb_rifle5.grid(row=5,   column=0, padx=5, pady=0)
+        lb_rifle6.grid(row=6,   column=0, padx=5, pady=0)
+        lb_rifle7.grid(row=7,   column=0, padx=5, pady=0)
+        lb_rifle8.grid(row=8,   column=0, padx=5, pady=0)
+        lb_rifle9.grid(row=9,   column=0, padx=5, pady=0)
         lb_rifle10.grid(row=10, column=0, padx=5, pady=0)
 
         crm_rifle_make = Entry(rifle_frame, width=30, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
@@ -595,32 +553,30 @@ def load_all_shooters(main_window):
         def delete_record():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.delete_record Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.delete_record.Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
-
-            guid_value  = id_value.get()
 
             # Confirm Deletion
             if messagebox.askyesno("Confirm Delete", "Are you sure you want to delete this Shooter?"):
 
-                my_logger.info('{time}, shooters.load_all_shooters.delete_record Confirmed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.delete_record Confirmed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
-                process_request('_DELETE_', guid_value, None, None, None, None, None, None, None, None, None)
+                process_request('_DELETE_', id_value.get(), None, None, None, None, None, None, None, None, None)
                 reload_main_form()
                 child.grab_release()
                 child.destroy()
                 child.update()
 
             else:
-                my_logger.info('{time}, shooters.load_all_shooters.delete_record Cancelled'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.delete_record Cancelled'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.delete_record Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.delete_record.Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -629,7 +585,7 @@ def load_all_shooters(main_window):
         def child_cancel():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.child_cancel Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.child_cancel.Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -638,7 +594,7 @@ def load_all_shooters(main_window):
             child.update()
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.child_cancel Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.child_cancel.Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -647,20 +603,22 @@ def load_all_shooters(main_window):
         def reload_main_form():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.reload_main_form Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.reload_main_form.Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
-            load_trv_with_json()
+            load_trv_shooter_with_json()
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.reload_main_form Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.reload_main_form.Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
+        # end reload_main_form
+
         def change_background_color(new_color):
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.change_background_color Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.change_background_color.Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -703,7 +661,7 @@ def load_all_shooters(main_window):
             crm_cartridge_powder_model.config(bg=new_color)
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.change_background_color Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.change_background_color.Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -712,7 +670,7 @@ def load_all_shooters(main_window):
         def add_entry():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.add_entry Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.add_entry.Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -776,7 +734,7 @@ def load_all_shooters(main_window):
             process_request('_INSERT_', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter, equipment, scores)
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.add_entry Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.add_entry.Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -785,7 +743,7 @@ def load_all_shooters(main_window):
         def update_entry():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.update_entry Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.update_entry.Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -850,7 +808,7 @@ def load_all_shooters(main_window):
             process_request('_UPDATE_', guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter, equipment, scores)
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.update_entry Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.update_entry.Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -859,7 +817,7 @@ def load_all_shooters(main_window):
         def load_edit_field_with_row_data(json_record):
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.load_edit_field_with_row_data Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.load_edit_field_with_row_data.Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -943,19 +901,22 @@ def load_all_shooters(main_window):
             crm_cartridge_powder_model.insert(0, cartridge["powder_model"])
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.load_edit_field_with_row_data Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.load_edit_field_with_row_data.Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
+        # end load_edit_field_with_row_data
+
 
         if _mode == 'edit':
             load_edit_field_with_row_data(json_record)
+
 
         def process_request(command_type, guid_value, first_name, last_name, id_number, cell_phone, email, team, spotter, equipment, scores):
             global dirty
             dirty = True
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.process_request Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.process_request.Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -977,7 +938,7 @@ def load_all_shooters(main_window):
                     settings.my_shooter_list[row] = dict
 
                 if debuglevel >= 2:
-                    my_logger.info('{time}, shooters.load_all_shooters.process_request _UPDATE_'.format(
+                    my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.process_request _UPDATE_'.format(
                         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                     ))
 
@@ -997,7 +958,7 @@ def load_all_shooters(main_window):
                 settings.my_shooter_list.append(dict)
 
                 if debuglevel >= 2:
-                    my_logger.info('{time}, shooters.load_all_shooters.process_request _INSERT_'.format(
+                    my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.process_request _INSERT_'.format(
                         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                     ))
 
@@ -1007,15 +968,15 @@ def load_all_shooters(main_window):
                     del settings.my_shooter_list[row]
 
                 if debuglevel >= 2:
-                    my_logger.info('{time}, shooters.load_all_shooters.process_request _DELETE_'.format(
+                    my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.process_request _DELETE_'.format(
                         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                     ))
 
-            settings.save_json_to_file(settings.filename)
+            settings.save_event(settings.filename)
             clear_all_fields()
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.process_request Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.process_request.Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -1025,7 +986,7 @@ def load_all_shooters(main_window):
         def determineAction():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.determineAction Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.determineAction.Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -1042,7 +1003,7 @@ def load_all_shooters(main_window):
             child.update()
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.determineAction Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.determineAction.Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -1052,7 +1013,7 @@ def load_all_shooters(main_window):
         def clear_all_fields():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.clear_all_fields Called'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.clear_all_fields.Called'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -1071,25 +1032,25 @@ def load_all_shooters(main_window):
             change_background_color("#FFFFFF")
 
             if debuglevel >= 2:
-                my_logger.info('{time}, shooters.load_all_shooters.clear_all_fields Completed'.format(
+                my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.clear_all_fields.Completed'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
         #end clear_all_fields
 
         if debuglevel >= 2:
-            my_logger.info('{time}, shooters.load_all_shooters.open_popup Completed'.format(
+            my_logger.info('{time}, shooters.load_all_shooters.open_shooter_popup.Completed'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
-    # end open_popup
+    # end open_shooter_popup
 
-    trv.bind("<ButtonRelease>", MouseButtonUpCallBack)
-    load_shooter_json_from_file(settings.filename)
-    load_trv_with_json()
+    trv_shooters.bind("<ButtonRelease>", MouseButtonUpCallBack)
+    settings.load_all_shooter_scores_json_from_file(settings.filename)
+    load_trv_shooter_with_json()
 
     if debuglevel >= 1:
-        my_logger.info('{time}, shooters.load_all_shooters Completed'.format(
+        my_logger.info('{time}, shooters.load_all_shooters.Completed'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 

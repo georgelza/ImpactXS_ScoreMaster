@@ -1,8 +1,8 @@
 {
     "name": "Hanover King of 1Mile/2Mile 2022",
     "location": "Hanover",
-    "start_date": "27/07/2022",
-    "end_date": "28/09/2022",
+    "start_date": "22/08/2022",
+    "end_date": "25/08/2022",
     "distance": "1-Mile",
     "image": "1mile.png",
     "qualifying": {
@@ -13,31 +13,31 @@
             {
                 "target_no": 0,
                 "qb": 1,
-                "distance": 1050,
+                "distance": 1148,
                 "target_size": "300x300"
             },
             {
                 "target_no": 1,
                 "qb": 0,
-                "distance": 600,
+                "distance": 656,
                 "target_size": "300x350"
             },
             {
                 "target_no": 2,
                 "qb": 0,
-                "distance": 800,
+                "distance": 875,
                 "target_size": "400x500"
             },
             {
                 "target_no": 3,
                 "qb": 0,
-                "distance": 1000,
+                "distance": 1094,
                 "target_size": "520x520"
             },
             {
                 "target_no": 4,
                 "qb": 0,
-                "distance": 1150,
+                "distance": 1258,
                 "target_size": "550x550"
             }
         ]
@@ -49,31 +49,31 @@
         "target_list": [
             {
                 "target_no": 0,
-                "distance": 600,
-                "target_size": "300x350"
+                "distance": 1367,
+                "target_size": "500x700"
             },
             {
                 "target_no": 1,
-                "distance": 800,
-                "target_size": "400x500"
+                "distance": 1532,
+                "target_size": "600x800"
             },
             {
                 "target_no": 2,
-                "distance": 1000,
-                "target_size": "520x520"
+                "distance": 1816,
+                "target_size": "650x900"
             }
         ]
     },
     "shooters": [
         {
             "id": "07d12652-2d6a-11ed-a038-0242ac120002",
-            "first_name": "George",
-            "last_name": "Leonard",
+            "first_name": "Danie",
+            "last_name": "Du Preez",
             "id_number": "7404105127085",
             "cell_phone": "0826552466",
             "email": "georgelza@gmail.com",
             "team": "phew phew",
-            "spotter": "Charl Gous",
+            "spotter": "DJ van Zyl",
             "equipment": {
                 "rifle": {
                     "make": "Howa",
@@ -105,101 +105,115 @@
                 }
             },
             "scores": {
-                "qualifying_score": 400,
-                "final_score": 560,
+                "qualifying_score": 18099.0,
+                "final_score": 20050.0,
+                "total_score": 38149.0,
                 "qualifying": [
                     {
                         "target_number": 0,
-                        "target_score": 20,
+                        "target_score": 2195,
                         "shots": [
                             {
                                 "shot_number": 0,
                                 "hit_miss": "1",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 2195
                             }
                         ]
                     },
                     {
                         "target_number": 1,
-                        "target_score": 20,
+                        "target_score": 1721.0,
                         "shots": [
                             {
                                 "shot_number": 0,
                                 "hit_miss": "1",
-                                "inspect": "True"
+                                "inspect": "True",
+                                "score": 717.0
                             },
                             {
                                 "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 574.0
                             },
                             {
                                 "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 430.0
                             }
                         ]
                     },
                     {
                         "target_number": 2,
-                        "target_score": 50,
+                        "target_score": 3062.0,
                         "shots": [
                             {
                                 "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 1275
                             },
                             {
                                 "shot_number": 1,
                                 "hit_miss": "1",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 1021.0
                             },
                             {
                                 "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 766.0
                             }
                         ]
                     },
                     {
                         "target_number": 3,
-                        "target_score": 100,
+                        "target_score": 4788.0,
                         "shots": [
                             {
                                 "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 1995
                             },
                             {
                                 "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 1596.0
                             },
                             {
                                 "shot_number": 2,
                                 "hit_miss": "1",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 1197.0
                             }
                         ]
                     },
                     {
                         "target_number": 4,
-                        "target_score": 120,
+                        "target_score": 6333.0,
                         "shots": [
                             {
                                 "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 2640
                             },
                             {
                                 "shot_number": 1,
                                 "hit_miss": "1",
-                                "inspect": "True"
+                                "inspect": "True",
+                                "score": 2110.0
                             },
                             {
                                 "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "True",
+                                "score": 1583.0
                             }
                         ]
                     }
@@ -207,94 +221,133 @@
                 "final": [
                     {
                         "target_number": 0,
-                        "target_score": 110,
+                        "target_score": 0,
                         "shots": [
                             {
                                 "shot_number": 0,
                                 "hit_miss": "0",
-                                "inspect": "False"
-                            },
+                                "inspect": "False",
+                                "score": 0
+                            }
+                        ]
+                    },
+                    {
+                        "target_number": 0,
+                        "target_score": 0,
+                        "shots": [
                             {
                                 "shot_number": 1,
                                 "hit_miss": "0",
-                                "inspect": "False"
-                            },
+                                "inspect": "False",
+                                "score": 0
+                            }
+                        ]
+                    },
+                    {
+                        "target_number": 0,
+                        "target_score": 1869,
+                        "shots": [
                             {
                                 "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 1869
+                            }
+                        ]
+                    },
+                    {
+                        "target_number": 0,
+                        "target_score": 0,
+                        "shots": [
                             {
                                 "shot_number": 3,
-                                "hit_miss": "1",
-                                "inspect": "False"
-                            },
+                                "hit_miss": "0",
+                                "inspect": "False",
+                                "score": 0
+                            }
+                        ]
+                    },
+                    {
+                        "target_number": 0,
+                        "target_score": 0,
+                        "shots": [
                             {
                                 "shot_number": 4,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             }
                         ]
                     },
                     {
                         "target_number": 1,
-                        "target_score": 200,
+                        "target_score": 9388.0,
                         "shots": [
                             {
                                 "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 3912.0
                             },
                             {
                                 "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 3129.0
                             },
                             {
                                 "shot_number": 2,
                                 "hit_miss": "1",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 2347.0
                             },
                             {
                                 "shot_number": 3,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             },
                             {
                                 "shot_number": 4,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             }
                         ]
                     },
                     {
                         "target_number": 2,
-                        "target_score": 120,
+                        "target_score": 8793.0,
                         "shots": [
                             {
                                 "shot_number": 0,
                                 "hit_miss": "1",
-                                "inspect": "True"
+                                "inspect": "False",
+                                "score": 5495
                             },
                             {
                                 "shot_number": 1,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             },
                             {
                                 "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 3298.0
                             },
                             {
                                 "shot_number": 3,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             },
                             {
                                 "shot_number": 4,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             }
                         ]
                     }
@@ -303,13 +356,13 @@
         },
         {
             "id": "07d12652-2d6a-11ed-a038-0242fc120002",
-            "first_name": "Brendan",
-            "last_name": "Fike",
+            "first_name": "Izak",
+            "last_name": "Hanekom",
             "id_number": "7804105127085",
             "cell_phone": "0826552216",
             "email": "brendan@gmail.com",
             "team": "ImpaxtXS",
-            "spotter": "Shaun Flink",
+            "spotter": "Loutjie Hanekom",
             "equipment": {
                 "rifle": {
                     "make": "Savage",
@@ -341,211 +394,264 @@
                 }
             },
             "scores": {
-                "qualifying_score": 420,
-                "final_score": 500,
+                "qualifying_score": 11836.0,
+                "final_score": 21122.0,
+                "total_score": 32958.0,
                 "qualifying": [
                     {
                         "target_number": 0,
+                        "target_score": 0,
                         "shots": [
                             {
                                 "shot_number": 0,
                                 "hit_miss": "0",
-                                "inspect": "True"
+                                "inspect": "False",
+                                "score": 0
                             }
-                        ],
-                        "target_score": 300
+                        ]
                     },
                     {
                         "target_number": 1,
+                        "target_score": 1721.0,
                         "shots": [
                             {
                                 "shot_number": 0,
                                 "hit_miss": "1",
-                                "inspect": "False"
+                                "inspect": "True",
+                                "score": 717.0
                             },
                             {
                                 "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 574.0
                             },
                             {
                                 "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 430.0
                             }
-                        ],
-                        "target_score": 153
+                        ]
                     },
                     {
                         "target_number": 2,
+                        "target_score": 1787.0,
                         "shots": [
                             {
                                 "shot_number": 0,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             },
                             {
                                 "shot_number": 1,
                                 "hit_miss": "1",
-                                "inspect": "True"
+                                "inspect": "False",
+                                "score": 1021.0
                             },
                             {
                                 "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 766.0
                             }
-                        ],
-                        "target_score": 421
+                        ]
                     },
                     {
                         "target_number": 3,
+                        "target_score": 1995,
                         "shots": [
                             {
                                 "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 1995
                             },
                             {
                                 "shot_number": 1,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             },
                             {
                                 "shot_number": 2,
-                                "hit_miss": "1",
-                                "inspect": "False"
+                                "hit_miss": "0",
+                                "inspect": "False",
+                                "score": 0
                             }
-                        ],
-                        "target_score": 111
+                        ]
                     },
                     {
                         "target_number": 4,
+                        "target_score": 6333.0,
                         "shots": [
                             {
                                 "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "True"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 2640
                             },
                             {
                                 "shot_number": 1,
                                 "hit_miss": "1",
-                                "inspect": "False"
+                                "inspect": "True",
+                                "score": 2110.0
                             },
                             {
                                 "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "True",
+                                "score": 1583.0
                             }
-                        ],
-                        "target_score": 111
+                        ]
                     }
                 ],
                 "final": [
                     {
                         "target_number": 0,
+                        "target_score": 3115,
                         "shots": [
                             {
                                 "shot_number": 0,
                                 "hit_miss": "1",
-                                "inspect": "False"
-                            },
+                                "inspect": "False",
+                                "score": 3115
+                            }
+                        ]
+                    },
+                    {
+                        "target_number": 0,
+                        "target_score": 2492,
+                        "shots": [
                             {
                                 "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 2492
+                            }
+                        ]
+                    },
+                    {
+                        "target_number": 0,
+                        "target_score": 0,
+                        "shots": [
                             {
                                 "shot_number": 2,
                                 "hit_miss": "0",
-                                "inspect": "False"
-                            },
+                                "inspect": "False",
+                                "score": 0
+                            }
+                        ]
+                    },
+                    {
+                        "target_number": 0,
+                        "target_score": 1246,
+                        "shots": [
                             {
                                 "shot_number": 3,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 1246
+                            }
+                        ]
+                    },
+                    {
+                        "target_number": 0,
+                        "target_score": 0,
+                        "shots": [
                             {
                                 "shot_number": 4,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             }
-                        ],
-                        "target_score": 422
+                        ]
                     },
                     {
                         "target_number": 1,
+                        "target_score": 5476.0,
                         "shots": [
                             {
                                 "shot_number": 0,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             },
                             {
                                 "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 3129.0
                             },
                             {
                                 "shot_number": 2,
-                                "hit_miss": "1",
-                                "inspect": "False"
+                                "hit_miss": "0",
+                                "inspect": "False",
+                                "score": 0
                             },
                             {
                                 "shot_number": 3,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 1565.0
                             },
                             {
                                 "shot_number": 4,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 782.0
                             }
-                        ],
-                        "target_score": 111
+                        ]
                     },
                     {
                         "target_number": 2,
+                        "target_score": 8793.0,
                         "shots": [
                             {
                                 "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 5495
                             },
                             {
                                 "shot_number": 1,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             },
                             {
                                 "shot_number": 2,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             },
                             {
                                 "shot_number": 3,
                                 "hit_miss": "1",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 2199.0
                             },
                             {
                                 "shot_number": 4,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 1099.0
                             }
-                        ],
-                        "target_score": 311
+                        ]
                     }
                 ]
             }
         },
         {
             "id": "07d12652-2d6a-11ed-a038-0242fc120112",
-            "first_name": "Charl",
-            "last_name": "Gous",
+            "first_name": "Jaco",
+            "last_name": "Heyns",
             "id_number": "7010105127085",
             "cell_phone": "0826552324",
             "email": "charl@gmail.com",
             "team": "SendIT",
-            "spotter": "Tony",
+            "spotter": "Ruan Ellis",
             "equipment": {
                 "rifle": {
                     "make": "Savage",
@@ -577,198 +683,251 @@
                 }
             },
             "scores": {
-                "qualifying_score": 531,
-                "final_score": 490,
+                "qualifying_score": 11559.0,
+                "final_score": 18804.0,
+                "total_score": 30363.0,
                 "qualifying": [
                     {
                         "target_number": 0,
+                        "target_score": 0,
                         "shots": [
                             {
                                 "shot_number": 0,
                                 "hit_miss": "0",
-                                "inspect": "True"
+                                "inspect": "False",
+                                "score": 0
                             }
-                        ],
-                        "target_score": 254
+                        ]
                     },
                     {
                         "target_number": 1,
+                        "target_score": 1291.0,
                         "shots": [
                             {
                                 "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "True",
+                                "score": 717.0
                             },
                             {
                                 "shot_number": 1,
                                 "hit_miss": "1",
-                                "inspect": "True"
+                                "inspect": "False",
+                                "score": 574.0
                             },
                             {
                                 "shot_number": 2,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             }
-                        ],
-                        "target_score": 111
+                        ]
                     },
                     {
                         "target_number": 2,
+                        "target_score": 1787.0,
                         "shots": [
                             {
                                 "shot_number": 0,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             },
                             {
                                 "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 1021.0
                             },
                             {
                                 "shot_number": 2,
                                 "hit_miss": "1",
-                                "inspect": "True"
+                                "inspect": "False",
+                                "score": 766.0
                             }
-                        ],
-                        "target_score": 111
+                        ]
                     },
                     {
                         "target_number": 3,
+                        "target_score": 4788.0,
                         "shots": [
                             {
                                 "shot_number": 0,
-                                "hit_miss": "0",
-                                "inspect": "True"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 1995
                             },
                             {
                                 "shot_number": 1,
                                 "hit_miss": "1",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 1596.0
                             },
                             {
                                 "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 1197.0
                             }
-                        ],
-                        "target_score": 111
+                        ]
                     },
                     {
                         "target_number": 4,
+                        "target_score": 3693.0,
                         "shots": [
                             {
                                 "shot_number": 0,
-                                "hit_miss": "1",
-                                "inspect": "False"
+                                "hit_miss": "0",
+                                "inspect": "False",
+                                "score": 0
                             },
                             {
                                 "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "True",
+                                "score": 2110.0
                             },
                             {
                                 "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "True",
+                                "score": 1583.0
                             }
-                        ],
-                        "target_score": 124
+                        ]
                     }
                 ],
                 "final": [
                     {
                         "target_number": 0,
+                        "target_score": 0,
                         "shots": [
                             {
                                 "shot_number": 0,
                                 "hit_miss": "0",
-                                "inspect": "True"
-                            },
+                                "inspect": "False",
+                                "score": 0
+                            }
+                        ]
+                    },
+                    {
+                        "target_number": 0,
+                        "target_score": 0,
+                        "shots": [
                             {
                                 "shot_number": 1,
-                                "hit_miss": "1",
-                                "inspect": "True"
-                            },
+                                "hit_miss": "0",
+                                "inspect": "False",
+                                "score": 0
+                            }
+                        ]
+                    },
+                    {
+                        "target_number": 0,
+                        "target_score": 1869,
+                        "shots": [
                             {
                                 "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
-                            },
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 1869
+                            }
+                        ]
+                    },
+                    {
+                        "target_number": 0,
+                        "target_score": 0,
+                        "shots": [
                             {
                                 "shot_number": 3,
                                 "hit_miss": "0",
-                                "inspect": "False"
-                            },
+                                "inspect": "False",
+                                "score": 0
+                            }
+                        ]
+                    },
+                    {
+                        "target_number": 0,
+                        "target_score": 0,
+                        "shots": [
                             {
                                 "shot_number": 4,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             }
-                        ],
-                        "target_score": 111
+                        ]
                     },
                     {
                         "target_number": 1,
+                        "target_score": 7041.0,
                         "shots": [
                             {
                                 "shot_number": 0,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             },
                             {
                                 "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "True"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 3129.0
                             },
                             {
                                 "shot_number": 2,
                                 "hit_miss": "1",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 2347.0
                             },
                             {
                                 "shot_number": 3,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 1565.0
                             },
                             {
                                 "shot_number": 4,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             }
-                        ],
-                        "target_score": 111
+                        ]
                     },
                     {
                         "target_number": 2,
+                        "target_score": 9894.0,
                         "shots": [
                             {
                                 "shot_number": 0,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             },
                             {
                                 "shot_number": 1,
-                                "hit_miss": "0",
-                                "inspect": "True"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 4397.0
                             },
                             {
                                 "shot_number": 2,
-                                "hit_miss": "0",
-                                "inspect": "False"
+                                "hit_miss": "1",
+                                "inspect": "False",
+                                "score": 3298.0
                             },
                             {
                                 "shot_number": 3,
                                 "hit_miss": "1",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 2199.0
                             },
                             {
                                 "shot_number": 4,
                                 "hit_miss": "0",
-                                "inspect": "False"
+                                "inspect": "False",
+                                "score": 0
                             }
-                        ],
-                        "target_score": 111
+                        ]
                     }
                 ]
             }

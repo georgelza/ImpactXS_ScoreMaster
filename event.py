@@ -18,8 +18,8 @@
 #   Notes           :   some ideas of tiling frames as a look https://www.youtube.com/watch?v=dlRXp4YSuG4
 #
 ########################################################################################################################
-__author__ = "George Leonard"
-__email__ = "georgelza@gmail.com"
+__author__  = "George Leonard"
+__email__   = "georgelza@gmail.com"
 __version__ = "0.0.1"
 
 from tkinter import *
@@ -61,7 +61,7 @@ def open_event_screen(root):
     def make_new_quals_record():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.make_new_quals_record Called'.format(
+            my_logger.info('{time}, event.open_event_screen.make_new_quals_record.Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -86,7 +86,7 @@ def open_event_screen(root):
     def remove_quals_record():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.remove_quals_record Called'.format(
+            my_logger.info('{time}, event.open_event_screen.remove_quals_record.Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -121,7 +121,7 @@ def open_event_screen(root):
     def make_new_finals_record():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.make_new_finals_record Called'.format(
+            my_logger.info('{time}, event.open_event_screen.make_new_finals_record.Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -145,7 +145,7 @@ def open_event_screen(root):
     def remove_finals_record():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.remove_finals_record Called'.format(
+            my_logger.info('{time}, event.open_event_screen.remove_finals_record.Called'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -178,7 +178,7 @@ def open_event_screen(root):
     def load_trv_with_json(treeview, mode):
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.load_trv_with_json Called Mode: ({mode})'.format(
+            my_logger.info('{time}, event.open_event_screen.load_trv_with_json.Called Mode: ({mode})'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
                 mode=mode
             ))
@@ -219,7 +219,7 @@ def open_event_screen(root):
 
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.load_trv_with_json Completed Mode: ({mode})'.format(
+            my_logger.info('{time}, event.open_event_screen.load_trv_with_json.Completed Mode: ({mode})'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
                 mode=mode
             ))
@@ -230,7 +230,7 @@ def open_event_screen(root):
     def cancel_Event_Update():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.cancel_Event_Update Called '.format(
+            my_logger.info('{time}, event.open_event_screen.cancel_Event_Update.Called '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -239,7 +239,7 @@ def open_event_screen(root):
         child.destroy()
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.cancel_Event_Update Completed '.format(
+            my_logger.info('{time}, event.open_event_screen.cancel_Event_Update.Completed '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -248,14 +248,14 @@ def open_event_screen(root):
     def Exit_Event():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.Exit_Event Called '.format(
+            my_logger.info('{time}, event.open_event_screen.Exit_Event.Called '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
         child.destroy()
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.Exit_Event Completed '.format(
+            my_logger.info('{time}, event.open_event_screen.Exit_Event.Completed '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -267,7 +267,7 @@ def open_event_screen(root):
         json_record = []
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.create_json_from_treeview Called Mode: ({mode})'.format(
+            my_logger.info('{time}, event.open_event_screen.create_json_from_treeview.Called Mode: ({mode})'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
                 mode=mode
             ))
@@ -288,7 +288,7 @@ def open_event_screen(root):
                                     "target_size":  values[2]})
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.create_json_from_treeview Completed Mode: ({mode})'.format(
+            my_logger.info('{time}, event.open_event_screen.create_json_from_treeview.Completed Mode: ({mode})'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
                 mode=mode
             ))
@@ -301,7 +301,7 @@ def open_event_screen(root):
     def save_Main_Event_json_data_to_file():
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.save_Main_Event_json_data_to_file Called '.format(
+            my_logger.info('{time}, event.open_event_screen.save_Main_Event_json_data_to_file.Called '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -364,14 +364,14 @@ def open_event_screen(root):
                 ))
                 settings.pp_json(my_final)
 
-        settings.save_json_to_file(settings.filename)
+        settings.save_event(settings.filename)
 
         # cleanup
         child.destroy()
 
 
         if debuglevel >= 2:
-            my_logger.info('{time}, event.open_event_screen.save_Main_Event_json_data_to_file Completed '.format(
+            my_logger.info('{time}, event.open_event_screen.save_Main_Event_json_data_to_file.Completed '.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
@@ -383,7 +383,7 @@ def open_event_screen(root):
     ###################################################################################################
 
     if debuglevel >= 1:
-        my_logger.info('{time}, event.open_event_screen Called '.format(
+        my_logger.info('{time}, event.open_event_screen.Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
@@ -498,7 +498,7 @@ def open_event_screen(root):
 
     trv_qual.heading(1, text="Target #",        anchor="w")
     trv_qual.heading(2, text="QB",              anchor="center")
-    trv_qual.heading(3, text="Distance (m)",    anchor="center")
+    trv_qual.heading(3, text="Distance (yrds)", anchor="center")
     trv_qual.heading(4, text="Target Size",     anchor="center")
     trv_qual.column("#1", anchor="w", width=60, stretch=True)
     trv_qual.column("#2", anchor="w", width=100, stretch=True)
@@ -522,9 +522,9 @@ def open_event_screen(root):
     trv_finals.grid(row=1, column=0, rowspan=5, columnspan=9)
     # Make space for a "Add" and "Delete" button
 
-    trv_finals.heading(1, text="Target #",      anchor="w")
-    trv_finals.heading(2, text="Distance (m)",  anchor="center")
-    trv_finals.heading(3, text="Target Size",   anchor="center")
+    trv_finals.heading(1, text="Target #",          anchor="w")
+    trv_finals.heading(2, text="Distance (yrds)",   anchor="center")
+    trv_finals.heading(3, text="Target Size",       anchor="center")
     trv_finals.column("#1", anchor="w", width=60, stretch=True)
     trv_finals.column("#2", anchor="w", width=150, stretch=True)
     trv_finals.column("#3", anchor="w", width=150, stretch=True)
@@ -580,59 +580,10 @@ def open_event_screen(root):
     # Add Treeview (and buttons Add/Edit/Delete) to define Qualifying and Final distances.
 
     if debuglevel >= 1:
-        my_logger.info('{time}, event.open_event_screen Completed '.format(
+        my_logger.info('{time}, event.open_event_screen.Completed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
 # end open_event_screen
 
 
-def load_event_json_from_file(file):
-
-    if debuglevel >= 1:
-        my_logger.info('{time}, event.load_event_json_from_file Called '.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-        my_logger.info('{time}, event.load_event_json_from_file.Loading file: {file}'.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            file=file
-        ))
-
-    with open(file, "r") as fh:
-        my_event_list               = json.load(fh)
-        settings.my_event_image     = my_event_list["image"]
-        my_qualifying_target_list   = my_event_list["qualifying"]
-        my_finals_target_list       = my_event_list["final"]
-        my_shooter_list             = my_event_list["shooters"]
-
-    fh.close
-
-    if echojson == 1:
-        if debuglevel >= 2:
-            my_logger.info('{time}, event.load_event_json_from_file.Printing my_event_list'.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-
-            print("------ my_event_list ------")
-            settings.pp_json(my_event_list)
-
-            print("------ my_qualifying_target_list ------")
-            settings.pp_json(my_qualifying_target_list)
-
-            print("------ my_finals_target_list ------")
-            settings.pp_json(my_finals_target_list)
-
-            print("------ my_shooter_list ------")
-            settings.pp_json(my_shooter_list)
-
-            print("--------------------------------")
-
-    if debuglevel >= 1:
-        my_logger.info('{time}, event.load_event_json_from_file Completed '.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-    return my_event_list
-
-# end load_event_json_from_file
