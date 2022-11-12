@@ -22,7 +22,7 @@ __email__   = "georgelza@gmail.com"
 __version__ = "0.0.1"
 
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk,Scrollbar
 from datetime import datetime
 from tkinter import messagebox
 
@@ -159,7 +159,7 @@ def load_all_shooters(main_window):
 
     child = Toplevel(main_window)
     child.title = "Shooters"
-    child.geometry("1000x700")
+    child.geometry("1140x700")
     child.configure(bg=frame_bg)
 
     tree_frame = Frame(child)
@@ -190,7 +190,9 @@ def load_all_shooters(main_window):
     btnNewRecord = Button(tree_frame, text="Add New", bg="#34d2eb", padx=2, pady=3, command=lambda: make_new_shooter_record())
     btnNewRecord.grid(row=0, column=0, sticky="w")
 
-    trv_shooters = ttk.Treeview(tree_frame, columns=(1, 2, 3, 4, 5, 6, 7, 8, 9), show="headings", height="16")
+    yscrollbar = ttk.Scrollbar(tree_frame, orient='vertical')
+
+    trv_shooters = ttk.Treeview(tree_frame, yscrollcommand=yscrollbar.set, columns=(1, 2, 3, 4, 5, 6, 7, 8, 9), show="headings", height="16")
     trv_shooters.grid(row=1, column=0, rowspan=16, columnspan=9)
 
     trv_shooters.heading(1, text="Action",       anchor="w")
@@ -203,17 +205,20 @@ def load_all_shooters(main_window):
     trv_shooters.heading(8, text="Team",         anchor="center")
     trv_shooters.heading(9, text="Spotter",      anchor="center")
 
-    trv_shooters.column("#1", anchor="w", width=100, stretch=True)
-    trv_shooters.column("#2", anchor="w", width=270, stretch=True)
-    trv_shooters.column("#3", anchor="w", width=140, stretch=False)
+    trv_shooters.column("#1", anchor="w", width=50, stretch=True)
+    trv_shooters.column("#2", anchor="w", width=70, stretch=True)
+    trv_shooters.column("#3", anchor="w", width=150, stretch=False)
     trv_shooters.column("#4", anchor="w", width=140, stretch=False)
     trv_shooters.column("#5", anchor="w", width=140, stretch=False)
     trv_shooters.column("#6", anchor="w", width=140, stretch=False)
-    trv_shooters.column("#7", anchor="w", width=140, stretch=False)
+    trv_shooters.column("#7", anchor="w", width=150, stretch=False)
     trv_shooters.column("#8", anchor="w", width=140, stretch=False)
     trv_shooters.column("#9", anchor="w", width=140, stretch=False)
 
     tree_frame.grid(row=0, column=0)
+
+    yscrollbar.configure(command=trv_shooters.yview())
+    yscrollbar.grid(row=0, column=9, rowspan=10, sticky=NS)
 
     def remove_all_data_from_trv_shooter():
 

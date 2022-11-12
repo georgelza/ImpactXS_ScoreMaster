@@ -21,15 +21,11 @@ __author__  = "George Leonard"
 __email__   = "georgelza@gmail.com"
 __version__ = "0.0.1"
 
-import time
 from tkinter import *
-from tkinter import ttk
+from tkinter import ttk, Scrollbar
 import tkinter as tk
 from datetime import datetime
 from PIL import Image, ImageTk
-
-import uuid
-import json
 import os
 
 import settings
@@ -77,7 +73,7 @@ def load_all_shooters_scores(main_window):
 
     child = Toplevel(main_window)
     child.title = "Scores"
-    child.geometry("1110x800")
+    child.geometry("1130x800")
     child.configure(bg=frame_bg)
 
     header_frame    = Frame(child)
@@ -108,9 +104,11 @@ def load_all_shooters_scores(main_window):
     label1.image        = img1
     label1.pack(side=tk.LEFT)
 
+    yscrollbar = ttk.Scrollbar(tree_frame, orient='vertical')
+
     columns = ("Place", "", "Shooter", "Spotter", "Caliber", "Qualifying", "Finals", "Total")
 
-    trv_all_shooter_scores = ttk.Treeview(tree_frame, columns=columns, show="headings", height="20")
+    trv_all_shooter_scores = ttk.Treeview(tree_frame, yscrollcommand=yscrollbar.set, columns=columns, show="headings", height="20")
     trv_all_shooter_scores.grid(row=0, column=0, rowspan=20, columnspan=7, sticky=E+W)
 
     trv_all_shooter_scores.heading("Place",      text="Place",      anchor="w")
@@ -131,6 +129,8 @@ def load_all_shooters_scores(main_window):
     trv_all_shooter_scores.column("#7", anchor="w", width=110, stretch=False)
     trv_all_shooter_scores.column("#8", anchor="w", width=110, stretch=False)
 
+    yscrollbar.configure(command=trv_all_shooter_scores.yview())
+    yscrollbar.grid(row=0, column=8, rowspan=10, sticky=NS)
 
     # Read the Image
     image = Image.open("images/impactxs.png")
