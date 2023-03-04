@@ -1,6 +1,6 @@
-. ./.exports
+#!/bin/bash
 
-# Consolas or Arial
-# Ghost White or cadet blue
+# Configure environment
+. ./.exps
 
 python3 main.py

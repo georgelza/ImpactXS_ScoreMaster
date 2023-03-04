@@ -22,7 +22,7 @@ __email__   = "georgelza@gmail.com"
 __version__ = "0.0.1"
 
 from tkinter import *
-from tkinter import ttk,Scrollbar
+from tkinter import ttk, Scrollbar
 from datetime import datetime
 from tkinter import messagebox
 

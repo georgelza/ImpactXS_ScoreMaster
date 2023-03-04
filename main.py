@@ -33,6 +33,7 @@ from PIL import Image, ImageTk
 from datetime import datetime
 
 import uuid
+
 import settings
 import pymsgbox
 
@@ -42,6 +43,7 @@ settings.init()
 import event
 import shooters
 import scores_editor
+import scores_display
 
 global main_window
 
@@ -191,28 +193,29 @@ def load_all_shooters():
 def shooter_score_editor():
 
     if debuglevel >= 1:
-        my_logger.info('{time}, main.load_all_scores.Called '.format(
+        my_logger.info('{time}, main.shooter_score_editor.Called '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
     if settings.first_start_mode == False:
-        scores_editor.load_all_shooters_scores(main_window)
+        scores_editor.edit_all_shooters_scores(main_window)
 
     else:
         # popup message
         pymsgbox.alert('Please load an Event first', 'Error')
 
         if debuglevel >= 1:
-            my_logger.info('{time}, main.load_all_scores.Bypassing, no event loaded yet!!!'.format(
+            my_logger.info('{time}, main.shooter_score_editor.Bypassing, no event loaded yet!!!'.format(
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
     if debuglevel >= 1:
-        my_logger.info('{time}, main.load_all_scores.Completed '.format(
+        my_logger.info('{time}, main.shooter_score_editor.Completed '.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
 # end shooter_score_editor
+
 
 def shooter_score_displayer():
 
@@ -222,11 +225,7 @@ def shooter_score_displayer():
         ))
 
     if settings.first_start_mode == False:
-        # Place code for Score Displayer here...
-        # allow user to order by qualifying and final score...
-        # find out from Brendon if file is a sum of qual and final...!!!
-
-        pass
+        scores_display.display_all_shooters_scores(main_window)
 
     else:
         # popup message
@@ -243,6 +242,32 @@ def shooter_score_displayer():
         ))
 
 # end shooter_score_displayer
+
+
+def save_json_to_excelfile():
+
+    # Get export file
+    if debuglevel >= 1:
+        my_logger.info('{time}, main.save_json_to_excelfile.Called '.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+    filename = settings.file_dialog("Save_to_Excel")
+
+    if debuglevel >= 1:
+        my_logger.info('{time}, main.save_json_to_excelfile.filenamr {filename} '.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+            filename=filename
+        ))
+
+    settings.save_json_to_excelfile(filename)
+
+    if debuglevel >= 1:
+        my_logger.info('{time}, main.save_json_to_excelfile.Completed '.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+#end save_json_to_excelfile
 
 def main():
 
@@ -289,6 +314,9 @@ def main():
 
     # display all the scores, allow the operator to select the display order, ranked by qualifying or finals or total
     fileMenu.add_command(label="Scores Displayer", command=shooter_score_displayer)
+
+    # display all the scores, allow the operator to select the display order, ranked by qualifying or finals or total
+    fileMenu.add_command(label="Export to Excel", command=save_json_to_excelfile)
 
     fileMenu.add_separator()
     fileMenu.add_command(label="Exit", command=exitProgram)

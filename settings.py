@@ -25,20 +25,22 @@ from datetime import datetime
 from tkinter import filedialog as fd
 from tkinter import ttk
 import tkinter as tk
+from io import BytesIO
 
 import logging
 import os, socket, uuid, sys, json, time
 
+import xlsxwriter
 
 def init():
 
-    global my_logger
 
     global first_start_mode
     global my_event_list
     global my_qualifying_target_list
     global my_finals_target_list
     global my_shooter_list
+    global my_logger
 
     global appname
     global debuglevel
@@ -469,6 +471,229 @@ def save_json_to_file(myfile, my_event):
 
 #end save_json_to_file
 
+def save_json_to_excelfile(filename):
+
+    global my_event_list
+    global my_qualifying_list
+    global my_final_list
+    global my_shooter_list
+
+    sheet               = my_event_list["distance"]
+    my_qualifying_list  = my_event_list["qualifying"]
+    my_final_list       = my_event_list["final"]
+    my_shooter_list     = my_event_list["shooters"]
+
+    qColRoot            = 9
+    qRowRoot            = 3
+    fColRoot            = 22
+    fRowRoot            = 3
+    shooterDataRoot     = fRowRoot + 7
+
+    if debuglevel >= 2:
+        my_logger.info('{time}, settings.save_json_to_excelfile.Called'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+    try:
+
+        # Open file
+        workbook = xlsxwriter.Workbook(filename)
+        if debuglevel >= 2:
+            my_logger.info('{time}, settings.save_json_to_excelfile.Workbook opened {workbook}'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                workbook=filename
+            ))
+
+        worksheet = workbook.add_worksheet(sheet)
+        if debuglevel >= 2:
+            my_logger.info('{time}, settings.save_json_to_excelfile.Worksheet Added'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+        # Write to Excel
+
+        # King Image
+        img_name = my_event_list["image"]
+        file = open("images/"+img_name, 'rb')
+        data = BytesIO(file.read())
+        file.close()
+        worksheet.insert_image('A1', filename, {'image_data': data, 'x_scale': 0.25, 'y_scale': 0.25})
+
+        # Impact Image
+        img_name = "impactxs.png"
+        file = open("images/"+img_name, 'rb')
+        data = BytesIO(file.read())
+        file.close()
+        worksheet.insert_image('D1', filename, {'image_data': data, 'x_scale': 0.2, 'y_scale': 0.35})
+
+
+        # https://xlsxwriter.readthedocs.io/format.html#set_num_format
+        cell_bold_format = workbook.add_format({'bold': True, 'font_color': 'red'})
+        # or
+        #cell_bold_format.set_bold()
+        #cell_bold_format.set_font_color('red')
+
+        # => Headers
+        worksheet.write(qRowRoot + 0, qColRoot - 1, my_event_list["start_date"] + " -> " + my_event_list["end_date"])
+        worksheet.write(qRowRoot + 1, qColRoot - 1, my_event_list["name"])
+        worksheet.write(qRowRoot + 2, qColRoot - 1, "Target Size: (mm)", cell_bold_format)
+        worksheet.write(qRowRoot + 3, qColRoot - 1, "Meter:", cell_bold_format)
+        worksheet.write(qRowRoot + 4, qColRoot - 1, "Yards:", cell_bold_format)
+
+        # Create a format to use in the merged range.
+        red_merge_format = workbook.add_format({
+            'bold': 1,
+            'align': 'center',
+            'valign': 'vcenter',
+            'font_color': 'red'
+        })
+
+        blck_merge_format = workbook.add_format({
+            'bold': 1,
+            'align': 'center',
+            'valign': 'vcenter',
+            'font_color': 'black'
+        })
+
+        s1 = '{sc}{row}:{ec}{row}'.format(sc=xlsxwriter.utility.xl_col_to_name(1), ec=xlsxwriter.utility.xl_col_to_name(2), row=fRowRoot + 6)
+        s2 = '{sc}{row}:{ec}{row}'.format(sc=xlsxwriter.utility.xl_col_to_name(3), ec=xlsxwriter.utility.xl_col_to_name(4), row=fRowRoot + 6)
+        s3 = '{sc}{row}:{ec}{row}'.format(sc=xlsxwriter.utility.xl_col_to_name(5), ec=xlsxwriter.utility.xl_col_to_name(6), row=fRowRoot + 6)
+        s4 = '{sc}{row}:{ec}{row}'.format(sc=xlsxwriter.utility.xl_col_to_name(7), ec=xlsxwriter.utility.xl_col_to_name(8), row=fRowRoot + 6)
+
+        worksheet.merge_range(s1, "PLACE", red_merge_format)
+        worksheet.merge_range(s2, "SHOOTER", red_merge_format)
+        worksheet.merge_range(s3, "SPOTTER", red_merge_format)
+        worksheet.merge_range(s4, "CALIBRE", red_merge_format)
+
+        x = 0
+        while x < int(my_qualifying_list["no_of_targets"]):
+            if my_qualifying_list["target_list"][x]["target_no"] == 0:
+                worksheet.write(qRowRoot + 2, qColRoot, my_qualifying_list["target_list"][x]["target_size"])
+                worksheet.write(qRowRoot + 3, qColRoot, f'{(my_qualifying_list["target_list"][x]["distance"] * 0.9144):.0f}')
+                worksheet.write(qRowRoot + 4, qColRoot, str(my_qualifying_list["target_list"][x]["distance"]))
+                worksheet.write(qRowRoot + 5, qColRoot, "CB", cell_bold_format)
+
+            else:
+                sc = qColRoot + 1+(int(my_qualifying_list["no_of_shots"]) * (x-1))
+                ec = sc + int(my_qualifying_list["no_of_shots"])-1
+                start_col = xlsxwriter.utility.xl_col_to_name(sc)
+                end_col = xlsxwriter.utility.xl_col_to_name(ec)
+
+                s1 = '{sc}{row}:{ec}{row}'.format(sc=start_col, ec=end_col, row=qRowRoot + 3)
+                s2 = '{sc}{row}:{ec}{row}'.format(sc=start_col, ec=end_col, row=qRowRoot + 4)
+                s3 = '{sc}{row}:{ec}{row}'.format(sc=start_col, ec=end_col, row=qRowRoot + 5)
+                s4 = '{sc}{row}:{ec}{row}'.format(sc=start_col, ec=end_col, row=qRowRoot + 6)
+
+                worksheet.merge_range(s1, my_qualifying_list["target_list"][x]["target_size"], blck_merge_format)
+                worksheet.merge_range(s2, f'{(my_qualifying_list["target_list"][x]["distance"] * 0.9144):.0f}', blck_merge_format)
+                worksheet.merge_range(s3, str(my_qualifying_list["target_list"][x]["distance"]), blck_merge_format)
+                worksheet.merge_range(s4, "T" + str(my_qualifying_list["target_list"][x]["target_no"]), red_merge_format)
+
+            x += 1
+        # end while
+
+        y = 0
+        while y < int(my_final_list["no_of_targets"]):
+            sc = fColRoot + (int(my_final_list["no_of_shots"]) * y)
+            ec = sc + int(my_final_list["no_of_shots"]) - 1
+            start_col = xlsxwriter.utility.xl_col_to_name(sc)
+            end_col = xlsxwriter.utility.xl_col_to_name(ec)
+
+            s1 = '{sc}{row}:{ec}{row}'.format(sc=start_col, ec=end_col, row=qRowRoot + 3)
+            s2 = '{sc}{row}:{ec}{row}'.format(sc=start_col, ec=end_col, row=qRowRoot + 4)
+            s3 = '{sc}{row}:{ec}{row}'.format(sc=start_col, ec=end_col, row=qRowRoot + 5)
+            s4 = '{sc}{row}:{ec}{row}'.format(sc=start_col, ec=end_col, row=qRowRoot + 6)
+
+            worksheet.merge_range(s1, my_final_list["target_list"][y]["target_size"], blck_merge_format)
+            worksheet.merge_range(s2, f'{(my_final_list["target_list"][y]["distance"] * 0.9144):.0f}', blck_merge_format)
+            worksheet.merge_range(s3, str(my_final_list["target_list"][y]["distance"]), blck_merge_format)
+            worksheet.merge_range(s4, "T" + str(my_final_list["target_list"][y]["target_no"] + int(my_qualifying_list["no_of_targets"])), red_merge_format)
+
+            y += 1
+        # end while
+
+        worksheet.write(fRowRoot + 5, fColRoot + (int(my_final_list["no_of_shots"]) * (y-1))+int(my_final_list["no_of_shots"]), "SCORE", cell_bold_format)
+
+        # =>  Shooter / Score Data
+        fShooters = len(my_shooter_list)
+        a = 0
+        while a < fShooters:
+            qscores = my_shooter_list[a]["scores"]["qualifying"]
+            fscores = my_shooter_list[a]["scores"]["final"]
+            total = my_shooter_list[a]["scores"]["total_score"]
+
+            shooterDataRow = shooterDataRoot + a
+            print("Shooter Data ", a, " ",shooterDataRow)
+
+            s1 = '{sc}{row}:{ec}{row}'.format(sc=xlsxwriter.utility.xl_col_to_name(qColRoot - 8), ec=xlsxwriter.utility.xl_col_to_name(qColRoot - 8 + 1), row=shooterDataRow)
+            s2 = '{sc}{row}:{ec}{row}'.format(sc=xlsxwriter.utility.xl_col_to_name(qColRoot - 6), ec=xlsxwriter.utility.xl_col_to_name(qColRoot - 6 + 1), row=shooterDataRow)
+            s3 = '{sc}{row}:{ec}{row}'.format(sc=xlsxwriter.utility.xl_col_to_name(qColRoot - 4), ec=xlsxwriter.utility.xl_col_to_name(qColRoot - 4 + 1), row=shooterDataRow)
+            s4 = '{sc}{row}:{ec}{row}'.format(sc=xlsxwriter.utility.xl_col_to_name(qColRoot - 2), ec=xlsxwriter.utility.xl_col_to_name(qColRoot - 2 + 1), row=shooterDataRow)
+
+            worksheet.merge_range(s1, "")
+            worksheet.merge_range(s2, my_shooter_list[a]["first_name"] + " " + my_shooter_list[a]["last_name"])
+            worksheet.merge_range(s3, my_shooter_list[a]["spotter"])
+            worksheet.merge_range(s4, my_shooter_list[a]["equipment"]["rifle"]["caliber"])
+
+            print("qScores ", a, " ", shooterDataRow)
+
+            ColInc = 0
+            # Qualifying scores
+            for score in qscores:
+                for shots in score["shots"]:
+                    worksheet.write(shooterDataRow-1, qColRoot + ColInc, shots["hit_miss"])
+                    ColInc += 1
+                #end for
+            #end for
+
+            print("fScores ", a, " ",shooterDataRow)
+
+            # Final Scores
+            for score in fscores:
+                for shots in score["shots"]:
+                    worksheet.write(shooterDataRow-1, qColRoot + ColInc, shots["hit_miss"])
+                    ColInc += 1
+                #end for
+            #end for
+
+            # Total Score
+            worksheet.write(shooterDataRow-1, qColRoot + ColInc, total)
+
+            a += 1
+        # end while
+
+        if debuglevel >= 2:
+            my_logger.info('{time}, settings.save_json_to_excelfile.Worksheet writes completed'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+        # => Footers
+
+
+    except:  # handle other exceptions such as attribute errors
+        my_logger.error('{time}, settings.save_json_to_excelfile.Unexpected error: {file}, {error}"'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+            file=filename,
+            error=sys.exc_info()[0]
+        ))
+
+    finally:
+        # Close file
+        workbook.close()
+        if debuglevel >= 2:
+            my_logger.info('{time}, settings.save_json_to_excelfile.Worksheet Closed'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+    if debuglevel > 2:
+        pp_json(my_event_list)
+
+    if debuglevel >= 2:
+        my_logger.info('{time}, settings.save_json_to_excelfile.Completed'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+#end save_json_to_excelfile
 
 # Refresh data in memory from file (include updating global settings variable),
 # shooters include their personal data,
@@ -508,6 +733,7 @@ def file_dialog(mode):
 
     filetypes = (
         ('json files', '*.json'),
+        ('Excel files', '*.xlsm'),
         ('All files', '*.*')
     )
 
@@ -533,6 +759,18 @@ def file_dialog(mode):
             filetypes=filetypes)
 
     elif mode == "Initial_Event_Save":
+        filename = fd.asksaveasfile(
+            title='Save file As',
+            initialdir=directory + '/events',
+            filetypes=filetypes)
+
+        filename = filename.name
+
+    elif mode == "Save_to_Excel":
+        filetypes = (
+            ('Excel files', '*.xlsx'),
+        )
+
         filename = fd.asksaveasfile(
             title='Save file As',
             initialdir=directory + '/events',
