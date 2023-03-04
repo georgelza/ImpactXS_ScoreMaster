@@ -143,6 +143,9 @@ def display_all_shooters_scores(main_window):
                 time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
             ))
 
+        # paint = true
+        # while paint:
+        #
         # Create new ordered array
         ordered_my_shooter_list = sorted(settings.my_shooter_list, key=sort_by_key, reverse=True)
 
@@ -169,6 +172,9 @@ def display_all_shooters_scores(main_window):
 
             rowIndex += 1
         #end for
+
+        #time.sleep(auto_refresh)
+        #end while
 
         if debuglevel >= 2:
             my_logger.info('{time}, scores_display.display_all_shooters_scores.load_all_shooter_scores_trv_with_json.Completed'.format(
