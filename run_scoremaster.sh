@@ -1,6 +1,5 @@
 #!/bin/bash
 
 # Configure environment
-. ./.exps
 
-python3 main.py
+python3 scoremaster.py

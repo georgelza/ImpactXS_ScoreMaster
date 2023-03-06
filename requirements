@@ -3,3 +3,4 @@ Pillow
 tkcalendar
 pymsgbox
 xlsxwriter
+python-dotenv

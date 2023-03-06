@@ -26,7 +26,6 @@ from tkinter import ttk
 import tkinter as tk
 from datetime import datetime
 from PIL import Image, ImageTk
-import time
 
 import settings
 

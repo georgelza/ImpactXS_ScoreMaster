@@ -17,7 +17,7 @@ venv: venv/bin/activate
 	. ./venv/bin/activate
 
 run: venv
-	$(PYTHON) main.py
+	./run_scoremaster.sh
 
 upgrade:
 	pip install --upgrade pip
