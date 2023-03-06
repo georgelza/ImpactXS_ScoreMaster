@@ -40,6 +40,8 @@ import pymsgbox
 # Initialize Global Variables
 settings.init()
 
+import events
+
 import event
 import shooters
 import scores_editor
@@ -100,9 +102,13 @@ impactxs = ImageTk.PhotoImage(resize_impactxs)
 labelimpactxs = Label(image=impactxs)
 labelimpactxs.image = impactxs
 labelimpactxs.place(x=0, y=450)
+11
 
-# Finish Building Splash screen
+# Little bit of event notification/calling, when ever we click save of the score editor screen we want to execute the
+# events registered, might need to move this to the function calls below, in addition to a deregister function, so that we don't call the function/screen/trv refresh wheb
 
+events.register_events("edit_all_shooters_scores", scores_display.paintScoreTrv)
+events.register_events("edit_all_shooters_scores", scores_editor.paintScoreTrv)
 
 # Our Functions
 def exitProgram():

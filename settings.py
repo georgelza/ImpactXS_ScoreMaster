@@ -34,7 +34,7 @@ import xlsxwriter
 
 def init():
 
-
+    global events
     global first_start_mode
     global my_event_list
     global my_qualifying_target_list
@@ -48,7 +48,6 @@ def init():
     global echojson
     global splashtime
     global score_viewer
-    global auto_refresh
     global currentRowIndex
     global filename
     global my_event_image
@@ -67,6 +66,10 @@ def init():
     global lblframefont
     global lblframefont_size
 
+    global trv_edt_shooter_scores
+    global trv_dsp_shooter_scores
+    global dsp_shooter_scores
+
     # Our Lists of fields for the event, qualifying round setup and final round setup and then a
     # lists of shooters...
     # all collapsed into one json structure when written to a file.
@@ -75,6 +78,11 @@ def init():
     my_qualifying_target_list   = []
     my_finals_target_list       = []
     my_shooter_list             = []
+
+    events = {}
+    trv_edt_shooter_scores = None
+    trv_dsp_shooter_scores = None
+    dsp_shooter_scores     = False
 
     appname             = "ImpactXS - ScoreMaster"
 
@@ -87,7 +95,6 @@ def init():
     my_event_image      = ""
     event_mode          = ""
     score_viewer        = config_params["score_viewer"]
-    auto_refresh        = config_params["auto_refresh"]
 
     # Global colors, to be moved to the environment variables, config_params
     frame_bg            = config_params["frame_bg"]
@@ -231,7 +238,6 @@ def getAppEnvVariables():
     Params['echojson']                  = int(os.environ.get("ECHOJSON"))
     Params['splashtime']                = int(os.environ.get("SPLASHTIME"))
     Params['score_viewer']              = os.environ.get('SCORE_VIEWER')
-    Params["auto_refresh"]              = int(os.environ.get("AUTOREFRESH"))
 
     Params['frame_bg']                  = os.environ.get("frame_bg")
     Params['label_text_bg']             = os.environ.get("label_text_bg")
@@ -302,7 +308,6 @@ def print_config(config_params):
         my_logger.info('**    ECHOJSON              : ' + str(config_params['echojson']))
         my_logger.info('**    SPLASHTIME            : ' + str(config_params['splashtime']))
         my_logger.info('**    SCORE_VIEWER          : ' + str(config_params['score_viewer']))
-        my_logger.info('**    AUTO_REFRESH          : ' + str(config_params['auto_refresh']))
         my_logger.info('**')
         my_logger.info('**    frame_bg              : ' + str(config_params['frame_bg']))
         my_logger.info('**    label_text_bg         : ' + str(config_params['label_text_bg']))
@@ -380,7 +385,7 @@ def update_shooter(myfile, my_shooter):
         ))
 # end save_shooter
 
-
+# Build the my_event_list array by combining the various child structures.
 def save_event(myfile):
 
     global my_event_list
@@ -416,7 +421,7 @@ def save_event(myfile):
 
 # end save_event
 
-
+# Save my_event to file, do the physical persistance.
 def save_json_to_file(myfile, my_event):
 
     if debuglevel >= 2:
@@ -471,6 +476,14 @@ def save_json_to_file(myfile, my_event):
 
 #end save_json_to_file
 
+
+# Declare function to return the sorted data based on name,
+# this is used by scores_display sorting of array and by save_json_to_excelfile sorted
+def sort_by_key(list):
+    return list['scores']["total_score"]
+
+
+# Write the shooters and their scores and the various target distances to an excel file, nicely ordered by shooters total_score
 def save_json_to_excelfile(filename):
 
     global my_event_list
@@ -478,10 +491,12 @@ def save_json_to_excelfile(filename):
     global my_final_list
     global my_shooter_list
 
+    ordered_my_shooter_list = sorted(my_event_list, key=sort_by_key, reverse=True)
+
     sheet               = my_event_list["distance"]
     my_qualifying_list  = my_event_list["qualifying"]
     my_final_list       = my_event_list["final"]
-    my_shooter_list     = my_event_list["shooters"]
+    my_shooter_list     = ordered_my_shooter_list
 
     qColRoot            = 9
     qRowRoot            = 3
@@ -804,7 +819,7 @@ def file_dialog(mode):
 
 def get_target_distance(target_number, mode):
 
-    if debuglevel >= 1:
+    if debuglevel >= 2:
         my_logger.info('{time}, settings.get_target_distance.Called'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
@@ -824,7 +839,7 @@ def get_target_distance(target_number, mode):
             distance=distance
         ))
 
-    if debuglevel >= 1:
+    if debuglevel >= 2:
         my_logger.info('{time}, settings.get_target_distance.Completed'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))

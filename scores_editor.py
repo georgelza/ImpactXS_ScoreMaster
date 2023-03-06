@@ -28,7 +28,7 @@ from datetime import datetime
 from PIL import Image, ImageTk
 import os
 
-import settings
+import settings, events, scores_display
 
 my_logger       = settings.my_logger
 debuglevel      = settings.debuglevel
@@ -40,7 +40,7 @@ echojson        = settings.echojson
 def edit_all_shooters_scores(main_window):
 
     global score_viewer
-    global trv_all_shooter_scores
+    global trv_edt_shooter_scores
     global label_text_bg
     global label_text_fg
     global entry_text_bg
@@ -92,6 +92,7 @@ def edit_all_shooters_scores(main_window):
             directory=directory
         ))
 
+    # Top Banner / Header
     image_file = "images/" + settings.my_event_image
     # Read the Image
     image               = Image.open(image_file)
@@ -107,30 +108,31 @@ def edit_all_shooters_scores(main_window):
 
     columns = ("Place", "", "Shooter", "Spotter", "Caliber", "Qualifying", "Finals", "Total")
 
-    trv_all_shooter_scores = ttk.Treeview(tree_frame, yscrollcommand=yscrollbar.set, columns=columns, show="headings", height="20")
-    trv_all_shooter_scores.grid(row=0, column=0, rowspan=20, columnspan=7, sticky=E+W)
+    trv_edt_shooter_scores = ttk.Treeview(tree_frame, yscrollcommand=yscrollbar.set, columns=columns, show="headings", height="20")
+    trv_edt_shooter_scores.grid(row=0, column=0, rowspan=20, columnspan=7, sticky=E+W)
 
-    trv_all_shooter_scores.heading("Place",      text="Place",      anchor="w")
-    trv_all_shooter_scores.heading("",           text="",           anchor="center")
-    trv_all_shooter_scores.heading("Shooter",    text="Shooter",    anchor="center")
-    trv_all_shooter_scores.heading("Spotter",    text="Spotter",    anchor="center")
-    trv_all_shooter_scores.heading("Caliber",    text="Caliber",    anchor="center")
-    trv_all_shooter_scores.heading("Qualifying", text="Qualifying", anchor="center")
-    trv_all_shooter_scores.heading("Finals",     text="Finals",     anchor="center")
-    trv_all_shooter_scores.heading("Total",      text="Total",      anchor="center")
+    trv_edt_shooter_scores.heading("Place",      text="Place",      anchor="w")
+    trv_edt_shooter_scores.heading("",           text="",           anchor="center")
+    trv_edt_shooter_scores.heading("Shooter",    text="Shooter",    anchor="center")
+    trv_edt_shooter_scores.heading("Spotter",    text="Spotter",    anchor="center")
+    trv_edt_shooter_scores.heading("Caliber",    text="Caliber",    anchor="center")
+    trv_edt_shooter_scores.heading("Qualifying", text="Qualifying", anchor="center")
+    trv_edt_shooter_scores.heading("Finals",     text="Finals",     anchor="center")
+    trv_edt_shooter_scores.heading("Total",      text="Total",      anchor="center")
 
-    trv_all_shooter_scores.column("#1", anchor="w", width=50,  stretch=True)
-    trv_all_shooter_scores.column("#2", anchor="w", width=1,   stretch=True)
-    trv_all_shooter_scores.column("#3", anchor="w", width=259, stretch=True)
-    trv_all_shooter_scores.column("#4", anchor="w", width=250, stretch=True)
-    trv_all_shooter_scores.column("#5", anchor="w", width=200, stretch=False)
-    trv_all_shooter_scores.column("#6", anchor="w", width=110, stretch=False)
-    trv_all_shooter_scores.column("#7", anchor="w", width=110, stretch=False)
-    trv_all_shooter_scores.column("#8", anchor="w", width=110, stretch=False)
+    trv_edt_shooter_scores.column("#1", anchor="w", width=50,  stretch=True)
+    trv_edt_shooter_scores.column("#2", anchor="w", width=1,   stretch=True)
+    trv_edt_shooter_scores.column("#3", anchor="w", width=259, stretch=True)
+    trv_edt_shooter_scores.column("#4", anchor="w", width=250, stretch=True)
+    trv_edt_shooter_scores.column("#5", anchor="w", width=200, stretch=False)
+    trv_edt_shooter_scores.column("#6", anchor="w", width=110, stretch=False)
+    trv_edt_shooter_scores.column("#7", anchor="w", width=110, stretch=False)
+    trv_edt_shooter_scores.column("#8", anchor="w", width=110, stretch=False)
 
-    yscrollbar.configure(command=trv_all_shooter_scores.yview())
+    yscrollbar.configure(command=trv_edt_shooter_scores.yview())
     yscrollbar.grid(row=0, column=8, rowspan=10, sticky=NS)
 
+    # Bottom Banner / Footer
     # Read the Image
     image = Image.open("images/impactxs.png")
     # Resize the image using resize() method
@@ -141,43 +143,9 @@ def edit_all_shooters_scores(main_window):
     label2.image = img2
     label2.grid(row=0, column=0, padx=5, pady=5)
 
-    def load_all_shooter_scores_trv_with_json():
+    settings.trv_edt_shooter_scores = trv_edt_shooter_scores
 
-        for item in trv_all_shooter_scores.get_children():
-            trv_all_shooter_scores.delete(item)
-
-        if debuglevel >= 2:
-            my_logger.info('{time}, scores_editor.edit_all_shooters_scores.load_all_shooter_scores_trv_with_json.Called'.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-
-        rowIndex = 1
-
-        for key in settings.my_shooter_list:
-
-            equipment   = key["equipment"]                          # Structure with equipment
-            rifle       = equipment['rifle']                        # sub structure with rifle information
-            scores      = key["scores"]                             # structure with scores
-
-            trv_all_shooter_scores.insert('', index='end', iid=rowIndex, text="",
-                                          values=(rowIndex,
-                                                  key["id"],
-                                                  key["first_name"].strip() + " " + key["last_name"].strip(),
-                                                  key["spotter"],
-                                                  rifle["caliber"],
-                                                  scores['qualifying_score'],
-                                                  scores['final_score'],
-                                                  scores['total_score']))
-
-            rowIndex = rowIndex + 1
-
-        if debuglevel >= 2:
-            my_logger.info('{time}, scores_editor.edit_all_shooters_scores.load_all_shooter_scores_trv_with_json.Completed'.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-
-    # end load_all_shooter_scores_trv_with_json
-
+    paintScoreTrv()
 
     def MouseButtonUpCallBack(event):
 
@@ -187,7 +155,7 @@ def edit_all_shooters_scores(main_window):
             ))
 
         try:
-            currentRowIndex = trv_all_shooter_scores.selection()[0]
+            currentRowIndex = trv_edt_shooter_scores.selection()[0]
 
             my_logger.info(
                 '{time}, scores_editor.edit_all_shooters_scores.MouseButtonUpCallBack.Called Cur Row Index:{currentRowIndex}'.format(
@@ -195,7 +163,7 @@ def edit_all_shooters_scores(main_window):
                     currentRowIndex=currentRowIndex
                 ))
 
-            lastTuple = (trv_all_shooter_scores.item(currentRowIndex, 'values'))
+            lastTuple = (trv_edt_shooter_scores.item(currentRowIndex, 'values'))
             # Get from my_shooter_list dictionary the entire record matching the lastTuple[1], this is the id column
             my_row = settings.find_row_in_my_shooter_list(lastTuple[1])
             my_shooter = settings.my_shooter_list[my_row]
@@ -216,12 +184,15 @@ def edit_all_shooters_scores(main_window):
 
 
     # Lets design/pain the popup, this is what is opened when the user clicks on a shooter in the treeview.
+    # We're going to add a event here when this screen is saved to repaint the main shooters trv, aka update it.
     def open_popup(json_record, primary):
 
         qualification_score = StringVar()
         final_score         = StringVar()
         total_score         = StringVar()
 
+        # This is one of the 2 smaller treeviews, used to display the qualifying and the final scores
+        # It's a generic routine thats used for both.
         def load_score_trv_with_json(array_of_targets, tree, _mode):
 
             if debuglevel >= 2:
@@ -239,7 +210,6 @@ def edit_all_shooters_scores(main_window):
                 tree.delete(item)
 
             # end for item
-
             if debuglevel >= 3:
                 my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.load_score_trv_with_json Treeview cleaned ({mode})'.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
@@ -323,6 +293,7 @@ def edit_all_shooters_scores(main_window):
 
 
         # Lets first extract and push the values back to the settings.* arrays
+        # This helps us display the newest scored in score_display
         def update_scores_to_my_shooter_list():
 
             if debuglevel >= 2:
@@ -331,7 +302,7 @@ def edit_all_shooters_scores(main_window):
                 ))
             # end if
 
-            # In these routines we calculate/update the scores.
+            # In these routines we calculate/update and extract the scores from the trv, for the displayed shooter.
             q_score_json, q_score = extract_score_from_trv(trv_qualification_scores, "qual")
             f_score_json, f_score = extract_score_from_trv(trv_final_scores, "final")
             t_score = q_score + f_score
@@ -342,7 +313,7 @@ def edit_all_shooters_scores(main_window):
                 ))
             # end if
 
-            # save json structure for specific shooter back to file
+            # Find out which row in array the shooter is associated with
             my_row = settings.find_row_in_my_shooter_list(json_record["id"])
 
             if debuglevel >= 3:
@@ -351,11 +322,15 @@ def edit_all_shooters_scores(main_window):
                     ))
             # end if
 
+            # Update that row in array with the values of the shooter that we've been busy with
             settings.my_shooter_list[my_row]["scores"]["qualifying_score"]  = q_score
             settings.my_shooter_list[my_row]["scores"]["final_score"]       = f_score
             settings.my_shooter_list[my_row]["scores"]["total_score"]       = t_score
             settings.my_shooter_list[my_row]["scores"]["qualifying"]        = q_score_json
             settings.my_shooter_list[my_row]["scores"]["final"]             = f_score_json
+
+            # Update the entire event structure with the new shooters sub structure
+            settings.my_event_list["shooters"] = settings.my_shooter_list
 
             if debuglevel >= 2:
                 my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.update_scores_to_my_shooter_list.Completed '.format(
@@ -366,6 +341,7 @@ def edit_all_shooters_scores(main_window):
         # end update_scores_to_my_shooter_list
 
 
+        # Refresh the 2 smaller TRV's and then also the 3 totals, qualifying, final and totals scores displayed from settings.my_event_list as primary source
         def refresh_trv_scores():
 
             if debuglevel >= 2:
@@ -413,7 +389,6 @@ def edit_all_shooters_scores(main_window):
 
             # update displayed score: Qualification Round
             qualification_score.set(list_of_all_scores_for_shooter["qualifying_score"])
-
             if debuglevel >= 3:
                 my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.refresh_trv_scores Qualification Round: {qscore} '.format(
                         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
@@ -423,10 +398,6 @@ def edit_all_shooters_scores(main_window):
 
             # update displayed score: Final Round
             final_score.set(list_of_all_scores_for_shooter["final_score"])
-
-            # update displayed score: Total for both rounds
-            total_score.set(list_of_all_scores_for_shooter["total_score"])
-
             if debuglevel >= 3:
                 my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.refresh_trv_scores Final Round: {fscore} '.format(
                         time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
@@ -434,9 +405,18 @@ def edit_all_shooters_scores(main_window):
                     ))
             # end if
 
-            # reload the 2 treeviews with new data
-            load_score_trv_with_json(list_of_all_scores_for_shooter["qualifying"], trv_qualification_scores, "qual")
+            # update displayed score: Total for both rounds
+            total_score.set(list_of_all_scores_for_shooter["total_score"])
+            if debuglevel >= 3:
+                my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.refresh_trv_scores Total Score: {tscore} '.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                        tscore=total_score.get()
+                    ))
+            # end if
 
+            # reload the 2 treeviews with new data
+            # Load qualifying score trv
+            load_score_trv_with_json(list_of_all_scores_for_shooter["qualifying"], trv_qualification_scores, "qual")
             if debuglevel >= 3:
                 my_logger.info(
                     '{time}, scores_editor.edit_all_shooters_scores.open_popup.refresh_trv_scores Qual trv reloaded '.format(
@@ -444,8 +424,8 @@ def edit_all_shooters_scores(main_window):
                     ))
             # end if
 
+            # Load Final score trv
             load_score_trv_with_json(list_of_all_scores_for_shooter["final"], trv_final_scores, "final")
-
             if debuglevel >= 3:
                 my_logger.info(
                     '{time}, scores_editor.edit_all_shooters_scores.open_popup.refresh_trv_scores Final trv reloaded '.format(
@@ -461,49 +441,23 @@ def edit_all_shooters_scores(main_window):
 
         # end refresh_scores
 
-
-        def save_and_refresh_scores():
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.save_and_refresh_scores.Called '.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-            # end if
-
-            # First we push the scores back to the settings.* arrays
-            update_scores_to_my_shooter_list()
-
-            # Push everything back/down to the physical file - this allows other viewers to get updates as the scorer
-            # saves updates to file.
-            settings.save_event(settings.filename)
-
-            # Refresh/Repaint the Qual and Final Treeviews
-            refresh_trv_scores()
-
-            if debuglevel >= 2:
-                my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.save_and_refresh_scores.Completed'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-                ))
-
-        # end save_and_refresh_scores
-
-
         # Extract the structure and hit/miss and inspects results entered from the TreeView back into the JSON structure for the score,
         # to be saved back for the current shooter.
         def extract_score_from_trv(tree, mode):
 
             # mode is "qual" or "final"
 
-            targets         = []
-            shots           = []
-            target_score    = 0
-            round_score     = 0
+            targets = []
+            shots = []
+            target_score = 0
+            round_score = 0
 
             if debuglevel >= 2:
-                my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.extract_score_from_trv.Called, Mode: ({mode}) '.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-                    mode=mode
-                ))
+                my_logger.info(
+                    '{time}, scores_editor.edit_all_shooters_scores.open_popup.extract_score_from_trv.Called, Mode: ({mode}) '.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                        mode=mode
+                    ))
             # end if
 
             # If we're using the flat display structure
@@ -519,7 +473,7 @@ def edit_all_shooters_scores(main_window):
 
                 for line in tree.get_children():
 
-                    target_desc     = tree.item(line)['values'][0]
+                    target_desc = tree.item(line)['values'][0]
                     if target_desc == "CB":
                         target_number = 0
 
@@ -527,11 +481,11 @@ def edit_all_shooters_scores(main_window):
                         target_number = int(tree.item(line)['values'][0][1:])
 
                     # No target_score in this view
-                    shot_no     = int(tree.item(line)['values'][1][1:]) - 1
-                    hit_miss    = str(tree.item(line)['values'][2])
-                    inspect     = tree.item(line)['values'][3]
+                    shot_no = int(tree.item(line)['values'][1][1:]) - 1
+                    hit_miss = str(tree.item(line)['values'][2])
+                    inspect = tree.item(line)['values'][3]
 
-                    distance    = settings.get_target_distance(target_number, mode)
+                    distance = settings.get_target_distance(target_number, mode)
 
                     # Multiplier is based on the shot_number,
                     # Cold bore is always shot_number == 0, thus = 5
@@ -549,7 +503,7 @@ def edit_all_shooters_scores(main_window):
                     if hit_miss == "y" or hit_miss == "Y" or hit_miss == "Yes" or hit_miss == "YES" or hit_miss == "True" or hit_miss == "TRUE" or hit_miss == "T":
                         hit_miss = "1"
                     elif hit_miss == "n" or hit_miss == "N" or hit_miss == "No" or hit_miss == "NO" or hit_miss == "False" or hit_miss == "FALSE" or hit_miss == "F":
-                        hit_miss =  "0"
+                        hit_miss = "0"
                     elif hit_miss != "0" and hit_miss != "1":
                         hit_miss = "0"
 
@@ -560,19 +514,18 @@ def edit_all_shooters_scores(main_window):
                     elif inspect != "True" and inspect != "False":
                         inspect = "False"
 
-
                     # Cold Bore
                     if target_number == 0:
                         if hit_miss == "1":
-                            shot_score = multiplier * round((distance * distance)/3000)
+                            shot_score = multiplier * round((distance * distance) / 3000)
 
                         else:
                             shot_score = 0
 
-                        shot = {"shot_number"   : shot_no,
-                                "hit_miss"      : str(hit_miss),
-                                "inspect"       : inspect,
-                                "score"         : shot_score}
+                        shot = {"shot_number": shot_no,
+                                "hit_miss": str(hit_miss),
+                                "inspect": inspect,
+                                "score": shot_score}
 
                         # Append the individual shot to shot array
                         shots.append(shot)
@@ -581,9 +534,9 @@ def edit_all_shooters_scores(main_window):
                         target_score = target_score + shot_score
 
                         # Append
-                        dict = {"target_number" : 0,
-                                "target_score"  : target_score,
-                                "shots"         : shots
+                        dict = {"target_number": 0,
+                                "target_score": target_score,
+                                "shots": shots
                                 }
 
                         # Append list of shots
@@ -593,18 +546,18 @@ def edit_all_shooters_scores(main_window):
                         round_score = round_score + target_score
 
                         # Lets prep for the next T1 Target
-                        shots         = []
-                        cur_target    = 1
-                        target_score  = 0
+                        shots = []
+                        cur_target = 1
+                        target_score = 0
 
                     else:
 
                         if cur_target != target_number:
                             # If this happens then it implies we've ticket over to the next started so lets append the shots and score...
                             # Append
-                            dict = {"target_number" : cur_target,  # t_no is the working target,
-                                    "target_score"  : target_score,
-                                    "shots"         : shots
+                            dict = {"target_number": cur_target,  # t_no is the working target,
+                                    "target_score": target_score,
+                                    "shots": shots
                                     }
 
                             # Append list of shots
@@ -613,9 +566,9 @@ def edit_all_shooters_scores(main_window):
                             # Add target score to round score
                             round_score = round_score + target_score
 
-                            shots           = []
-                            cur_target      = target_number
-                            target_score    = 0
+                            shots = []
+                            cur_target = target_number
+                            target_score = 0
 
                             # Calculate/Update score
                             if hit_miss == "1":
@@ -624,10 +577,10 @@ def edit_all_shooters_scores(main_window):
                             else:
                                 shot_score = 0
 
-                            shot = {"shot_number"   : shot_no,
-                                    "hit_miss"      : str(hit_miss),
-                                    "inspect"       : inspect,
-                                    "score"         : shot_score}
+                            shot = {"shot_number": shot_no,
+                                    "hit_miss": str(hit_miss),
+                                    "inspect": inspect,
+                                    "score": shot_score}
 
                             shots.append(shot)
 
@@ -644,10 +597,10 @@ def edit_all_shooters_scores(main_window):
                             else:
                                 shot_score = 0
 
-                            shot = {"shot_number"   : shot_no,
-                                    "hit_miss"      : str(hit_miss),
-                                    "inspect"       : inspect,
-                                    "score"         : shot_score}
+                            shot = {"shot_number": shot_no,
+                                    "hit_miss": str(hit_miss),
+                                    "inspect": inspect,
+                                    "score": shot_score}
 
                             shots.append(shot)
 
@@ -658,9 +611,9 @@ def edit_all_shooters_scores(main_window):
                 # end for line in tree.get_children()
 
                 # End list, we're completed the loop, lets add the last shots for the last target
-                dict = {"target_number" : cur_target,  # t_no is the working target,
-                        "target_score"  : target_score,
-                        "shots"         : shots
+                dict = {"target_number": cur_target,  # t_no is the working target,
+                        "target_score": target_score,
+                        "shots": shots
                         }
                 # Append list of shots
                 targets.append(dict)
@@ -680,12 +633,12 @@ def edit_all_shooters_scores(main_window):
 
             # end if score_viewer
 
-
             if debuglevel >= 2:
-                my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.extract_score_from_trv.Completed, Mode: ({mode})'.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-                    mode=mode
-                ))
+                my_logger.info(
+                    '{time}, scores_editor.edit_all_shooters_scores.open_popup.extract_score_from_trv.Completed, Mode: ({mode})'.format(
+                        time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                        mode=mode
+                    ))
 
             # end if
 
@@ -693,11 +646,68 @@ def edit_all_shooters_scores(main_window):
 
         # end extract_score_from_trv
 
-
-        def discard_score():
+        def save_and_refresh_scores():
 
             if debuglevel >= 2:
-                my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.discard_score.Called '.format(
+                my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.save_and_refresh_scores.Called '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+            # end if
+
+            # In Memory
+            # Update settings.* arrays
+            update_scores_to_my_shooter_list()
+
+            # Persists to file
+            # Push everything back/down to the physical file - this allows other viewers to get updates as the scorer
+            settings.save_event(settings.filename)
+
+            # Refresh/Repaint the Qual and Final Treeviews
+            refresh_trv_scores()
+
+            #paintScoreTrv()                                     # Repaint the local (edit) trv
+            events.dispatch("edit_all_shooters_scores")         # Update the score_display should it be active.
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.save_and_refresh_scores.Completed'.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+
+        # end save_and_refresh_scores
+
+
+        def exit_and_refresh_scores():
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.exit_and_refresh_scores.Called '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+
+            # First we push the scores back to the settings.* arrays
+            update_scores_to_my_shooter_list()
+
+            # Push everything back/down to the physical file - this allows other viewers to get updates as the scorer
+            # saves updates to file.
+            settings.save_event(settings.filename)
+
+            # For now we just exit....
+            child.destroy()
+
+            #paintScoreTrv()                                     # Repaint the local (edit) trv
+            events.dispatch("edit_all_shooters_scores")         # this should call the paint function for the score displayer
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.exit_and_refresh_scores.Completed '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+                ))
+
+        # end exit_and_refresh_scores
+
+
+        def discard_and_exit():
+
+            if debuglevel >= 2:
+                my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.discard_and_exit.Called '.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
@@ -705,11 +715,11 @@ def edit_all_shooters_scores(main_window):
             child.destroy()
 
             if debuglevel >= 2:
-                my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.discard_score.Completed '.format(
+                my_logger.info('{time}, scores_editor.edit_all_shooters_scores.open_popup.discard_and_exit.Completed '.format(
                     time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
                 ))
 
-        # end discard_score
+        # end discard_and_exit
 
 
         # json_record comprises of the entire record of the current shooter, lets get the scores section only
@@ -894,9 +904,11 @@ def edit_all_shooters_scores(main_window):
         btnSave = Button(cntrls_lbframe, text="Save", padx=5, pady=10, command=save_and_refresh_scores)
         btnSave.grid(row=0, column=0)
 
-        btnExit = Button(cntrls_lbframe, text="Exit", padx=5, pady=10, command=discard_score)
+        btnExit = Button(cntrls_lbframe, text="Exit", padx=5, pady=10, command=exit_and_refresh_scores)
         btnExit.grid(row=0, column=1)
 
+        btnExit = Button(cntrls_lbframe, text="Cancel", padx=5, pady=10, command=discard_and_exit)
+        btnExit.grid(row=0, column=2)
 
         if debuglevel >= 2:
             my_logger.info('{time}, scores_editor.load_all_shooters_scores.open_popup.Completed'.format(
@@ -906,9 +918,9 @@ def edit_all_shooters_scores(main_window):
     #end open_popup
 
 
-    trv_all_shooter_scores.bind("<ButtonRelease>", MouseButtonUpCallBack)
+    trv_edt_shooter_scores.bind("<ButtonRelease>", MouseButtonUpCallBack)
     settings.load_all_shooter_scores_json_from_file(settings.filename)
-    load_all_shooter_scores_trv_with_json()
+    paintScoreTrv()
 
     if debuglevel >= 2:
         my_logger.info('{time}, scores_editor.edit_all_shooters_scores.Completed'.format(
@@ -916,3 +928,44 @@ def edit_all_shooters_scores(main_window):
         ))
 
 # end edit_all_shooters_scores
+
+def paintScoreTrv():
+
+    if debuglevel >= 2:
+        my_logger.info('{time}, scores_editor.paintScoreTrv.Called'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+    #Retrieve the treeview into which we're going to pain
+    trv_edt_shooter_scores = settings.trv_edt_shooter_scores
+
+    # Cleanout my score trv structure
+    for item in trv_edt_shooter_scores.get_children():
+        trv_edt_shooter_scores.delete(item)
+
+    # paint/repaint it
+    rowIndex = 1
+    for key in settings.my_shooter_list:
+
+        equipment   = key["equipment"]                          # Structure with equipment
+        rifle       = equipment['rifle']                        # sub structure with rifle information
+        scores      = key["scores"]                             # structure with scores
+
+        trv_edt_shooter_scores.insert('', index='end', iid=rowIndex, text="",
+                                      values=(rowIndex,
+                                              key["id"],
+                                              key["first_name"].strip() + " " + key["last_name"].strip(),
+                                              key["spotter"],
+                                              rifle["caliber"],
+                                              scores['qualifying_score'],
+                                              scores['final_score'],
+                                              scores['total_score']))
+
+        rowIndex = rowIndex + 1
+
+    if debuglevel >= 2:
+        my_logger.info('{time}, scores_editor.paintScoreTrv.Completed'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
+
+# end paintScoreTrv

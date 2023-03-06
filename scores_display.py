@@ -34,15 +34,11 @@ my_logger       = settings.my_logger
 debuglevel      = settings.debuglevel
 echojson        = settings.echojson
 
-# Declare function to return the sorted data based on name
-def sort_by_key(list):
-    return list['scores']["total_score"]
-
 
 def display_all_shooters_scores(main_window):
 
     global score_viewer
-    global trv_all_shooter_scores
+    global trv_dsp_shooter_scores
     global label_text_bg
     global label_text_fg
     global entry_text_bg
@@ -55,7 +51,6 @@ def display_all_shooters_scores(main_window):
     global lblframefont_size
 
     score_viewer        = settings.score_viewer
-    auto_refresh        = settings.auto_refresh
     frame_bg            = settings.frame_bg
     label_text_bg       = settings.label_text_bg
     label_text_fg       = settings.label_text_fg
@@ -67,7 +62,6 @@ def display_all_shooters_scores(main_window):
     lblfont_size        = settings.lblfont_size
     lblframefont        = settings.lblframefont
     lblframefont_size   = settings.lblframefont_size
-    
 
     if debuglevel >= 1:
         my_logger.info('{time}, scores_display.display_all_shooters_scores.Called '.format(
@@ -101,28 +95,28 @@ def display_all_shooters_scores(main_window):
 
     yscrollbar = ttk.Scrollbar(tree_frame, orient='vertical')
 
-    columns = ("Place", "", "Shooter", "Spotter", "Caliber", "Qualifying", "Finals", "Total")
+    columns = ("Place", "Shooter", "Spotter", "Caliber", "Qualifying", "Finals", "Total")
 
-    trv_all_shooter_scores = ttk.Treeview(tree_frame, yscrollcommand=yscrollbar.set, columns=columns, show="headings", height="20")
-    trv_all_shooter_scores.grid(row=0, column=0, rowspan=20, columnspan=7, sticky=E+W)
+    trv_dsp_shooter_scores = ttk.Treeview(tree_frame, yscrollcommand=yscrollbar.set, columns=columns, show="headings", height="20")
+    trv_dsp_shooter_scores.grid(row=0, column=0, rowspan=20, columnspan=7, sticky=E+W)
 
-    trv_all_shooter_scores.heading("Place",      text="Place",      anchor="w")
-    trv_all_shooter_scores.heading("Shooter",    text="Shooter",    anchor="center")
-    trv_all_shooter_scores.heading("Spotter",    text="Spotter",    anchor="center")
-    trv_all_shooter_scores.heading("Caliber",    text="Caliber",    anchor="center")
-    trv_all_shooter_scores.heading("Qualifying", text="Qualifying", anchor="center")
-    trv_all_shooter_scores.heading("Finals",     text="Finals",     anchor="center")
-    trv_all_shooter_scores.heading("Total",      text="Total",      anchor="center")
+    trv_dsp_shooter_scores.heading("Place",      text="Place",      anchor="w")
+    trv_dsp_shooter_scores.heading("Shooter",    text="Shooter",    anchor="center")
+    trv_dsp_shooter_scores.heading("Spotter",    text="Spotter",    anchor="center")
+    trv_dsp_shooter_scores.heading("Caliber",    text="Caliber",    anchor="center")
+    trv_dsp_shooter_scores.heading("Qualifying", text="Qualifying", anchor="center")
+    trv_dsp_shooter_scores.heading("Finals",     text="Finals",     anchor="center")
+    trv_dsp_shooter_scores.heading("Total",      text="Total",      anchor="center")
 
-    trv_all_shooter_scores.column("#1", anchor="w", width=50,  stretch=True)
-    trv_all_shooter_scores.column("#2", anchor="w", width=259, stretch=True)
-    trv_all_shooter_scores.column("#3", anchor="w", width=250, stretch=True)
-    trv_all_shooter_scores.column("#4", anchor="w", width=200, stretch=False)
-    trv_all_shooter_scores.column("#5", anchor="w", width=110, stretch=False)
-    trv_all_shooter_scores.column("#6", anchor="w", width=110, stretch=False)
-    trv_all_shooter_scores.column("#7", anchor="w", width=110, stretch=False)
+    trv_dsp_shooter_scores.column("#1", anchor="w", width=50,  stretch=True)
+    trv_dsp_shooter_scores.column("#2", anchor="w", width=259, stretch=True)
+    trv_dsp_shooter_scores.column("#3", anchor="w", width=250, stretch=True)
+    trv_dsp_shooter_scores.column("#4", anchor="w", width=200, stretch=False)
+    trv_dsp_shooter_scores.column("#5", anchor="w", width=110, stretch=False)
+    trv_dsp_shooter_scores.column("#6", anchor="w", width=110, stretch=False)
+    trv_dsp_shooter_scores.column("#7", anchor="w", width=110, stretch=False)
 
-    yscrollbar.configure(command=trv_all_shooter_scores.yview())
+    yscrollbar.configure(command=trv_dsp_shooter_scores.yview())
     yscrollbar.grid(row=0, column=8, rowspan=10, sticky=NS)
 
     # Read the Image
@@ -135,33 +129,49 @@ def display_all_shooters_scores(main_window):
     label2.image = img2
     label2.grid(row=0, column=0, padx=5, pady=5)
 
+    settings.trv_dsp_shooter_scores = trv_dsp_shooter_scores
+    settings.dsp_shooter_scores     = True              # Controls the events/dispatch refresh of the score trv update, aka block a update if the screen/trv is not displayed.
 
-    def load_all_shooter_scores_trv_with_json():
+    paintScoreTrv()
 
-        if debuglevel >= 2:
-            my_logger.info('{time}, scores_display.display_all_shooters_scores.load_all_shooter_scores_trv_with_json.Called'.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
+    if debuglevel >= 2:
+        my_logger.info('{time}, scores_display.display_all_shooters_scores.Completed'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+        ))
 
-        # paint = true
-        # while paint:
-        #
-        # Create new ordered array
-        ordered_my_shooter_list = sorted(settings.my_shooter_list, key=sort_by_key, reverse=True)
+   # settings.dsp_shooter_scores = False
 
-        # Cleanout my score trv
-        for item in trv_all_shooter_scores.get_children():
-            trv_all_shooter_scores.delete(item)
+# end display_all_shooters_scores
 
-        # paint it
+
+def paintScoreTrv():
+
+    if debuglevel >= 2:
+        my_logger.info('{time}, scores_display.paintScoreTrv.Called, {dsp_shooter_scores}'.format(
+            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+            dsp_shooter_scores=settings.dsp_shooter_scores
+        ))
+
+    if settings.dsp_shooter_scores:
+
+        # Create new ordered array from global my_shooter_list
+        ordered_my_shooter_list = sorted(settings.my_event_list["shooters"], key=settings.sort_by_key, reverse=True)
+
+        #Retrieve the treeview into which we're going to pain
+        trv_dsp_shooter_scores = settings.trv_dsp_shooter_scores
+
+        # Cleanout my score trv structure
+        for item in trv_dsp_shooter_scores.get_children():
+            trv_dsp_shooter_scores.delete(item)
+
+        # paint/repaint it
         rowIndex = 1
         for key in ordered_my_shooter_list:
+            equipment = key["equipment"]  # Structure with equipment
+            rifle = equipment['rifle']  # sub structure with rifle information
+            scores = key["scores"]  # structure with scores
 
-            equipment   = key["equipment"]                          # Structure with equipment
-            rifle       = equipment['rifle']                        # sub structure with rifle information
-            scores      = key["scores"]                             # structure with scores
-
-            trv_all_shooter_scores.insert('', index='end', iid=rowIndex, text="",
+            trv_dsp_shooter_scores.insert('', index='end', iid=rowIndex, text="",
                                           values=(rowIndex,
                                                   key["first_name"].strip() + " " + key["last_name"].strip(),
                                                   key["spotter"],
@@ -171,23 +181,12 @@ def display_all_shooters_scores(main_window):
                                                   scores['total_score']))
 
             rowIndex += 1
-        #end for
 
-        #time.sleep(auto_refresh)
-        #end while
-
-        if debuglevel >= 2:
-            my_logger.info('{time}, scores_display.display_all_shooters_scores.load_all_shooter_scores_trv_with_json.Completed'.format(
-                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-            ))
-
-    # end load_all_shooter_scores_trv_with_json
-
-    load_all_shooter_scores_trv_with_json()
+    #end if
 
     if debuglevel >= 2:
-        my_logger.info('{time}, scores_display.display_all_shooters_scores.Completed'.format(
+        my_logger.info('{time}, scores_display.paintScoreTrv.Completed'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
-
-# end display_all_shooters_scores
+    #end if
+# end paint
