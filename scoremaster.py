@@ -40,6 +40,8 @@ import pymsgbox
 # Initialize Global Variables
 settings.init()
 
+from os.path import join, dirname
+
 import events
 
 import event
@@ -74,7 +76,7 @@ splash_root.geometry("1000x600")
 splash_root.title(appname)
 
 # Read the Image
-image = Image.open("images/1mile.png")
+image = Image.open(join(dirname(__file__), "images/1mile.png"))
 # Resize the image using resize() method
 resize_image1 = image.resize((350, 350))
 img1 = ImageTk.PhotoImage(resize_image1)
@@ -84,7 +86,7 @@ label1.image = img1
 label1.place(x=0, y=0)
 
 # Read the Image
-image = Image.open("images/2mile.png")
+image = Image.open(join(dirname(__file__), "images/2mile.png"))
 # Resize the image using resize() method
 resize_image2 = image.resize((350, 350))
 img2 = ImageTk.PhotoImage(resize_image2)
@@ -94,7 +96,7 @@ label2.image = img2
 label2.place(x=650, y=0)
 
 # Read the Image
-image = Image.open("images/impactxs.png")
+image = Image.open(join(dirname(__file__), "images/impactxs.png"))
 # Resize the image using resize() method
 resize_impactxs = image.resize((1000, 125))
 impactxs = ImageTk.PhotoImage(resize_impactxs)

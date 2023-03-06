@@ -34,6 +34,7 @@ from os.path import join, dirname
 
 import xlsxwriter
 
+
 def init():
 
     global events
@@ -72,7 +73,8 @@ def init():
     global trv_dsp_shooter_scores
     global dsp_shooter_scores
 
-    # Load the contents of the .env file
+    # Load the contents of the .env file into the environment
+    # if deployed on K8S, comment this out and load the values into a configmap used for the deployments
     env_path = join(dirname(__file__), '.env')
     load_dotenv(dotenv_path=env_path, verbose=False)
 
@@ -85,7 +87,7 @@ def init():
     my_finals_target_list       = []
     my_shooter_list             = []
 
-    events = {}
+    events = {}                                         # Register_event and dispatch event
 
     trv_edt_shooter_scores = None
     trv_dsp_shooter_scores = None
@@ -153,7 +155,6 @@ def init():
 #end init
 
 
-
 def getAppEnvVariables():
 
     Params = dict()
@@ -215,6 +216,7 @@ def pp_json(json_thing, sort=True, indents=4):
         print(json.dumps(json_thing, sort_keys=sort, indent=indents))
     return None
 
+
 def print_config(config_params):
 
     if debuglevel >= 1:
@@ -252,6 +254,7 @@ def print_config(config_params):
     # end if DEBUGLEVEL >= 1:
 
 #end print_config()
+
 
 def load_event_json_from_file(file):
     global my_event_list
@@ -336,7 +339,6 @@ def load_event_json_from_file(file):
 # end load_event_json_from_file
 
 
-
 # Find shooter in array of shooters (my_shooter_list) based on guid_value
 def find_row_in_my_shooter_list(guid_value):
 
@@ -393,6 +395,7 @@ def update_shooter(myfile, my_shooter):
         ))
 # end save_shooter
 
+
 # Build the my_event_list array by combining the various child structures.
 def save_event(myfile):
 
@@ -428,6 +431,7 @@ def save_event(myfile):
         ))
 
 # end save_event
+
 
 # Save my_event to file, do the physical persistance.
 def save_json_to_file(myfile, my_event):
@@ -717,6 +721,7 @@ def save_json_to_excelfile(filename):
         ))
 
 #end save_json_to_excelfile
+
 
 # Refresh data in memory from file (include updating global settings variable),
 # shooters include their personal data,
