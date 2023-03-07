@@ -104,7 +104,7 @@ impactxs = ImageTk.PhotoImage(resize_impactxs)
 labelimpactxs = Label(image=impactxs)
 labelimpactxs.image = impactxs
 labelimpactxs.place(x=0, y=450)
-11
+
 
 # Little bit of event notification/calling, when ever we click save of the score editor screen we want to execute the
 # events registered, might need to move this to the function calls below, in addition to a deregister function, so that we don't call the function/screen/trv refresh wheb
@@ -266,13 +266,6 @@ def save_json_to_excelfile():
         filename = settings.file_dialog("Save_to_Excel")
 
         if filename != "":
-            if debuglevel >= 1:
-                my_logger.info('{time}, main.save_json_to_excelfile.filename {filename} '.format(
-                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-                    filename=filename
-
-                ))
-
             settings.save_json_to_excelfile(filename)
 
         else:
@@ -315,6 +308,18 @@ def main():
 
     # Adjust size
     root.geometry("600x400")
+
+
+    # Read the Image
+    image = Image.open(join(dirname(__file__), "images/impactxs.jpg"))
+    # Resize the image using resize() method
+    resize_impactxs = image.resize((300, 300))
+    impactxs = ImageTk.PhotoImage(resize_impactxs)
+    # create label and add resize image
+    labelimpactxs = Label(image=impactxs)
+    labelimpactxs.image = impactxs
+    labelimpactxs.place(x=150, y=50)
+
 
     # Set Title
     root.title(appname)
