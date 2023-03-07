@@ -17,10 +17,11 @@ venv: venv/bin/activate
 	. ./venv/bin/activate
 
 run: venv
-	./run_scoremaster.sh
+	$(PYTHON) scoremaster.py
+#	./run_scoremaster.sh
 
 upgrade:
-	pip install --upgrade pip
+	python3 -m pip install --upgrade pip
 
 clean:
 	rm -rf __pychche__

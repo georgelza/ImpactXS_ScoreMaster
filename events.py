@@ -27,8 +27,10 @@ __version__     = "0.0.1"
 import settings
 from datetime import datetime
 
+
 my_logger       = settings.my_logger
 debuglevel      = settings.debuglevel
+
 
 # register functions to be called for a event.
 def register_events(event: str, function: callable):
@@ -59,23 +61,6 @@ def register_events(event: str, function: callable):
         ))
 
 #end register_events
-
-# deregister a functions to be called from the events array
-def deregister_events(event: str, function: callable):
-
-    if debuglevel >= 1:
-        my_logger.info('{time}, events.deregister_events.Called '.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-    print(settings.events)
-
-    if debuglevel >= 1:
-        my_logger.info('{time}, events.deregister_events.Completed '.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
-        ))
-
-#end deregister_events
 
 
 # Dispatch, call functions as registered for the function name = event

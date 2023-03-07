@@ -503,7 +503,7 @@ def save_json_to_excelfile(filename):
     global my_final_list
     global my_shooter_list
 
-    ordered_my_shooter_list = sorted(my_event_list, key=sort_by_key, reverse=True)
+    ordered_my_shooter_list = sorted(my_shooter_list, key=sort_by_key, reverse=True)
 
     sheet               = my_event_list["distance"]
     my_qualifying_list  = my_event_list["qualifying"]
@@ -804,8 +804,13 @@ def file_dialog(mode):
             initialdir=directory + '/events',
             filetypes=filetypes)
 
-        filename = filename.name
+        if filename != None:
+            filename = filename.name
 
+        else:
+            filename = ""
+
+        #end if
     else:
         #we're opening a previous defined event, so lets show saved events from ./events folder as default.
         filename = fd.askopenfilename(

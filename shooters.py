@@ -159,7 +159,7 @@ def load_all_shooters(main_window):
 
     child = Toplevel(main_window)
     child.title = "Shooters"
-    child.geometry("1140x700")
+    child.geometry("1140x625")
     child.configure(bg=frame_bg)
 
     tree_frame = Frame(child)
@@ -192,8 +192,8 @@ def load_all_shooters(main_window):
 
     yscrollbar = ttk.Scrollbar(tree_frame, orient='vertical')
 
-    trv_shooters = ttk.Treeview(tree_frame, yscrollcommand=yscrollbar.set, columns=(1, 2, 3, 4, 5, 6, 7, 8, 9), show="headings", height="16")
-    trv_shooters.grid(row=1, column=0, rowspan=16, columnspan=9)
+    trv_shooters = ttk.Treeview(tree_frame, yscrollcommand=yscrollbar.set, columns=(1, 2, 3, 4, 5, 6, 7, 8, 9), show="headings", height="32")
+    trv_shooters.grid(row=1, column=0, rowspan=32, columnspan=9)
 
     trv_shooters.heading(1, text="Action",       anchor="w")
     trv_shooters.heading(2, text="ID",           anchor="center")
@@ -218,7 +218,7 @@ def load_all_shooters(main_window):
     tree_frame.grid(row=0, column=0)
 
     yscrollbar.configure(command=trv_shooters.yview())
-    yscrollbar.grid(row=0, column=9, rowspan=10, sticky=NS)
+    yscrollbar.grid(row=0, column=9, rowspan=30, sticky=NS)
 
     def remove_all_data_from_trv_shooter():
 

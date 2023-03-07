@@ -159,7 +159,8 @@ def loadEvent(_mode):
     if _mode == "New_Event":
         settings.my_event_list["uuid"]  = str(uuid.uuid4())
 
-    event.open_event_screen(main_window)
+    if settings.filename:
+        event.open_event_screen(main_window)
 
     if debuglevel >= 1:
         my_logger.info('{time}, main.loadEvent.Completed '.format(
@@ -260,15 +261,32 @@ def save_json_to_excelfile():
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
 
-    filename = settings.file_dialog("Save_to_Excel")
 
-    if debuglevel >= 1:
-        my_logger.info('{time}, main.save_json_to_excelfile.filenamr {filename} '.format(
-            time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
-            filename=filename
-        ))
+    if settings.first_start_mode == False:
+        filename = settings.file_dialog("Save_to_Excel")
 
-    settings.save_json_to_excelfile(filename)
+        if filename != "":
+            if debuglevel >= 1:
+                my_logger.info('{time}, main.save_json_to_excelfile.filename {filename} '.format(
+                    time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                    filename=filename
+
+                ))
+
+            settings.save_json_to_excelfile(filename)
+
+        else:
+            pymsgbox.alert('Please provide output file name', 'Error')
+
+        #end if
+    else:
+        # popup message
+        pymsgbox.alert('Please load an Event first', 'Error')
+
+        if debuglevel >= 1:
+            my_logger.info('{time}, main.shooter_score_displayer.Bypassing, no event loaded yet!!!'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
 
     if debuglevel >= 1:
         my_logger.info('{time}, main.save_json_to_excelfile.Completed '.format(
@@ -276,6 +294,7 @@ def save_json_to_excelfile():
         ))
 
 #end save_json_to_excelfile
+
 
 def main():
 
