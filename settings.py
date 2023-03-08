@@ -261,6 +261,9 @@ def print_config(config_params):
         my_logger.info('**    lblframefont          : ' + str(config_params['lblframefont']))
         my_logger.info('**    lblframefont_size     : ' + str(config_params['lblframefont_size']))
         my_logger.info('**')
+        my_logger.info('**    splash_img            : ' + str(config_params['splash_img']))
+        my_logger.info('**    splash_footer         : ' + str(config_params['splash_footer']))
+        my_logger.info('**')
         my_logger.info('*******************************************')
 
     # end if DEBUGLEVEL >= 1:
