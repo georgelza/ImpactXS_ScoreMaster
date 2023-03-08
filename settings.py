@@ -69,6 +69,11 @@ def init():
     global lblframefont
     global lblframefont_size
 
+    # images
+    global splash_img
+    global splash_footer
+
+    # TRV's
     global trv_edt_shooter_scores
     global trv_dsp_shooter_scores
     global dsp_shooter_scores
@@ -101,7 +106,7 @@ def init():
     echojson            = config_params['echojson']
     splashtime          = config_params["splashtime"]
     debuglevel          = config_params["debuglevel"]
-    my_event_image      = ""
+    my_event_image      = ""  # King of 1 mile or King of 2 mile
     event_mode          = ""
     score_viewer        = config_params["score_viewer"]
 
@@ -117,6 +122,10 @@ def init():
     lblfont_size        = config_params["lblfont_size"]
     lblframefont        = config_params["lblframefont"]
     lblframefont_size   = config_params["lblframefont_size"]
+
+    splash_footer       = config_params["splash_footer"]
+    splash_img          = config_params["splash_img"]
+
 
     # Logging Handler
     logging.root.handlers = []
@@ -177,6 +186,9 @@ def getAppEnvVariables():
     Params['lblfont_size']              = os.environ.get("lblfont_size")
     Params['lblframefont']              = os.environ.get("lblframefont")
     Params['lblframefont_size']         = os.environ.get("lblframefont_size")
+
+    Params['splash_img']                = os.environ.get("splash_img")
+    Params['splash_footer']             = os.environ.get("splash_footer")
 
     return Params
 

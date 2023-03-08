@@ -26,6 +26,7 @@ from tkinter import ttk
 import tkinter as tk
 from datetime import datetime
 from PIL import Image, ImageTk
+from os.path import join, dirname
 
 import settings
 
@@ -72,6 +73,9 @@ def display_all_shooters_scores(main_window):
     child.geometry("1130x800")
     child.configure(bg=frame_bg)
 
+    # Disable Resize
+    child.resizable(False, False)
+
     header_frame    = Frame(child)
     tree_frame      = Frame(child)
     footer_frame    = Frame(child)
@@ -81,9 +85,8 @@ def display_all_shooters_scores(main_window):
     footer_frame.pack(fill="both",  expand="yes", padx=10, pady=10)
 
 
-    image_file = "images/" + settings.my_event_image
     # Read the Image
-    image               = Image.open(image_file)
+    image               = Image.open(join(dirname(__file__), "images/" + settings.my_event_image))
     # Resize the image using resize() method
     resize_image_event  = image.resize((150, 150))
     img1                = ImageTk.PhotoImage(resize_image_event)
@@ -119,13 +122,13 @@ def display_all_shooters_scores(main_window):
     yscrollbar.grid(row=0, column=8, rowspan=10, sticky=NS)
 
     # Read the Image
-    image = Image.open("images/impactxs.png")
+    image               = Image.open(join(dirname(__file__), "images/" + settings.splash_footer))
     # Resize the image using resize() method
-    resize_impactxs = image.resize((930, 150))
-    img2 = ImageTk.PhotoImage(resize_impactxs)
+    resize_impactxs     = image.resize((930, 150))
+    img2                = ImageTk.PhotoImage(resize_impactxs)
     # create label and add resize image
-    label2 = Label(footer_frame, image=img2)
-    label2.image = img2
+    label2              = Label(footer_frame, image=img2)
+    label2.image        = img2
     label2.grid(row=0, column=0, padx=5, pady=5)
 
     settings.trv_dsp_shooter_scores = trv_dsp_shooter_scores

@@ -53,7 +53,6 @@ global main_window
 
 my_logger       = settings.my_logger
 loglevel        = settings.loglevel
-splashtime      = settings.splashtime
 debuglevel      = settings.debuglevel
 appname         = settings.appname
 event_mode      = settings.event_mode
@@ -75,33 +74,36 @@ splash_root.geometry("1000x600")
 # Set Title
 splash_root.title(appname)
 
+# Disable Resize
+splash_root.resizable(False, False)
+
 # Read the Image
-image = Image.open(join(dirname(__file__), "images/1mile.png"))
+image           = Image.open(join(dirname(__file__), "images/1mile.png"))
 # Resize the image using resize() method
-resize_image1 = image.resize((350, 350))
-img1 = ImageTk.PhotoImage(resize_image1)
+resize_image1   = image.resize((350, 350))
+img1            = ImageTk.PhotoImage(resize_image1)
 # create label and add resize image
-label1 = Label(image=img1)
-label1.image = img1
+label1          = Label(image=img1)
+label1.image    = img1
 label1.place(x=0, y=0)
 
 # Read the Image
-image = Image.open(join(dirname(__file__), "images/2mile.png"))
+image           = Image.open(join(dirname(__file__), "images/2mile.png"))
 # Resize the image using resize() method
-resize_image2 = image.resize((350, 350))
-img2 = ImageTk.PhotoImage(resize_image2)
+resize_image2   = image.resize((350, 350))
+img2            = ImageTk.PhotoImage(resize_image2)
 # create label and add resize image
-label2 = Label(image=img2)
-label2.image = img2
+label2          = Label(image=img2)
+label2.image    = img2
 label2.place(x=650, y=0)
 
 # Read the Image
-image = Image.open(join(dirname(__file__), "images/impactxs.png"))
+image               = Image.open(join(dirname(__file__), "images/" + settings.splash_footer))
 # Resize the image using resize() method
-resize_impactxs = image.resize((1000, 125))
-impactxs = ImageTk.PhotoImage(resize_impactxs)
+resize_impactxs     = image.resize((1000, 100))
+impactxs            = ImageTk.PhotoImage(resize_impactxs)
 # create label and add resize image
-labelimpactxs = Label(image=impactxs)
+labelimpactxs       = Label(image=impactxs)
 labelimpactxs.image = impactxs
 labelimpactxs.place(x=0, y=450)
 
@@ -309,9 +311,12 @@ def main():
     # Adjust size
     root.geometry("600x400")
 
+    # Disable Resize
+    root.resizable(False, False)
 
-    # Read the Image
-    image = Image.open(join(dirname(__file__), "images/impactxs.jpg"))
+    # Read the Image - main splash
+    splash_img = settings.splash_img
+    image = Image.open(join(dirname(__file__), "images/" + splash_img))
     # Resize the image using resize() method
     resize_impactxs = image.resize((300, 300))
     impactxs = ImageTk.PhotoImage(resize_impactxs)
@@ -373,7 +378,7 @@ def main():
 if __name__ == "__main__":
 
     # Set the Splash screen Interval,after Interval call main()
-    splash_root.after(splashtime, main)
+    splash_root.after(settings.splashtime, main)
 
     # Execute tkinter program
     mainloop()

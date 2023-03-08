@@ -162,6 +162,9 @@ def load_all_shooters(main_window):
     child.geometry("1140x625")
     child.configure(bg=frame_bg)
 
+    # Disable Resize
+    child.resizable(False, False)
+
     tree_frame = Frame(child)
 
     # Determine where we're running, as template and events are by default subdirectories of the App directory.
@@ -352,6 +355,9 @@ def load_all_shooters(main_window):
         child.geometry("602x525")
         child.configure(bg=frame_bg)
         child.grab_set()  # allow it to receive events
+
+        # Disable Resize
+        child.resizable(False, False)
 
         load_form = True
 

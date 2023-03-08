@@ -392,6 +392,9 @@ def open_event_screen(root):
     child.geometry("825x675")
     child.configure(bg=frame_bg)
 
+    # Disable Resize
+    child.resizable(False, False)
+
     load_form = True
 
     input_frame     = Frame(child, bg="lightgray", relief=GROOVE)
