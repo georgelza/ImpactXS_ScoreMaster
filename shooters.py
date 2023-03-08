@@ -357,7 +357,7 @@ def load_all_shooters(main_window):
         child.grab_set()  # allow it to receive events
 
         # Disable Resize
-        child.resizable(False, False)
+        #child.resizable(False, False)
 
         load_form = True
 
