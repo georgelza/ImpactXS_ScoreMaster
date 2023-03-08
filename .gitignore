@@ -16,8 +16,7 @@
 
 
 .DS_Store
-.idea/
-
 venv/
 .idea/
 __pycache__/
+misc/
