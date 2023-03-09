@@ -136,12 +136,31 @@ def display_all_shooters_scores(main_window):
 
     paintScoreTrv()
 
+    def on_closing():
+
+        if debuglevel >= 1:
+            my_logger.info('{time}, scores_display.on_closing.Called'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
+            ))
+
+        settings.dsp_shooter_scores = False
+        child.destroy()
+
+        if debuglevel >= 1:
+            my_logger.info('{time}, scores_display.on_closing.Completed dsp_shooter_scores={dsp_shooter_scores}'.format(
+                time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")),
+                dsp_shooter_scores=settings.dsp_shooter_scores
+            ))
+
+    #end on_closing
+
+    # bind the press of the closing/destroy action on window to function on_closing
+    child.wm_protocol("WM_DELETE_WINDOW", func=on_closing)
+
     if debuglevel >= 2:
         my_logger.info('{time}, scores_display.display_all_shooters_scores.Completed'.format(
             time=str(datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f"))
         ))
-
-   # settings.dsp_shooter_scores = False
 
 # end display_all_shooters_scores
 
