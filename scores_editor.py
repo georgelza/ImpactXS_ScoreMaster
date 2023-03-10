@@ -77,7 +77,7 @@ def edit_all_shooters_scores(main_window):
     child.configure(bg=frame_bg)
 
     # Disable Resize
-    child.resizable(False, False)
+    #child.resizable(False, False)
 
     header_frame    = Frame(child)
     tree_frame      = Frame(child)
