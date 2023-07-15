@@ -1,11 +1,8 @@
 ########################################################################################################################
 #
 #
-#  	Project     	: 	ImpactXS - ScoreMaster
-#   URL             :   http://www.impactxs.co.za
+#  	Project     	: 	ScoreMaster
 #
-#                   :   Bredan Fike
-#   eMail           :   brendan@impactxs.co.za
 #
 #   File            :   main.py
 #
@@ -31,6 +28,7 @@ __version__     = "0.0.1"
 from tkinter import *
 from PIL import Image, ImageTk
 from datetime import datetime
+from pathlib import Path
 
 import uuid
 
@@ -40,7 +38,8 @@ import pymsgbox
 # Initialize Global Variables
 settings.init()
 
-from os.path import join, dirname
+from os.path import join
+import sys
 
 import events
 
@@ -69,7 +68,8 @@ my_logger.info('{time}, --------------------------------------------------'.form
 splash_root = Tk()
 
 # Adjust size
-splash_root.geometry("1000x600")
+#splash_root.geometry("1000x600")
+splash_root.geometry(settings.root_width_txt_xy)
 
 # Set Title
 splash_root.title(appname)
@@ -78,7 +78,14 @@ splash_root.title(appname)
 splash_root.resizable(False, False)
 
 # Read the Image
-image           = Image.open(join(dirname(__file__), "images/1mile.png"))
+try:
+    image = settings.splash_1mile
+    imagespath =  Path(settings.app_path).joinpath('images')
+    image = Image.open(join(imagespath, image))
+except:
+    my_logger.error('FILE NOT FOUND: '+ image)
+    sys.exit(1)
+
 # Resize the image using resize() method
 resize_image1   = image.resize((350, 350))
 img1            = ImageTk.PhotoImage(resize_image1)
@@ -88,7 +95,14 @@ label1.image    = img1
 label1.place(x=0, y=0)
 
 # Read the Image
-image           = Image.open(join(dirname(__file__), "images/2mile.png"))
+try:
+    image = settings.splash_2mile
+    imagespath =  Path(settings.app_path).joinpath('images')
+    image = Image.open(join(imagespath, image))
+except:
+    my_logger.error('FILE NOT FOUND: '+ image)
+    sys.exit(1)
+
 # Resize the image using resize() method
 resize_image2   = image.resize((350, 350))
 img2            = ImageTk.PhotoImage(resize_image2)
@@ -98,14 +112,23 @@ label2.image    = img2
 label2.place(x=650, y=0)
 
 # Read the Image
-image               = Image.open(join(dirname(__file__), "images/" + settings.splash_footer))
+try:
+    imagespath =  Path(settings.app_path).joinpath('images')
+    image = Image.open(join(imagespath, settings.splash_footer))
+except:
+    my_logger.error('FILE NOT FOUND: '+ settings.splash_footer)
+    sys.exit(1)
+
+#image               = Image.open(join(dirname(__file__), "images/" + settings.splash_footer))
 # Resize the image using resize() method
-resize_impactxs     = image.resize((1000, 100))
-impactxs            = ImageTk.PhotoImage(resize_impactxs)
+resize_splash_footer     = image.resize((settings.splash_footer_x, settings.splash_footer_y))
+splash_footer            = ImageTk.PhotoImage(resize_splash_footer)
 # create label and add resize image
-labelimpactxs       = Label(image=impactxs)
-labelimpactxs.image = impactxs
-labelimpactxs.place(x=0, y=450)
+labelsplash_footer       = Label(image=splash_footer)
+labelsplash_footer.image = splash_footer
+x_offset = settings.splash_footer_x/2
+x_pos = (1000/2) - x_offset
+labelsplash_footer.place(x=x_pos, y=450)
 
 
 # Little bit of event notification/calling, when ever we click save of the score editor screen we want to execute the
@@ -309,26 +332,46 @@ def main():
     root.state("zoomed")
 
     # Adjust size
-    root.geometry("600x400")
+    root.geometry(settings.splash_width_txt_xy)
 
     # Disable Resize
     root.resizable(False, False)
 
     # Read the Image - main splash
-    splash_img = settings.splash_img
-    image = Image.open(join(dirname(__file__), "images/" + splash_img))
+    try:
+        imagespath =  Path(settings.app_path).joinpath('images')
+        splash_img = join(imagespath, settings.splash_img)
+        image = Image.open(splash_img)
+    except:
+        my_logger.error('FILE NOT FOUND: '+ settings.splash_img)
+        sys.exit(1)
+
     # Resize the image using resize() method
-    resize_impactxs = image.resize((300, 300))
-    impactxs = ImageTk.PhotoImage(resize_impactxs)
+    resize_splash_img = image.resize((settings.splash_img_x, settings.splash_img_y))
+    splash_img = ImageTk.PhotoImage(resize_splash_img)
     # create label and add resize image
-    labelimpactxs = Label(image=impactxs)
-    labelimpactxs.image = impactxs
-    labelimpactxs.place(x=150, y=50)
+    labelsplash_img = Label(image=splash_img)
+    labelsplash_img.image = splash_img
+
+    x_offset = settings.splash_img_x/2
+    x_pos = (settings.splash_width_x/2) - x_offset
+    y_offset = settings.splash_img_y/2
+    y_pos = (settings.splash_width_y/2) - y_offset
+
+    labelsplash_img.place(x=x_pos, y=y_pos)
 
 
     # Set Title
+    try:
+        imagespath =  Path(settings.app_path).joinpath('images')
+        icon_img = join(imagespath, settings.icon_img)
+        image = Image.open(icon_img)
+    except:
+        my_logger.error('FILE NOT FOUND: '+ settings.icon_img)
+        sys.exit(1)
+
     root.title(appname)
-    root.iconbitmap("images/impactxs_ico.jpg")
+    root.iconbitmap(image)
 
     # Lets Build the Menu Structure
     menu = Menu(root)

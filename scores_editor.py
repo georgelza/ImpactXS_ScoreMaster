@@ -1,11 +1,8 @@
 ########################################################################################################################
 #
 #
-#  	Project     	: 	ImpactXS - ScoreMaster
-#   URL             :   http://www.impactxs.co.za
+#  	Project     	: 	ScoreMaster
 #
-#                   :   Bredan Fike
-#   eMail           :   brendan@impactxs.co.za
 #
 #   File            :   scores_editor.py
 #
@@ -112,7 +109,7 @@ def edit_all_shooters_scores(main_window):
     columns = ("Place", "", "Shooter", "Spotter", "Caliber", "Qualifying", "Finals", "Total")
 
     trv_edt_shooter_scores = ttk.Treeview(tree_frame, yscrollcommand=yscrollbar.set, columns=columns, show="headings", height="20")
-    trv_edt_shooter_scores.grid(row=0, column=0, rowspan=20, columnspan=7, sticky=E+W)
+    trv_edt_shooter_scores.grid(row=0, column=0, rowspan=20, columnspan=7, sticky="nsew")
 
     trv_edt_shooter_scores.heading("Place",      text="Place",      anchor="w")
     trv_edt_shooter_scores.heading("",           text="",           anchor="center")
@@ -133,7 +130,7 @@ def edit_all_shooters_scores(main_window):
     trv_edt_shooter_scores.column("#8", anchor="w", width=110, stretch=False)
 
     yscrollbar.configure(command=trv_edt_shooter_scores.yview())
-    yscrollbar.grid(row=0, column=8, rowspan=10, sticky=NS)
+    yscrollbar.grid(row=0, column=8, rowspan=10, sticky='nse')
 
     # Bottom Banner / Footer
     # Read the Image

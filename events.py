@@ -1,11 +1,8 @@
 ########################################################################################################################
 #
 #
-#  	Project     	: 	ImpactXS - ScoreMaster
-#   URL             :   http://www.impactxs.co.za
+#  	Project     	: 	ScoreMaster
 #
-#                   :   Bredan Fike
-#   eMail           :   brendan@impactxs.co.za
 #
 #   File            :   events.py
 #

@@ -1,11 +1,8 @@
 ########################################################################################################################
 #
 #
-#  	Project     	: 	ImpactXS - ScoreMaster
-#   URL             :   http://www.impactxs.co.za
+#  	Project     	: 	ScoreMaster
 #
-#                   :   Bredan Fike
-#   eMail           :   brendan@impactxs.co.za
 #
 #   File            :   settings.py
 #
@@ -26,9 +23,10 @@ from tkinter import filedialog as fd
 from tkinter import ttk
 import tkinter as tk
 from io import BytesIO
+from pathlib import Path
 
 import logging
-import os, socket, uuid, sys, json, time
+import os, socket, uuid, sys, json, time, platform
 from dotenv import load_dotenv
 from os.path import join, dirname
 
@@ -70,17 +68,41 @@ def init():
     global lblframefont_size
 
     # images
+
+    global icon_img
+    global excel_img
+
     global splash_img
+    global splash_img_x
+    global splash_img_y
+
+    global root_width_txt_xy
+    global splash_width_txt_xy
+    global splash_width_x
+    global splash_width_y
+
     global splash_footer
+    global splash_footer_x
+    global splash_footer_y
+
+    global splash_1mile
+    global splash_2mile
+ 
 
     # TRV's
     global trv_edt_shooter_scores
     global trv_dsp_shooter_scores
     global dsp_shooter_scores
 
+    global platform_name
+    global app_path
+
+    app_path = dirname(__file__)
+    platform_name = platform.system()
+
     # Load the contents of the .env file into the environment
     # if deployed on K8S, comment this out and load the values into a configmap used for the deployments
-    env_path = join(dirname(__file__), '.env')
+    env_path = join(app_path, '.env')
     load_dotenv(dotenv_path=env_path, verbose=False)
 
     # Our Lists of fields for the event, qualifying round setup and final round setup and then a
@@ -98,10 +120,12 @@ def init():
     trv_dsp_shooter_scores = None
     dsp_shooter_scores     = False
 
-    appname             = "ImpactXS - ScoreMaster"
 
     # Read/Define Environment variables
     config_params       = getAppEnvVariables()
+
+    appname             = config_params["appname"]
+
     loglevel            = config_params["loglevel"]
     echojson            = config_params['echojson']
     splashtime          = config_params["splashtime"]
@@ -123,8 +147,24 @@ def init():
     lblframefont        = config_params["lblframefont"]
     lblframefont_size   = config_params["lblframefont_size"]
 
-    splash_footer       = config_params["splash_footer"]
+    icon_img            = config_params["icon_img"]
+    excel_img           = config_params["excel_img"] 
+
+    root_width_txt_xy   = config_params["root_width_txt_xy"]
+    splash_width_txt_xy = config_params["splash_width_txt_xy"]
+    splash_width_x      = config_params["splash_width_x"]
+    splash_width_y      = config_params["splash_width_y"]
+
     splash_img          = config_params["splash_img"]
+    splash_img_x        = config_params["splash_img_x"]
+    splash_img_y        = config_params["splash_img_y"]
+
+    splash_footer       = config_params["splash_footer"]
+    splash_footer_x     = config_params["splash_footer_x"]
+    splash_footer_y     = config_params["splash_footer_y"]
+
+    splash_1mile        = config_params["splash_1mile"]
+    splash_2mile        = config_params["splash_2mile"]
 
 
     # Logging Handler
@@ -168,6 +208,7 @@ def getAppEnvVariables():
 
     Params = dict()
 
+    Params['appname']                   = os.environ.get("APPNAME")
     Params['debuglevel']                = int(os.environ.get("DEBUGLEVEL"))
     Params['loglevel']                  = os.environ.get("LOGLEVEL")
     Params['echojson']                  = int(os.environ.get("ECHOJSON"))
@@ -187,9 +228,24 @@ def getAppEnvVariables():
     Params['lblframefont']              = os.environ.get("lblframefont")
     Params['lblframefont_size']         = os.environ.get("lblframefont_size")
 
-    Params['splash_img']                = os.environ.get("splash_img")
-    Params['splash_footer']             = os.environ.get("splash_footer")
+    Params['icon_img']                  = os.environ.get("icon_img")
+    Params['excel_img']                 = os.environ.get("excel_img")
+    Params['splash_1mile']              = os.environ.get("splash_1mile")
+    Params['splash_2mile']              = os.environ.get("splash_2mile")
 
+    Params['root_width_txt_xy']         = os.environ.get("root_width_txt_xy")
+    Params['splash_width_txt_xy']       = os.environ.get("splash_width_txt_xy")
+    Params['splash_width_x']            = int(os.environ.get("splash_width_x"))
+    Params['splash_width_y']            = int(os.environ.get("splash_width_y"))
+
+    Params['splash_img']                = os.environ.get("splash_img")
+    Params['splash_img_x']              = int(os.environ.get("splash_img_x"))
+    Params['splash_img_y']              = int(os.environ.get("splash_img_y"))
+
+    Params['splash_footer']             = os.environ.get("splash_footer")
+    Params['splash_footer_x']           = int(os.environ.get("splash_footer_x"))
+    Params['splash_footer_y']           = int(os.environ.get("splash_footer_y"))
+   
     return Params
 
 # end getAppEnvVariables():
@@ -234,19 +290,23 @@ def print_config(config_params):
     if debuglevel >= 1:
         my_logger.info('*******************************************')
         my_logger.info('*                                         *')
-        my_logger.info('*      Welcome to ImpactXS ScoreMaster    *')
+        my_logger.info('*         Welcome to ScoreMaster          *')
         my_logger.info('*                                         *')
         my_logger.info('*          '+ time.strftime('%Y/%m/%d %H:%M:%S') + '            *')
         my_logger.info('*                                         *')
-        my_logger.info('*     by georgel@bankservafrica.com       *')
+        my_logger.info('*        by georgelza@gmail.com           *')
         my_logger.info('*                                         *')
         my_logger.info('*******************************************')
         my_logger.info('**')
+        my_logger.info('**    APP NAME              : ' + str(config_params['appname']))
         my_logger.info('**    DEBUGLEVEL            : ' + str(config_params['debuglevel']))
         my_logger.info('**    LOGLEVEL              : ' + str(config_params['loglevel']))
         my_logger.info('**    ECHOJSON              : ' + str(config_params['echojson']))
         my_logger.info('**    SPLASHTIME            : ' + str(config_params['splashtime']))
         my_logger.info('**    SCORE_VIEWER          : ' + str(config_params['score_viewer']))
+        my_logger.info('**')
+        my_logger.info('**    platform_name         : ' + platform_name)
+        my_logger.info('**    app_path              : ' + app_path)
         my_logger.info('**')
         my_logger.info('**    frame_bg              : ' + str(config_params['frame_bg']))
         my_logger.info('**    label_text_bg         : ' + str(config_params['label_text_bg']))
@@ -261,8 +321,23 @@ def print_config(config_params):
         my_logger.info('**    lblframefont          : ' + str(config_params['lblframefont']))
         my_logger.info('**    lblframefont_size     : ' + str(config_params['lblframefont_size']))
         my_logger.info('**')
+        my_logger.info('**    icon_img              : ' + str(config_params['icon_img']))
+        my_logger.info('**    excel_img             : ' + str(config_params['excel_img']))
+        my_logger.info('**    splash_1mile          : ' + str(config_params['splash_1mile']))
+        my_logger.info('**    splash_2mile          : ' + str(config_params['splash_2mile']))
+        my_logger.info('**')
+        my_logger.info('**    root_width_txt_xy     : ' + str(config_params['root_width_txt_xy']))
+        my_logger.info('**    splash_wdith_txt_xy   : ' + str(config_params['splash_width_txt_xy']))
+        my_logger.info('**    splash_wdith_x        : ' + str(config_params['splash_width_x']))
+        my_logger.info('**    splash_wdith_y        : ' + str(config_params['splash_width_y']))
+        my_logger.info('**')                
         my_logger.info('**    splash_img            : ' + str(config_params['splash_img']))
+        my_logger.info('**    splash_img_x          : ' + str(config_params['splash_img_x']))
+        my_logger.info('**    splash_img_y          : ' + str(config_params['splash_img_y']))
+        my_logger.info('**')        
         my_logger.info('**    splash_footer         : ' + str(config_params['splash_footer']))
+        my_logger.info('**    splash_footer_x       : ' + str(config_params['splash_footer_x']))
+        my_logger.info('**    splash_footer_y       : ' + str(config_params['splash_footer_y']))
         my_logger.info('**')
         my_logger.info('*******************************************')
 
@@ -555,18 +630,29 @@ def save_json_to_excelfile(filename):
         # Write to Excel
 
         # King Image
-        img_name = my_event_list["image"]
-        file = open("images/"+img_name, 'rb')
-        data = BytesIO(file.read())
-        file.close()
-        worksheet.insert_image('A1', filename, {'image_data': data, 'x_scale': 0.25, 'y_scale': 0.25})
+
+        try:
+            img_name = excel_img
+            imagespath =  Path(app_path).joinpath('images')
+            file = open(join(imagespath, img_name), 'rb')
+            data = BytesIO(file.read())
+            file.close()
+            worksheet.insert_image('A1', filename, {'image_data': data, 'x_scale': 0.25, 'y_scale': 0.25})
+        except:
+            my_logger.error('FILE NOT FOUND: '+ img_name)
+            sys.exit(1)
 
         # Impact Image
-        img_name = "impactxs.png"
-        file = open("images/"+img_name, 'rb')
-        data = BytesIO(file.read())
-        file.close()
-        worksheet.insert_image('D1', filename, {'image_data': data, 'x_scale': 0.2, 'y_scale': 0.35})
+        try:
+            img_name = splash_img
+            imagespath =  Path(app_path).joinpath('images')
+            file = open(join(imagespath, img_name), 'rb')
+            data = BytesIO(file.read())
+            file.close()
+            worksheet.insert_image('D1', filename, {'image_data': data, 'x_scale': 0.2, 'y_scale': 0.35})
+        except:
+            my_logger.error('FILE NOT FOUND: '+ img_name)
+            sys.exit(1)
 
 
         # https://xlsxwriter.readthedocs.io/format.html#set_num_format
