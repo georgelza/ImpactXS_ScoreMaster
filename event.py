@@ -432,15 +432,28 @@ def open_event_screen(root):
     lb_crm_End_Date.grid    (column=0, row=3, padx=1, pady=0)
     lb_crm_Distance.grid    (column=0, row=4, padx=1, pady=0)
 
+    def show_calendar(column, row, width):
+        cal = DateEntry(input_lbframe, width=width, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yyyy', selectmode='day')
+        cal.grid(row=row, column=column, padx=10, pady=10, sticky='e')
+        cal.focus_set()
+
+
     crm_eventname   = Entry(input_lbframe,      width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
     crm_Location    = Entry(input_lbframe,      width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
 
-    crm_Start_Date  = DateEntry(input_lbframe,  width=39, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yyyy', selectmode='day')
-    crm_End_Date    = DateEntry(input_lbframe,  width=39, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yyyy', selectmode='day')
+  #  crm_Start_Date  = DateEntry(input_lbframe,  width=39, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yyyy', selectmode='day')
+  #  crm_End_Date    = DateEntry(input_lbframe,  width=39, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size), date_pattern='dd/mm/yyyy', selectmode='day')
+
+    crm_Start_Date = Entry(input_lbframe)
+    crm_End_Date = Entry(input_lbframe)
+
+    crm_Start_Date.bind("<Button-1>", lambda event: show_calendar(column=1, row=2, width=39))
+    crm_End_Date.bind("<Button-1>", lambda event: show_calendar(column=1, row=3, width=39))
+
     crm_Distance    = Entry(input_lbframe,      width=40, fg=entry_text_fg, bg=entry_text_bg, font=(txtfont, txtfont_size))
 
-    crm_Start_Date._top_cal.overrideredirect(False)
-    crm_End_Date._top_cal.overrideredirect(False)
+  #  crm_Start_Date._top_cal.overrideredirect(False)
+  #  crm_End_Date._top_cal.overrideredirect(False)
 
     crm_eventname.grid  (column=1, row=0)
     crm_Location.grid   (column=1, row=1)
